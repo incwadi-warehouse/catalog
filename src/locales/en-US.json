@@ -11,5 +11,7 @@
   "wrongCredentials": "Please check the credentials.",
   "passwordSuccessful": "Password changed",
   "passwordError": "Cannot change the password.",
-  "theme": "Theme"
+  "theme": "Theme",
+  "hello": "Hello",
+  "settings": "Settings"
 }

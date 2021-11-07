@@ -11,5 +11,7 @@
   "wrongCredentials": "Bitte Zugangsdaten prüfen.",
   "passwordSuccessful": "Passwort geändert",
   "passwordError": "Passwort konnte nicht geändert werden.",
-  "theme": "Theme"
+  "theme": "Theme",
+  "hello": "Hallo",
+  "settings": "Einstellungen"
 }
