@@ -26,7 +26,7 @@
       </b-masthead-item>
 
       <b-masthead-item type="end" v-if="auth.state.isAuthenticated">
-        <b-dropdown position="bottom">
+        <b-dropdown position="bottom" class="action">
           <template #selector>
             <span @click.prevent>
               <b-icon type="profile" />
@@ -45,28 +45,35 @@
             {{ $t('logout') }}
           </b-dropdown-item>
         </b-dropdown>
+
+        <b-dropdown position="bottom" class="action">
+          <template #selector>
+            <span @click.prevent>
+              <b-icon type="star" />
+            </span>
+          </template>
+          <b-dropdown-item
+            v-for="item in bookmark.state.bookmarks"
+            :key="item.id"
+            @click.prevent="bookmark.open(item.url)"
+          >
+            {{ item.name }}
+          </b-dropdown-item>
+
+          <b-dropdown-divider />
+
+          <b-dropdown-item icon="plus" @click="bookmark.createFromPage()">
+            {{ $t('addThisPage') }}
+          </b-dropdown-item>
+          <b-dropdown-item
+            icon="star"
+            @click="$router.push({ name: 'bookmark' })"
+          >
+            {{ $t('bookmarks') }}
+          </b-dropdown-item>
+        </b-dropdown>
       </b-masthead-item>
     </b-masthead>
-
-    <b-container size="m" v-if="auth.state.isAuthenticated">
-      <b-tabs>
-        <b-tabs-link>
-          <router-link :to="{ name: 'index' }">
-            {{ $t('home') }}
-          </router-link>
-        </b-tabs-link>
-        <b-tabs-link>
-          <router-link :to="{ name: 'profile' }" v-if="auth.state.me">
-            {{ auth.state.me.username }}
-          </router-link>
-        </b-tabs-link>
-        <b-tabs-link>
-          <a href="/logout" @click.prevent="auth.logout">
-            {{ $t('logout') }}
-          </a>
-        </b-tabs-link>
-      </b-tabs>
-    </b-container>
 
     <slot />
 
@@ -86,9 +93,19 @@
             {{ $t('home') }}
           </template>
         </b-list>
-        <b-list :route="{ name: 'profile' }" divider v-if="auth.state.me">
+        <b-list :route="{ name: 'settings' }" divider>
           <template #title>
-            {{ auth.state.me.username }}
+            {{ $t('settings') }}
+          </template>
+        </b-list>
+        <b-list :route="{ name: 'search' }" divider>
+          <template #title>
+            {{ $t('search') }}
+          </template>
+        </b-list>
+        <b-list :route="{ name: 'reservation' }" divider>
+          <template #title>
+            {{ $t('reservation') }}
           </template>
         </b-list>
       </div>
@@ -97,9 +114,15 @@
 </template>
 
 <script>
-import { onMounted, computed, reactive } from '@vue/composition-api'
+import {
+  onBeforeUnmount,
+  onMounted,
+  computed,
+  reactive,
+} from '@vue/composition-api'
 import Logo from './components/Logo'
 import router from '~b/router'
+import useBookmark from '@/composables/useBookmark'
 
 export default {
   name: 'layout',
@@ -129,7 +152,18 @@ export default {
       })
     })
 
-    return { state }
+    const bookmark = useBookmark()
+
+    const refresh = () => {
+      state.refresh = setInterval(bookmark.list, 5000)
+    }
+
+    onMounted(refresh)
+    onBeforeUnmount(() => {
+      clearInterval(state.refresh)
+    })
+
+    return { state, bookmark }
   },
 }
 </script>
@@ -137,5 +171,9 @@ export default {
 <style scoped>
 .logo {
   fill: var(--color-primary-10);
+}
+.action {
+  float: right;
+  margin-left: 20px;
 }
 </style>
