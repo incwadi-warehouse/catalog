@@ -7,6 +7,12 @@ export default function useBranch() {
     branch: null,
   })
 
+  const list = () => {
+    api.list().then((res) => {
+      state.branches = res.data
+    })
+  }
+
   const show = (id) => {
     api.show(id).then((response) => {
       state.branch = response.data
@@ -27,6 +33,7 @@ export default function useBranch() {
 
   return {
     state,
+    list,
     show,
     create,
     update,

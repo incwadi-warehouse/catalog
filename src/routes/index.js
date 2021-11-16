@@ -2,10 +2,21 @@ export default [
   {
     path: '/',
     name: 'index',
-    component: () => import('../views/IndexView'),
+    redirect: { name: 'search' },
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: () => import('../views/SearchView'),
     props: (route) => ({
       is404: route.params.is404,
+      query: route.query,
     }),
+  },
+  {
+    path: '/reservation',
+    name: 'reservation',
+    component: () => import('../views/ReservationView'),
   },
   {
     path: '/settings',
@@ -46,16 +57,6 @@ export default [
     path: '/settings/bookmark',
     name: 'settings.bookmark',
     component: () => import('../views/BookmarkSettingsView'),
-  },
-  {
-    path: '/search',
-    name: 'search',
-    component: () => import('../views/IndexView'),
-  },
-  {
-    path: '/reservation',
-    name: 'reservation',
-    component: () => import('../views/IndexView'),
   },
   {
     path: '/profile',

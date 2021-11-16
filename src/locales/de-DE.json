@@ -38,6 +38,7 @@
   "branch": "Filiale",
   "branches": "Filialen",
   "search_in_title_author_genre_tags": "Suche in Titel, Autor, Rubriken und Schlagworten",
+  "search_in_title_author_genre_tag": "Suche in Titel, Autor, Rubriken und Schlagworten",
   "firstname": "Vorname",
   "surname": "Nachname",
   "limit": "Limit",
@@ -120,10 +121,11 @@
   "cache_advise": "Wenn etwas schief gelaufen ist und Du kurz zuvor ein Update durchgeführt hast, drücke <kbd>Strg</kbd> + <kbd>F5</kbd>. Die App wird unter Umgehung des Caches neugeladen.",
   "language": "Sprache",
   "releaseYear": "Erscheinungsjahr",
+  "release_year": "Erscheinungsjahr",
   "yes": "Ja",
   "no": "Nein",
   "orderBy_field": "Sortiere nach Feld",
-  "orderBy_direction": "Sortiere nach Richtung",
+  "order_by_direction": "Sortiere nach Richtung",
   "books": "Bücher",
   "show_x_of_y_found_books": "Zeige {show} von {found} gefundenen Büchern.",
   "show_x_found_books": "Zeige alle {found} gefundene Bücher.",
@@ -155,7 +157,7 @@
   "doNotEditReservedBooks": "Bitte bearbeite keine reservierten Bücher, es sei denn, du weißt, was du tust.",
   "cart": "Warenkorb",
   "reserved_books": "reserviertes Buch | reservierte Bücher",
-  "orderBy": "Sortiere nach",
+  "order_by": "Sortiere nach",
   "orderByNameAsc": "Name - aufsteigend",
   "orderByBookcountDesc": "Anzahl Bücher - absteigend",
   "branchNameHelp": "Der Name wird u.a. in den Filtern und der öffentlichen Suche gezeigt.",
@@ -207,5 +209,7 @@
   "home": "Start",
   "wrongCredentials": "Bitte Zugangsdaten prüfen.",
   "stats": "Statistik",
-  "common": "Allgemein"
+  "common": "Allgemein",
+  "range_start": "Von",
+  "range_end": "Bis"
 }

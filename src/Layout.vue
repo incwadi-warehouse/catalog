@@ -67,7 +67,7 @@
           </b-dropdown-item>
           <b-dropdown-item
             icon="star"
-            @click="$router.push({ name: 'bookmark' })"
+            @click="$router.push({ name: 'settings.bookmark' })"
           >
             {{ $t('bookmarks') }}
           </b-dropdown-item>
@@ -88,16 +88,6 @@
       @close-menu="state.isDrawerActive = false"
     >
       <div :style="{ padding: '20px' }">
-        <b-list :route="{ name: 'index' }" divider>
-          <template #title>
-            {{ $t('home') }}
-          </template>
-        </b-list>
-        <b-list :route="{ name: 'settings' }" divider>
-          <template #title>
-            {{ $t('settings') }}
-          </template>
-        </b-list>
         <b-list :route="{ name: 'search' }" divider>
           <template #title>
             {{ $t('search') }}
@@ -106,6 +96,18 @@
         <b-list :route="{ name: 'reservation' }" divider>
           <template #title>
             {{ $t('reservation') }}
+          </template>
+        </b-list>
+        <b-list :route="{ name: 'settings' }" divider>
+          <template #title>
+            {{ $t('settings') }}
+          </template>
+        </b-list>
+        <b-list divider>
+          <template #title>
+            <a :href="links.find">
+              {{ $t('find') }}
+            </a>
           </template>
         </b-list>
       </div>
@@ -163,7 +165,11 @@ export default {
       clearInterval(state.refresh)
     })
 
-    return { state, bookmark }
+    const links = reactive({
+      find: process.env.VUE_APP_FIND,
+    })
+
+    return { state, bookmark, links }
   },
 }
 </script>

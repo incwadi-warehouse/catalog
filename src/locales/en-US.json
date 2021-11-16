@@ -38,6 +38,7 @@
   "branch": "Branch",
   "branches": "Branches",
   "search_in_title_author_genre_tags": "Search in title, author, genre and tags",
+  "search_in_title_author_genre_tag": "Search in title, author, genre and tags",
   "firstname": "Firstname",
   "surname": "Surname",
   "limit": "Limit",
@@ -120,10 +121,11 @@
   "cache_advise": "If something went wrong and you did an update just before, hit <kbd>Cmd</kbd> + <kbd>F5</kbd>. The app will be loaded bypassing the cache.",
   "language": "Language",
   "releaseYear": "Release Year",
+  "release_year": "Release Year",
   "yes": "Yes",
   "no": "No",
   "orderBy_field": "Order by Field",
-  "orderBy_direction": "Order by Direction",
+  "order_by_direction": "Order by Direction",
   "books": "Books",
   "show_x_of_y_found_books": "Show {show} of {found} found books.",
   "show_x_found_books": "Show all {found} found books.",
@@ -155,7 +157,7 @@
   "doNotEditReservedBooks": "Please do not edit a reserved book unless you know what you are doing.",
   "cart": "Cart",
   "reserved_books": "reserved book | reserved books",
-  "orderBy": "Order by",
+  "order_by": "Order by",
   "orderByNameAsc": "Name - Ascending",
   "orderByBookcountDesc": "Number of Books - Descending",
   "branchNameHelp": "The name is shown in the filters, the public search and on other places.",
@@ -207,5 +209,7 @@
   "home": "Home",
   "wrongCredentials": "Please check your credentials.",
   "stats": "Stats",
-  "common": "Common"
+  "common": "Common",
+  "range_start": "From",
+  "range_end": "To"
 }
