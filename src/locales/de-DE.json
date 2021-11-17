@@ -211,5 +211,6 @@
   "stats": "Statistik",
   "common": "Allgemein",
   "range_start": "Von",
-  "range_end": "Bis"
+  "range_end": "Bis",
+  "results_counter": "Kein Ergebnis | {counter} Ergebnis | {counter} Ergebnisse"
 }

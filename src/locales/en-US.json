@@ -211,5 +211,6 @@
   "stats": "Stats",
   "common": "Common",
   "range_start": "From",
-  "range_end": "To"
+  "range_end": "To",
+  "results_counter": "No Result | { counter } Result | { counter } Results"
 }

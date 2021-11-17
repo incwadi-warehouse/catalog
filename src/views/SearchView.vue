@@ -23,7 +23,21 @@
 
     <b-container size="l">
       <h2>{{ $t('authors') }}</h2>
-      <search-author-results />
+      <p>
+        {{
+          $tc(
+            'results_counter',
+            author.state.authors ? author.state.authors.length : 0,
+            {
+              counter: author.state.authors ? author.state.authors.length : 0,
+            }
+          )
+        }}
+      </p>
+      <search-author-results
+        :authors="author.state.authors"
+        @remove="author.remove"
+      />
     </b-container>
 
     <b-modal
@@ -141,6 +155,7 @@ import SearchAuthorResults from '@/components/search/AuthorResults'
 import useBranch from '@/composables/useBranch'
 import useGenre from '@/composables/useGenre'
 import useFormat from '@/composables/useFormat'
+import useAuthor from '@/composables/useAuthor'
 
 export default {
   name: 'search-view',
@@ -176,8 +191,11 @@ export default {
 
     const modal = ref(null)
 
+    const author = useAuthor()
+
     const search = () => {
       router.push({ name: 'search', query: filter })
+      author.find({ term: filter.term })
     }
 
     const reset = () => {
@@ -192,7 +210,7 @@ export default {
 
     const format = useFormat()
 
-    return { filter, modal, search, reset, branch, genre, format }
+    return { filter, modal, search, reset, branch, genre, format, author }
   },
 }
 </script>

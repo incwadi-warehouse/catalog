@@ -14,6 +14,16 @@ export default [
     }),
   },
   {
+    path: '/search/author/:id',
+    name: 'author.update',
+    component: () => import('../views/UpdateAuthorView'),
+    props(route) {
+      const props = route.params
+      props.id = +props.id
+      return props
+    },
+  },
+  {
     path: '/reservation',
     name: 'reservation',
     component: () => import('../views/ReservationView'),
