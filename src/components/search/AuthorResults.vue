@@ -1,5 +1,5 @@
 <template>
-  <article>
+  <div v-if="authors">
     <b-list
       v-for="author in authors"
       :key="author.id"
@@ -27,7 +27,7 @@
         </b-dropdown>
       </template>
     </b-list>
-  </article>
+  </div>
 </template>
 
 <script>
