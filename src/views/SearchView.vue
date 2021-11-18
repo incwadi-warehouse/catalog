@@ -1,6 +1,12 @@
 <template>
   <article>
     <b-container size="l">
+      <b-button
+        design="primary"
+        :style="{ float: 'right' }"
+        @click.prevent="modal = 'create'"
+        >{{ $t('catalog') }}</b-button
+      >
       <h1>{{ $t('search') }}</h1>
     </b-container>
 
@@ -18,7 +24,25 @@
 
     <b-container size="l">
       <h2>{{ $t('books') }}</h2>
-      <search-book-results />
+      <p>
+        {{
+          $tc(
+            'results_counter',
+            book.state.books ? book.state.books.books.length : 0,
+            {
+              counter: book.state.books ? book.state.books.books.length : 0,
+            }
+          )
+        }}
+        / {{ book.state.books ? book.state.books.counter : 0 }}
+        {{ $t('books') }}
+      </p>
+      <search-book-results
+        :books="book.state.books"
+        @sell="implement"
+        @remove="implement"
+        @add-to-cart="implement"
+      />
     </b-container>
 
     <b-container size="l">
@@ -140,11 +164,30 @@
         <b-form-input type="number" id="limit" v-model="filter.limit" />
       </b-container>
     </b-modal>
+
+    <book-edit
+      :book="book.state.book"
+      :me="auth.state.me"
+      @close="modal = null"
+      @update="book.update"
+      @cover-upload="implement"
+      v-if="modal == 'update'"
+    />
+
+    <book-create
+      :me="auth.state.me"
+      @close="modal = null"
+      @create="
+        book.create
+        $router.push({ name: 'search' })
+      "
+      v-if="modal == 'create'"
+    />
   </article>
 </template>
 
 <script>
-import { reactive, toRefs, ref } from '@vue/composition-api'
+import { reactive, toRefs, ref, onMounted, watch } from '@vue/composition-api'
 import router from '~b/router'
 import SearchRadioFilter from '@/components/search/RadioFilter'
 import SearchCheckboxFilter from '@/components/search/CheckboxFilter'
@@ -156,6 +199,9 @@ import useBranch from '@/composables/useBranch'
 import useGenre from '@/composables/useGenre'
 import useFormat from '@/composables/useFormat'
 import useAuthor from '@/composables/useAuthor'
+import useBook from '@/composables/useBook'
+import BookEdit from '@/components/book/Edit'
+import BookCreate from '@/components/book/Create'
 
 export default {
   name: 'search-view',
@@ -169,12 +215,16 @@ export default {
     SearchDateRangeFilter,
     SearchBookResults,
     SearchAuthorResults,
+    BookEdit,
+    BookCreate,
   },
   props: {
+    auth: Object,
     query: Object,
+    id: String,
   },
   setup(props) {
-    const { query } = toRefs(props)
+    const { query, id } = toRefs(props)
 
     const filter = reactive({
       term: query.value.term || '',
@@ -192,10 +242,12 @@ export default {
     const modal = ref(null)
 
     const author = useAuthor()
+    const book = useBook()
 
     const search = () => {
       router.push({ name: 'search', query: filter })
       author.find({ term: filter.term })
+      book.find({ options: { term: filter.term } })
     }
 
     const reset = () => {
@@ -210,7 +262,35 @@ export default {
 
     const format = useFormat()
 
-    return { filter, modal, search, reset, branch, genre, format, author }
+    const implement = () => {
+      console.warn('this feature is not yet implemented')
+    }
+
+    onMounted(() => {
+      if (id.value) modal.value = 'update'
+      book.show(id.value)
+    })
+
+    watch(
+      () => id.value,
+      () => {
+        if (id.value) modal.value = 'update'
+        book.show(id.value)
+      }
+    )
+
+    return {
+      filter,
+      modal,
+      search,
+      reset,
+      branch,
+      genre,
+      format,
+      author,
+      book,
+      implement,
+    }
   },
 }
 </script>

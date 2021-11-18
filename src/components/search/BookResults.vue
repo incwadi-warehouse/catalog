@@ -1,5 +1,87 @@
 <template>
-  <p>Results</p>
+  <table>
+    <thead>
+      <tr>
+        <th>{{ $t('cover') }}</th>
+        <th>{{ $t('title') }}</th>
+        <th>{{ $t('author') }}</th>
+        <th>{{ $t('genre') }}</th>
+        <th>{{ $t('added') }}</th>
+        <th>{{ $t('sold') }}</th>
+        <th>{{ $t('removed') }}</th>
+        <th>{{ $t('format') }}</th>
+        <th>{{ $t('year') }}</th>
+        <th>{{ $t('price') }}</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr v-for="item in books.books" :key="item.id">
+        <td><img :src="image(item.id)" width="100" alt="Cover" /></td>
+        <td>{{ item.title }}</td>
+        <td>{{ formatAuthor(item.author) }}</td>
+        <td>{{ item.genre.name }}</td>
+        <td>{{ formatDate(item.added) }}</td>
+        <td>{{ item.sold ? formatDate(item.soldOn) : '' }}</td>
+        <td>{{ item.removed ? formatDate(item.removedOn) : '' }}</td>
+        <td>{{ item.format ? item.format.name : null }}</td>
+        <td>{{ item.releaseYear }}</td>
+        <td>{{ formatPrice(item.price) }}</td>
+        <td>
+          <b-dropdown>
+            <template #selector>
+              <b-icon type="meatballs" />
+            </template>
+            <b-dropdown-item
+              icon="pencil"
+              @click="
+                $router.push({
+                  name: 'book.update',
+                  params: { id: item.id },
+                })
+              "
+            >
+              {{ $t('edit') }}
+            </b-dropdown-item>
+            <b-dropdown-item
+              icon="dollar"
+              @click="$emit('sell', item)"
+              v-if="!item.sold"
+            >
+              {{ $t('sell') }}
+            </b-dropdown-item>
+            <b-dropdown-item
+              icon="bin"
+              @click="$emit('remove', item)"
+              v-if="!item.removed"
+            >
+              {{ $t('remove') }}
+            </b-dropdown-item>
+            <b-dropdown-item
+              icon="cart"
+              @click="$emit('add-to-cart', item)"
+              v-if="!item.reserved"
+            >
+              {{ $t('cart') }}
+            </b-dropdown-item>
+          </b-dropdown>
+        </td>
+        <td>
+          <b-button design="text" @click.prevent="bookFound(item.id)">
+            <b-icon type="check" :isPrimary="item.inventory" />
+          </b-button>
+        </td>
+        <td>
+          <b-button design="text" @click.prevent="bookNotFound(item.id)">
+            <b-icon type="close" :isPrimary="false === item.inventory" />
+          </b-button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <script>
@@ -7,10 +89,57 @@ import { reactive } from '@vue/composition-api'
 
 export default {
   name: 'search-book-results',
+  props: {
+    books: Object,
+  },
   setup() {
     const state = reactive({})
 
-    return { state }
+    const image = (id) => {
+      return (
+        process.env.VUE_APP_API +
+        '/api/public/book/cover/' +
+        id +
+        '_100x100.jpg'
+      )
+    }
+
+    const formatAuthor = (author) => {
+      if (null === author) return ''
+      if (author.firstname === '') {
+        return author.surname
+      }
+      return author.surname + ', ' + author.firstname
+    }
+
+    const formatDate = (timestamp) => {
+      return new Date(timestamp * 1000).toLocaleDateString()
+    }
+
+    const formatPrice = (price) => {
+      return Number.parseFloat(price).toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    }
+
+    const bookFound = (id) => {
+      this.$store.dispatch('book/bookFound', { me: this.me, id })
+    }
+
+    const bookNotFound = (id) => {
+      this.$store.dispatch('book/bookNotFound', { me: this.me, id })
+    }
+
+    return {
+      state,
+      image,
+      formatAuthor,
+      formatDate,
+      formatPrice,
+      bookFound,
+      bookNotFound,
+    }
   },
 }
 </script>

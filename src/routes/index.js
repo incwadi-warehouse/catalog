@@ -14,6 +14,16 @@ export default [
     }),
   },
   {
+    path: '/search/book/:id',
+    name: 'book.update',
+    component: () => import('../views/SearchView'),
+    props: (route) => ({
+      is404: route.params.is404,
+      query: route.query,
+      id: route.params.id,
+    }),
+  },
+  {
     path: '/search/author/:id',
     name: 'author.update',
     component: () => import('../views/UpdateAuthorView'),
