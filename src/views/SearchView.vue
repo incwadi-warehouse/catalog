@@ -64,6 +64,8 @@
       />
     </b-container>
 
+    <search-scroll-to-top v-if="hasBooks" />
+
     <b-modal
       close-button
       :width="600"
@@ -202,6 +204,7 @@ import useAuthor from '@/composables/useAuthor'
 import useBook from '@/composables/useBook'
 import BookEdit from '@/components/book/Edit'
 import BookCreate from '@/components/book/Create'
+import SearchScrollToTop from '../components/search/ScrollToTop'
 
 export default {
   name: 'search-view',
@@ -217,6 +220,7 @@ export default {
     SearchAuthorResults,
     BookEdit,
     BookCreate,
+    SearchScrollToTop,
   },
   props: {
     auth: Object,
