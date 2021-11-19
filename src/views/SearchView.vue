@@ -10,6 +10,32 @@
       <h1>{{ $t('search') }}</h1>
     </b-container>
 
+    <b-container size="l" v-if="cart.state.cart">
+      <h2>{{ $t('cart') }} ({{ cart.state.cart.length }})</h2>
+
+      <ul>
+        <li v-for="book in cart.state.cart" :key="book.id">
+          <router-link :to="{ name: 'book.update', params: { id: book.id } }">
+            {{ book.title }}
+          </router-link>
+          <span @click="cart.remove(book)"
+            ><b-icon type="close" :size="15"
+          /></span>
+        </li>
+      </ul>
+
+      <b-button type="button" design="text" @click="cart.clean">
+        {{ $t('cleanCart') }}
+      </b-button>
+      <b-button
+        type="button"
+        design="text"
+        @click="$router.push({ name: 'reservation' })"
+      >
+        {{ $t('reservate') }}
+      </b-button>
+    </b-container>
+
     <b-container size="l">
       <b-search
         :placeholder="$t('search_in_title_author_genre_tag')"
@@ -202,6 +228,7 @@ import useGenre from '@/composables/useGenre'
 import useFormat from '@/composables/useFormat'
 import useAuthor from '@/composables/useAuthor'
 import useBook from '@/composables/useBook'
+import useCart from '@/composables/useCart'
 import BookEdit from '@/components/book/Edit'
 import BookCreate from '@/components/book/Create'
 import SearchScrollToTop from '../components/search/ScrollToTop'
@@ -266,6 +293,8 @@ export default {
 
     const format = useFormat()
 
+    const cart = useCart()
+
     const implement = () => {
       console.warn('this feature is not yet implemented')
     }
@@ -294,6 +323,7 @@ export default {
       author,
       book,
       implement,
+      cart,
     }
   },
 }
