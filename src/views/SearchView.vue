@@ -1,6 +1,12 @@
 <template>
   <article>
     <b-container size="l">
+      <b-alert type="error">
+        <p>This module is under construction. There will be errors!</p>
+      </b-alert>
+    </b-container>
+
+    <b-container size="l">
       <b-button
         design="primary"
         :style="{ float: 'right' }"
