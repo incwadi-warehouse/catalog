@@ -212,5 +212,11 @@
   "common": "Common",
   "range_start": "From",
   "range_end": "To",
-  "results_counter": "No Result | { counter } Result | { counter } Results"
+  "results_counter": "No Result | { counter } Result | { counter } Results",
+  "settings_for_branch": "Settings for Branch",
+  "storage_usage_cover": "Storage Usage (Cover)",
+  "orderBy": "Order By",
+  "enter_genre_and_hit_enter": "Enter Genre and Hit Enter",
+  "enter_staff_and_hit_enter": "Enter Staff and Hit Enter",
+  "new_staff": "New Staff"
 }

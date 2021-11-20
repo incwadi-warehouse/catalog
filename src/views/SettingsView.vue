@@ -1,16 +1,23 @@
 <template>
   <article>
-    <b-container size="m">
-      <h1>{{ $t('settings') }}</h1>
+    <b-container size="m" v-if="auth">
+      <h1>{{ $t('settings_for_branch') }} "{{ auth.state.me.branch.name }}"</h1>
     </b-container>
 
     <b-container size="m" v-if="book.state.stats">
       <h2>{{ $t('stats') }}</h2>
+    </b-container>
+
+    <b-container size="m" v-if="book.state.stats">
       <settings-stats :stats="book.state.stats" />
     </b-container>
 
     <b-container size="m" v-if="book.state.stats">
-      <p>{{ $t('storage') }}: {{ book.state.stats.storage }} MB</p>
+      <p>{{ $t('storage_usage_cover') }}: {{ book.state.stats.storage }} MB</p>
+    </b-container>
+
+    <b-container size="m" v-if="!book.state.stats">
+      <b-spinner size="l" />
     </b-container>
 
     <b-container size="m">
@@ -51,6 +58,9 @@ export default {
   },
   components: {
     SettingsStats,
+  },
+  props: {
+    auth: Object,
   },
   setup() {
     const book = useBook()

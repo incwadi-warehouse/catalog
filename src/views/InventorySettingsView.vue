@@ -5,7 +5,7 @@
         :style="{ float: 'right' }"
         design="outline"
         @click.prevent="inventory.create"
-        v-if="!inventory.state.hasActiveInventory"
+        v-if="!inventory.state.hasActiveInventory && auth.state.me.isAdmin"
       >
         {{ $t('createInventory') }}
       </b-button>
@@ -17,6 +17,7 @@
     <b-container size="m">
       <inventory-table
         :inventories="inventory.state.inventories"
+        :isAdmin="auth.state.me.isAdmin"
         @end="inventory.end"
       />
     </b-container>
@@ -34,6 +35,9 @@ export default {
   },
   components: {
     InventoryTable,
+  },
+  props: {
+    auth: Object,
   },
   setup() {
     const inventory = useInventory()

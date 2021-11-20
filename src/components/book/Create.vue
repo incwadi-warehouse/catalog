@@ -255,7 +255,7 @@ import useFormat from '@/composables/useFormat'
 import useTag from '@/composables/useTag'
 
 export default {
-  name: 'create-book',
+  name: 'book-create',
   components: {
     BookPriceCalculator,
   },

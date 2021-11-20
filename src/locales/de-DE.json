@@ -180,8 +180,8 @@
   "inventoryDesc": "Nach dem anlegen einer Inventur wird in der Suche ein Inventur-Modus verfügbar. In diesem Modus kannst du Bücher als gefunden und nicht gefunden markieren. Das Beenden einer Inventur führt dazu, dass nicht gefundene Bücher als entfernt markiert werden und der Inventur-Status bei allen Büchern zurückgesetzt wird.",
   "enter_format_and_hit_enter": "Name eintragen und Enter drücken.",
   "new_format": "Format anlegen",
-  "formats": "Formate",
-  "formatsDesc": "Jeder kann Formate sehen, jedoch können nur Admins neue Formate anlegen oder Formate löschen.",
+  "formats": "Typen",
+  "formatsDesc": "Jeder kann Typen sehen, jedoch können nur Admins neue Typen anlegen oder Typen löschen.",
   "format": "Typ",
   "closeModal": "Fenster wirklich schließen?",
   "yes": "Ja",
@@ -202,7 +202,7 @@
   "date": "Datum",
   "time": "Zeit",
   "storage": "Speicher",
-  "formats_desc": "Jeder kann Formate sehen, jedoch können nur Admins neue Formate anlegen oder Formate löschen.",
+  "formats_desc": "Jeder kann Typen sehen, jedoch können nur Admins neue Typen anlegen oder Typen löschen.",
   "genres_desc": "Organisiere deine Bücher in Rubriken.",
   "staff_desc": "Organisiere deine Mitarbeiter:innen",
   "bookmarks_desc": "Bookmarks können von jedem angelegt werden und sie sind an die jeweilige Filiale gebunden.",
@@ -212,5 +212,11 @@
   "common": "Allgemein",
   "range_start": "Von",
   "range_end": "Bis",
-  "results_counter": "Kein Ergebnis | {counter} Ergebnis | {counter} Ergebnisse"
+  "results_counter": "Kein Ergebnis | {counter} Ergebnis | {counter} Ergebnisse",
+  "settings_for_branch": "Einstellungen für Filiale",
+  "storage_usage_cover": "Speicherverbrauch (Cover)",
+  "orderBy": "Sortiere nach",
+  "enter_genre_and_hit_enter": "Rubrik eingeben und Enter drücken.",
+  "enter_staff_and_hit_enter": "Mitarbeiter eingeben und Enter drücken.",
+  "new_staff": "Neue/r Mitarbeiter/in"
 }

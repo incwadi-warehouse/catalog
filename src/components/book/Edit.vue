@@ -393,8 +393,11 @@ import useFormat from '@/composables/useFormat'
 import useTag from '@/composables/useTag'
 
 export default {
-  name: 'edit-book',
-  props: ['book', 'me'],
+  name: 'book-update',
+  props: {
+    book: Object,
+    me: Object,
+  },
   setup(props, { emit }) {
     const state = reactive({
       added: computed(() => {

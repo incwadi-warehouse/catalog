@@ -20,7 +20,7 @@
             <b-button
               design="text"
               @click="$emit('end', inventory.id)"
-              v-if="null === inventory.endedAt"
+              v-if="null === inventory.endedAt && isAdmin"
             >
               {{ $t('end') }}
             </b-button>
@@ -38,6 +38,7 @@ export default {
   name: 'inventory-table',
   props: {
     inventories: Array,
+    isAdmin: Boolean,
   },
   setup() {
     const formatDate = function (data) {
