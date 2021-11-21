@@ -1,34 +1,36 @@
 import { reactive } from '@vue/composition-api'
-import api from '@/api/branch'
+import { request } from '~b/api'
 
 export default function useBranch() {
+  const base = '/api/branch'
+
   const state = reactive({
     branches: [],
     branch: null,
   })
 
   const list = () => {
-    api.list().then((res) => {
+    return request('get', base + '/').then((res) => {
       state.branches = res.data
     })
   }
 
   const show = (id) => {
-    api.show(id).then((response) => {
+    return request('get', base + '/' + id).then((response) => {
       state.branch = response.data
     })
   }
 
   const create = (data) => {
-    api.create(data).then(() => {})
+    request('post', base + '/new', data).then(() => {})
   }
 
   const update = (data) => {
-    api.update(data.id, data.params).catch(() => {})
+    return request('put', base + '/' + data.id, data.params).catch(() => {})
   }
 
   const clean = () => {
-    api.clean()
+    return request('delete', '/api/book/clean')
   }
 
   return {

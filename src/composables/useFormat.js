@@ -1,13 +1,15 @@
 import { onMounted, reactive } from '@vue/composition-api'
-import api from '@/api/format'
+import { request } from '~b/api'
 
 export default function useFormat() {
+  const base = '/api/format'
+
   const state = reactive({
     formats: [],
   })
 
   const list = () => {
-    api.list().then((response) => {
+    return request('get', base + '/').then((response) => {
       state.formats = response.data
     })
   }
@@ -15,19 +17,21 @@ export default function useFormat() {
   onMounted(list)
 
   const create = (data) => {
-    api.create({ name: data }).then(() => {
+    return request('post', base + '/new', { name: data }).then(() => {
       list()
     })
   }
 
   const update = (data) => {
-    api.update(data.id, { name: data.name }).catch(() => {
-      list()
-    })
+    return request('put', base + '/' + data.id, { name: data.name }).catch(
+      () => {
+        list()
+      }
+    )
   }
 
   const remove = (data) => {
-    api.remove(data.id).then(() => {
+    return request('delete', base + '/' + data.id).then(() => {
       list()
     })
   }

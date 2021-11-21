@@ -1,7 +1,9 @@
 import { reactive } from '@vue/composition-api'
-import api from '@/api/reservation'
+import { request } from '~b/api'
 
 export default function useReservation() {
+  const base = '/api/reservation'
+
   const state = reactive({
     reservations: null,
     reservation: null,
@@ -10,8 +12,7 @@ export default function useReservation() {
 
   const list = () => {
     state.isLoading = true
-    api
-      .list()
+    return request('get', base + '/list')
       .then((response) => {
         state.reservations = response.data
       })
@@ -21,13 +22,13 @@ export default function useReservation() {
   }
 
   const create = (data) => {
-    return api.create(data).then(() => {
+    return request('post', base + '/new', data).then(() => {
       list()
     })
   }
 
   const update = (data) => {
-    api.update(data.id, {
+    return request('put', base + '/' + data.id, {
       collection: data.collection,
       notes: data.notes,
       books: data.books,
@@ -35,7 +36,7 @@ export default function useReservation() {
   }
 
   const remove = (id) => {
-    api.remove(id).then(() => {
+    return request('delete', base + '/' + id).then(() => {
       list()
     })
   }

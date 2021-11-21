@@ -1,13 +1,15 @@
 import { onMounted, reactive } from '@vue/composition-api'
-import api from '@/api/staff'
+import { request } from '~b/api'
 
 export default function useStaffMembers() {
+  const base = '/api/staff'
+
   const state = reactive({
     staff: [],
   })
 
   const list = () => {
-    api.list().then((response) => {
+    return request('get', base + '/').then((response) => {
       state.staff = response.data
     })
   }
@@ -15,19 +17,21 @@ export default function useStaffMembers() {
   onMounted(list)
 
   const create = (data) => {
-    api.create({ name: data }).then(() => {
+    return request('post', base + '/new', { name: data }).then(() => {
       list()
     })
   }
 
   const update = (data) => {
-    api.update(data.id, { name: data.name }).catch(() => {
-      list()
-    })
+    return request('put', base + '/' + data.id, { name: data.name }).catch(
+      () => {
+        list()
+      }
+    )
   }
 
   const remove = (data) => {
-    api.remove(data.id).then(() => {
+    return request('delete', base + '/' + data.id).then(() => {
       list()
     })
   }

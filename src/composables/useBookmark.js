@@ -1,13 +1,15 @@
 import { onMounted, reactive } from '@vue/composition-api'
-import api from '@/api/bookmark'
+import { request } from '~b/api'
 
 export default function useBookmark() {
+  const base = '/api/bookmark'
+
   const state = reactive({
     bookmarks: [],
   })
 
   const list = () => {
-    api.list().then((response) => {
+    return request('get', base + '/').then((response) => {
       state.bookmarks = response.data
     })
   }
@@ -15,30 +17,34 @@ export default function useBookmark() {
   onMounted(list)
 
   const create = (data) => {
-    console.log(data)
-    api.create({ url: data }).then(() => {
+    return request('post', base + '/new', { url: data }).then(() => {
       list()
     })
   }
 
   const createFromPage = () => {
-    api.create({ url: window.location.href }).then(() => {
-      list()
-    })
+    return request('post', base + '/new', { url: window.location.href }).then(
+      () => {
+        list()
+      }
+    )
   }
 
   const open = (url) => {
     window.location.href = url
   }
 
-  const remove = (data) => {
-    api.remove(data.id).then(() => {
+  const update = (data) => {
+    return request('put', base + '/' + data.id, {
+      name: data.name,
+      url: data.url,
+    }).then(() => {
       list()
     })
   }
 
-  const update = (data) => {
-    api.update(data.id, { name: data.name, url: data.url }).then(() => {
+  const remove = (data) => {
+    return request('delete', base + '/' + data.id).then(() => {
       list()
     })
   }

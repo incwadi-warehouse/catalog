@@ -1,7 +1,9 @@
 import { reactive } from '@vue/composition-api'
-import api from '@/api/book'
+import { request } from '~b/api'
 
 export default function useBook() {
+  const base = '/api/book'
+
   const state = reactive({
     books: null,
     book: null,
@@ -9,19 +11,19 @@ export default function useBook() {
   })
 
   const find = (data) => {
-    api.find(data).then((res) => {
+    return request('get', base + '/find', { params: data }).then((res) => {
       state.books = res.data
     })
   }
 
   const show = (id) => {
-    api.show(id).then((res) => {
+    request('get', base + '/' + id).then((res) => {
       state.book = res.data
     })
   }
 
   const stats = () => {
-    api.stats().then((response) => {
+    request('get', base + '/stats').then((response) => {
       state.stats = response.data
     })
   }
