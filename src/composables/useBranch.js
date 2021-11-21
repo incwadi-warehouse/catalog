@@ -7,6 +7,8 @@ export default function useBranch() {
   const state = reactive({
     branches: [],
     branch: null,
+    hasSuccess: false,
+    hasError: false,
   })
 
   const list = () => {
@@ -26,7 +28,13 @@ export default function useBranch() {
   }
 
   const update = (data) => {
-    return request('put', base + '/' + data.id, data.params).catch(() => {})
+    return request('put', base + '/' + data.id, data.params)
+      .then(() => {
+        state.hasSuccess = true
+      })
+      .catch(() => {
+        state.hasError = true
+      })
   }
 
   const clean = () => {
