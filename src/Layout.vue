@@ -112,6 +112,12 @@
         </b-list>
       </div>
     </b-drawer>
+
+    <div class="project">
+      <a href="https://github.com/abaldeweg"
+        >{{ version }} &bull; An open source project by baldeweg</a
+      >
+    </div>
   </b-app>
 </template>
 
@@ -125,6 +131,7 @@ import {
 import Logo from './components/Logo'
 import router from '~b/router'
 import useBookmark from '@/composables/useBookmark'
+import { version } from './../package.json'
 
 export default {
   name: 'layout',
@@ -169,7 +176,7 @@ export default {
       find: process.env.VUE_APP_FIND,
     })
 
-    return { state, bookmark, links }
+    return { state, bookmark, links, version }
   },
 }
 </script>
@@ -181,5 +188,14 @@ export default {
 .action {
   float: right;
   margin-left: 20px;
+}
+.project {
+  text-align: right;
+  font-size: 0.6rem;
+  margin: 0 20px;
+}
+.project a,
+.project a:hover {
+  color: var(--color-neutral-04);
 }
 </style>
