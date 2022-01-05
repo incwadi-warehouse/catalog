@@ -218,5 +218,8 @@
   "orderBy": "Order By",
   "enter_genre_and_hit_enter": "Enter Genre and Hit Enter",
   "enter_staff_and_hit_enter": "Enter Staff and Hit Enter",
-  "new_staff": "New Staff"
+  "new_staff": "New Staff",
+  "activateCartHelp":"Are users allowed to add books to the cart?",
+  "activateCart": "Activate Cart",
+  "current_reservations": "Current Reservations"
 }

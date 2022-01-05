@@ -6,6 +6,21 @@
       </b-alert>
     </b-container>
 
+    <b-container
+      size="l"
+      v-if="
+        reservation.state.reservations &&
+        reservation.state.reservations.length >= 1
+      "
+    >
+      <b-notification type="success">
+        <router-link :to="{ name: 'reservation' }">
+          {{ $t('current_reservations') }}:
+          {{ reservation.state.reservations.length }}
+        </router-link>
+      </b-notification>
+    </b-container>
+
     <b-container size="l">
       <b-button
         design="primary"
@@ -197,6 +212,12 @@
         <label for="limit">{{ $t('limit') }}</label>
         <b-form-input type="number" id="limit" v-model="filter.limit" />
       </b-container>
+
+      <b-container size="l">
+        <code>
+          <pre>{{ filter }}</pre>
+        </code>
+      </b-container>
     </b-modal>
 
     <book-edit
@@ -221,7 +242,14 @@
 </template>
 
 <script>
-import { reactive, toRefs, ref, onMounted, watch } from '@vue/composition-api'
+import {
+  reactive,
+  toRefs,
+  ref,
+  onMounted,
+  onUnmounted,
+  watch,
+} from '@vue/composition-api'
 import router from '~b/router'
 import SearchRadioFilter from '@/components/search/RadioFilter'
 import SearchCheckboxFilter from '@/components/search/CheckboxFilter'
@@ -238,6 +266,7 @@ import useCart from '@/composables/useCart'
 import BookEdit from '@/components/book/Edit'
 import BookCreate from '@/components/book/Create'
 import SearchScrollToTop from '../components/search/ScrollToTop'
+import useReservation from '@/composables/useReservation'
 
 export default {
   name: 'search-view',
@@ -318,6 +347,16 @@ export default {
       }
     )
 
+    const reservation = useReservation()
+    reservation.list()
+    const reservationInterval = window.setInterval(() => {
+      reservation.list()
+    }, 5000)
+
+    onUnmounted(() => {
+      window.clearInterval(reservationInterval)
+    })
+
     return {
       filter,
       modal,
@@ -330,6 +369,7 @@ export default {
       book,
       implement,
       cart,
+      reservation,
     }
   },
 }

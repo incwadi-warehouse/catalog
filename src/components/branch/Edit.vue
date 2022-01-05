@@ -95,6 +95,17 @@
       </b-form-item>
     </b-form-group>
 
+    <!-- cart -->
+    <b-form-group>
+      <b-form-item>
+        <b-form-helpline>{{ $t('activateCartHelp') }}</b-form-helpline>
+      </b-form-item>
+      <b-form-item>
+        <input type="checkbox" id="cart" v-model="state.cart" />
+        <b-form-label for="cart">{{ $t('activateCart') }}</b-form-label>
+      </b-form-item>
+    </b-form-group>
+
     <!-- buttons -->
     <b-form-group buttons v-if="me && me.isAdmin">
       <b-form-group>
@@ -126,6 +137,7 @@ export default {
       orderBy: branch.value.orderBy,
       isPublic: branch.value.public,
       pricelist: branch.value.pricelist,
+      cart: branch.value.cart,
     })
 
     const update = () => {
@@ -141,6 +153,7 @@ export default {
           orderBy: state.orderBy,
           public: state.isPublic,
           pricelist: state.pricelist,
+          cart: state.cart,
         },
       })
     }

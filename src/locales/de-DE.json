@@ -218,5 +218,8 @@
   "orderBy": "Sortiere nach",
   "enter_genre_and_hit_enter": "Rubrik eingeben und Enter drücken.",
   "enter_staff_and_hit_enter": "Mitarbeiter eingeben und Enter drücken.",
-  "new_staff": "Neue/r Mitarbeiter/in"
+  "new_staff": "Neue/r Mitarbeiter/in",
+  "activateCartHelp": "Dürfen Nutzer Bücher in den Warenkorb hinzufügen?",
+  "activateCart": "Warenkorb aktivieren",
+  "current_reservations": "Aktuelle Reservierungen"
 }
