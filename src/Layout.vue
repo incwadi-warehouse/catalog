@@ -114,9 +114,7 @@
     </b-drawer>
 
     <div class="project">
-      <a href="https://github.com/abaldeweg"
-        >{{ version }} &bull; An open source project by baldeweg</a
-      >
+      <a href="https://github.com/abaldeweg">baldeweg OpenSource</a>
     </div>
   </b-app>
 </template>
@@ -131,7 +129,6 @@ import {
 import Logo from './components/Logo'
 import router from '~b/router'
 import useBookmark from '@/composables/useBookmark'
-import { version } from './../package.json'
 
 export default {
   name: 'layout',
@@ -176,7 +173,7 @@ export default {
       find: process.env.VUE_APP_FIND,
     })
 
-    return { state, bookmark, links, version }
+    return { state, bookmark, links }
   },
 }
 </script>
