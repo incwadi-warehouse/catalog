@@ -8,10 +8,11 @@ export default function useBook() {
     books: null,
     book: null,
     stats: null,
+    cover: null,
   })
 
   const find = (data) => {
-    return request('get', base + '/find', { params: data }).then((res) => {
+    return request('get', base + '/find', null, data).then((res) => {
       state.books = res.data
     })
   }
@@ -22,11 +23,49 @@ export default function useBook() {
     })
   }
 
+  const sell = (id) => {
+    return request('put', base + '/sell/' + id).then((res) => {
+      state.book = res.data
+    })
+  }
+
+  const remove = (id) => {
+    return request('put', base + '/remove/' + id).then((res) => {
+      state.book = res.data
+    })
+  }
+
+  const getCover = (id) => {
+    request('get', base + '/cover/' + id).then((res) => {
+      state.cover = res.data
+    })
+  }
+
+  const upload = (data) => {
+    return request('post', base + '/cover/' + data.id, data.form)
+  }
+
+  const removeCover = (id) => {
+    request('delete', base + '/cover/' + id).then(() => {
+      getCover(id)
+    })
+  }
+
   const stats = () => {
     request('get', base + '/stats').then((response) => {
       state.stats = response.data
     })
   }
 
-  return { state, find, show, stats }
+  return {
+    state,
+    find,
+    show,
+    stats,
+    sell,
+    remove,
+    getCover,
+    upload,
+    removeCover,
+  }
 }

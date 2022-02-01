@@ -10,7 +10,7 @@ export default function useAuthor() {
   })
 
   const find = (data) => {
-    return request('get', base + '/find', { params: data }).then((res) => {
+    return request('get', base + '/find', null, data).then((res) => {
       state.authors = res.data
     })
   }

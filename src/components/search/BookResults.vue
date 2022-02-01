@@ -7,26 +7,52 @@
         <th>{{ $t('author') }}</th>
         <th>{{ $t('genre') }}</th>
         <th>{{ $t('added') }}</th>
-        <th>{{ $t('sold') }}</th>
-        <th>{{ $t('removed') }}</th>
+        <th v-if="filter.availability.includes('sold')">{{ $t('sold') }}</th>
+        <th v-if="filter.availability.includes('removed')">
+          {{ $t('removed') }}
+        </th>
         <th>{{ $t('format') }}</th>
         <th>{{ $t('year') }}</th>
         <th>{{ $t('price') }}</th>
         <th></th>
-        <th></th>
-        <th></th>
+        <th v-if="hasInventory"></th>
+        <th v-if="hasInventory"></th>
       </tr>
     </thead>
 
     <tbody>
       <tr v-for="item in books.books" :key="item.id">
-        <td><img :src="image(item.id)" width="100" alt="Cover" /></td>
-        <td>{{ item.title }}</td>
+        <td
+          :style="{ cursor: 'pointer' }"
+          @click="
+            $router.push({
+              name: 'book.update',
+              params: { id: item.id },
+            })
+          "
+        >
+          <img :src="image(item.id)" width="100" alt="Cover" />
+        </td>
+        <td
+          :style="{ cursor: 'pointer' }"
+          @click="
+            $router.push({
+              name: 'book.update',
+              params: { id: item.id },
+            })
+          "
+        >
+          {{ item.title }}
+        </td>
         <td>{{ formatAuthor(item.author) }}</td>
         <td>{{ item.genre.name }}</td>
         <td>{{ formatDate(item.added) }}</td>
-        <td>{{ item.sold ? formatDate(item.soldOn) : '' }}</td>
-        <td>{{ item.removed ? formatDate(item.removedOn) : '' }}</td>
+        <td v-if="filter.availability.includes('sold')">
+          {{ item.sold ? formatDate(item.soldOn) : '' }}
+        </td>
+        <td v-if="filter.availability.includes('removed')">
+          {{ item.removed ? formatDate(item.removedOn) : '' }}
+        </td>
         <td>{{ item.format ? item.format.name : null }}</td>
         <td>{{ item.releaseYear }}</td>
         <td>{{ formatPrice(item.price) }}</td>
@@ -48,14 +74,14 @@
             </b-dropdown-item>
             <b-dropdown-item
               icon="dollar"
-              @click="$emit('sell', item)"
+              @click="$emit('sell', item.id)"
               v-if="!item.sold"
             >
               {{ $t('sell') }}
             </b-dropdown-item>
             <b-dropdown-item
               icon="bin"
-              @click="$emit('remove', item)"
+              @click="$emit('remove', item.id)"
               v-if="!item.removed"
             >
               {{ $t('remove') }}
@@ -69,12 +95,12 @@
             </b-dropdown-item>
           </b-dropdown>
         </td>
-        <td>
+        <td v-if="hasInventory">
           <b-button design="text" @click.prevent="bookFound(item.id)">
             <b-icon type="check" :isPrimary="item.inventory" />
           </b-button>
         </td>
-        <td>
+        <td v-if="hasInventory">
           <b-button design="text" @click.prevent="bookNotFound(item.id)">
             <b-icon type="close" :isPrimary="false === item.inventory" />
           </b-button>
@@ -91,6 +117,8 @@ export default {
   name: 'search-book-results',
   props: {
     books: Object,
+    filter: Object,
+    hasInventory: Boolean,
   },
   setup() {
     const state = reactive({})

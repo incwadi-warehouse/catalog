@@ -1,11 +1,5 @@
 <template>
   <article>
-    <b-container size="l">
-      <b-alert type="error">
-        <p>This module is under construction. There will be errors!</p>
-      </b-alert>
-    </b-container>
-
     <b-container
       size="l"
       v-if="
@@ -13,12 +7,12 @@
         reservation.state.reservations.length >= 1
       "
     >
-      <b-notification type="success">
+      <b-alert type="success">
         <router-link :to="{ name: 'reservation' }">
           {{ $t('current_reservations') }}:
           {{ reservation.state.reservations.length }}
         </router-link>
-      </b-notification>
+      </b-alert>
     </b-container>
 
     <b-container size="l">
@@ -61,6 +55,7 @@
       <b-search
         :placeholder="$t('search_in_title_author_genre_tag')"
         filter
+        branded
         @input="search"
         @submit.prevent="search"
         @reset="reset"
@@ -69,7 +64,7 @@
       />
     </b-container>
 
-    <b-container size="l">
+    <b-container size="l" v-if="book.state.books != null">
       <h2>{{ $t('books') }}</h2>
       <p>
         {{
@@ -84,15 +79,24 @@
         / {{ book.state.books ? book.state.books.counter : 0 }}
         {{ $t('books') }}
       </p>
+      <b-button
+        design="text"
+        :style="{ float: 'right' }"
+        @click="hasInventory = !hasInventory"
+        v-if="canToggleInventory"
+        >{{ $t('inventory_mode') }}</b-button
+      >
       <search-book-results
+        :filter="filter"
         :books="book.state.books"
-        @sell="implement"
-        @remove="implement"
-        @add-to-cart="implement"
+        :hasInventory="hasInventory"
+        @sell="sell"
+        @remove="remove"
+        @add-to-cart="cart.add"
       />
     </b-container>
 
-    <b-container size="l">
+    <b-container size="l" v-if="author.state.authors != null">
       <h2>{{ $t('authors') }}</h2>
       <p>
         {{
@@ -107,7 +111,7 @@
       </p>
       <search-author-results
         :authors="author.state.authors"
-        @remove="author.remove"
+        @remove="removeAuthor"
       />
     </b-container>
 
@@ -225,7 +229,7 @@
       :me="auth.state.me"
       @close="modal = null"
       @update="book.update"
-      @cover-upload="implement"
+      @cover-upload="uploadCover"
       v-if="modal == 'update'"
     />
 
@@ -249,6 +253,7 @@ import {
   onMounted,
   onUnmounted,
   watch,
+  computed,
 } from '@vue/composition-api'
 import router from '~b/router'
 import SearchRadioFilter from '@/components/search/RadioFilter'
@@ -267,6 +272,7 @@ import BookEdit from '@/components/book/Edit'
 import BookCreate from '@/components/book/Create'
 import SearchScrollToTop from '../components/search/ScrollToTop'
 import useReservation from '@/composables/useReservation'
+import useInventory from '@/composables/useInventory'
 
 export default {
   name: 'search-view',
@@ -292,8 +298,8 @@ export default {
   setup(props) {
     const { query, id } = toRefs(props)
 
-    const filter = reactive({
-      term: query.value.term || '',
+    var filter = reactive({
+      term: query.value.term || null,
       branch: null,
       genre: [],
       releaseYear: '',
@@ -308,17 +314,59 @@ export default {
     const modal = ref(null)
 
     const author = useAuthor()
+
+    const removeAuthor = (id) => {
+      author.remove(id).then(search)
+    }
+
     const book = useBook()
+
+    const hasBooks = computed(() => {
+      if (book.state.books === null) return false
+      return book.state.books.books.length >= 1
+    })
+
+    const sell = (id) => {
+      book.sell(id).then(() => {
+        search()
+      })
+    }
+
+    const remove = (id) => {
+      book.remove(id).then(() => {
+        search()
+      })
+    }
+
+    const uploadCover = (data) => {
+      book.upload(data)
+    }
 
     const search = () => {
       router.push({ name: 'search', query: filter })
       author.find({ term: filter.term })
-      book.find({ options: { term: filter.term } })
+      book.find({ options: filter })
     }
 
     const reset = () => {
-      filter.term = ''
-      search()
+      filter = {
+        term: null,
+        branch: null,
+        genre: [],
+        releaseYear: '',
+        availability: [],
+        format: null,
+        added: '',
+        orderBy: null,
+        orderByDirection: null,
+        limit: 50,
+      }
+      book.state.books = null
+      author.state.authors = null
+    }
+
+    if (filter.term !== null) {
+      onMounted(search)
     }
 
     const branch = useBranch()
@@ -330,11 +378,8 @@ export default {
 
     const cart = useCart()
 
-    const implement = () => {
-      console.warn('this feature is not yet implemented')
-    }
-
     onMounted(() => {
+      if (id.value === undefined) return
       if (id.value) modal.value = 'update'
       book.show(id.value)
     })
@@ -357,6 +402,14 @@ export default {
       window.clearInterval(reservationInterval)
     })
 
+    const inventory = useInventory()
+
+    const hasInventory = ref(false)
+
+    const canToggleInventory = computed(() => {
+      return inventory.state.hasActiveInventory
+    })
+
     return {
       filter,
       modal,
@@ -367,9 +420,15 @@ export default {
       format,
       author,
       book,
-      implement,
       cart,
       reservation,
+      sell,
+      remove,
+      uploadCover,
+      removeAuthor,
+      hasBooks,
+      hasInventory,
+      canToggleInventory,
     }
   },
 }

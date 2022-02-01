@@ -63,7 +63,7 @@
   "removed_books": "entferntes Buch | entfernte Bücher",
   "book_created": "Buch gespeichert.",
   "book_updated": "Buch aktualisiert.",
-  "authors": "Autoren",
+  "authors": "AutorInnen",
   "edit_author": "Autor bearbeiten",
   "save": "Speichern",
   "author_edit_successful": "Autor geändert.",
@@ -221,5 +221,6 @@
   "new_staff": "Neue/r Mitarbeiter/in",
   "activateCartHelp": "Dürfen Nutzer Bücher in den Warenkorb hinzufügen?",
   "activateCart": "Warenkorb aktivieren",
-  "current_reservations": "Aktuelle Reservierungen"
+  "current_reservations": "Aktuelle Reservierungen",
+  "inventory_mode": "Inventur Modus"
 }

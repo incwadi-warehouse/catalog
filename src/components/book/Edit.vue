@@ -391,6 +391,7 @@ import useGenre from '@/composables/useGenre'
 import useCondition from '@/composables/useCondition'
 import useFormat from '@/composables/useFormat'
 import useTag from '@/composables/useTag'
+import useBook from '@/composables/useBook'
 
 export default {
   name: 'book-update',
@@ -459,18 +460,20 @@ export default {
       format: computed(() => {
         return props.book.format ? props.book.format.id : null
       }),
-      cover: computed(() => {
-        return null
-      }),
     })
 
     const genre = useGenre()
     const condition = useCondition()
     const format = useFormat()
     const tag = useTag()
+    const book = useBook()
+
+    const cover = computed(() => {
+      return book.state.cover
+    })
 
     onMounted(() => {
-      // get cover
+      book.getCover(props.book.id)
     })
 
     const update = () => {
@@ -508,10 +511,20 @@ export default {
     }
 
     const removeCover = () => {
-      // remove cover
+      book.removeCover(props.book.id)
     }
 
-    return { state, genre, condition, format, tag, update, upload, removeCover }
+    return {
+      state,
+      genre,
+      condition,
+      format,
+      tag,
+      cover,
+      update,
+      upload,
+      removeCover,
+    }
   },
 }
 </script>
