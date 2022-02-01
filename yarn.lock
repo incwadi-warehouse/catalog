@@ -911,24 +911,24 @@
     "@babel/helper-validator-identifier" "^7.15.7"
     to-fast-properties "^2.0.0"
 
-"@baldeweg/components@7.0.0-beta.11":
-  version "7.0.0-beta.11"
-  resolved "https://registry.yarnpkg.com/@baldeweg/components/-/components-7.0.0-beta.11.tgz#0688987996662a17aebfc7ac6b9862a978101216"
-  integrity sha512-liXBFgjH7wqvTxj/bTL4xFj+bfvevHIWybi5KQtFPitZPOLUiNv9TyY847fEsPPy64O2BGNWuensU3gX8GhhhQ==
+"@baldeweg/components@7.0.0-beta.12":
+  version "7.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@baldeweg/components/-/components-7.0.0-beta.12.tgz#de431ec7123f934160cc8992da7096b0b3faed9b"
+  integrity sha512-M6AxLEWbeEDTZX+4F4ZbfdI81TRwjlTcqon+E31e2Hwygq8LkpAgMB+wVGvdjTrM0wnjGQcOs0xOYZGDQipvzw==
   dependencies:
-    core-js "3.18.1"
+    core-js "3.19.1"
     vue "2.6.14"
     vue-meta "2.4.0"
-    vue-router "3.5.2"
+    vue-router "3.5.3"
 
-"@baldeweg/vue-cli-plugin-components@latest":
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/@baldeweg/vue-cli-plugin-components/-/vue-cli-plugin-components-0.3.4.tgz#4645c141a26f37ef8dace4ad26d49b12b6a71f00"
-  integrity sha512-PKUBqZgS5EGodAxrJhhKhCJCRMSoO9rWl1QtbCoZjwQ9Nn8LoKhAJsLlCQS3bxFAfy4TuwinHtJ8DNbyvD1pvA==
+"@baldeweg/vue-cli-plugin-components@0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@baldeweg/vue-cli-plugin-components/-/vue-cli-plugin-components-0.4.3.tgz#e2d505f3cb6342a47ab0e9d1e0b4f41029b464bc"
+  integrity sha512-C6pHlwLVQbu5WD4cPcd4YtWxrHpuyMAmA229dcKqWhtUOeJWmAppEjmLHRvmnc2erGOlgJ/zhe7r+t7i62SqzQ==
   dependencies:
-    "@baldeweg/components" "7.0.0-beta.11"
-    "@vue/composition-api" "1.2.2"
-    axios "0.22.0"
+    "@baldeweg/components" "7.0.0-beta.12"
+    "@vue/composition-api" "1.4.4"
+    axios "0.25.0"
     fs-extra "10.0.0"
     js-cookie "3.0.1"
     rimraf "3.0.2"
@@ -1728,12 +1728,12 @@
   optionalDependencies:
     prettier "^1.18.2 || ^2.0.0"
 
-"@vue/composition-api@1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.2.2.tgz#7276667eea4c65add902a132802504c6a9950fa2"
-  integrity sha512-hnnock2l8Uawuzm/Nq8LqaztuOO70rpyX3Gz/Kpl/JtNalsG/EuuHuRQAWPiT3Is8NCB/8V5hiH7fmCmAc0+pQ==
+"@vue/composition-api@1.4.4":
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.4.4.tgz#42cfbe6e3c0dc16100d725cdb0ea1c443919cc7a"
+  integrity sha512-0AMpkSy28NG1BUqTPXLfQzJUnjSp+qUa4jaG7A2FBRSKHJOl1g10/xvNb44+OW5Jg9f79zKOb7PYhFhJG2vLyQ==
   dependencies:
-    tslib "^2.3.0"
+    tslib "^2.3.1"
 
 "@vue/eslint-config-prettier@7.0.0":
   version "7.0.0"
@@ -2256,12 +2256,12 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
 
-axios@0.22.0:
-  version "0.22.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.22.0.tgz#bf702c41fb50fbca4539589d839a077117b79b25"
-  integrity sha512-Z0U3uhqQeg1oNcihswf4ZD57O3NrR1+ZXhxaROaWpDmsDTx7T2HNBV2ulBtie2hwJptu8UvgnJoK+BIqdzh/1w==
+axios@0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.25.0.tgz#349cfbb31331a9b4453190791760a8d35b093e0a"
+  integrity sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==
   dependencies:
-    follow-redirects "^1.14.4"
+    follow-redirects "^1.14.7"
 
 babel-code-frame@^6.26.0:
   version "6.26.0"
@@ -3411,10 +3411,10 @@ core-js-compat@^3.18.0, core-js-compat@^3.19.0, core-js-compat@^3.6.5:
     browserslist "^4.17.6"
     semver "7.0.0"
 
-core-js@3.18.1:
-  version "3.18.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.18.1.tgz#289d4be2ce0085d40fc1244c0b1a54c00454622f"
-  integrity sha512-vJlUi/7YdlCZeL6fXvWNaLUPh/id12WXj3MbkMw5uOyF0PfWPBNOCNbs53YqgrvtujLNlt9JQpruyIKkUZ+PKA==
+core-js@3.19.1, core-js@^3.6.5:
+  version "3.19.1"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.19.1.tgz#f6f173cae23e73a7d88fa23b6e9da329276c6641"
+  integrity sha512-Tnc7E9iKd/b/ff7GFbhwPVzJzPztGrChB8X8GLqoYGdEOG8IpLnK1xPyo3ZoO3HsK6TodJS58VGPOxA+hLHQMg==
 
 core-js@3.20.3:
   version "3.20.3"
@@ -3425,11 +3425,6 @@ core-js@^2.4.0:
   version "2.6.12"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
   integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
-
-core-js@^3.6.5:
-  version "3.19.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.19.1.tgz#f6f173cae23e73a7d88fa23b6e9da329276c6641"
-  integrity sha512-Tnc7E9iKd/b/ff7GFbhwPVzJzPztGrChB8X8GLqoYGdEOG8IpLnK1xPyo3ZoO3HsK6TodJS58VGPOxA+hLHQMg==
 
 core-util-is@1.0.2:
   version "1.0.2"
@@ -4952,7 +4947,7 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
 
-follow-redirects@^1.0.0, follow-redirects@^1.14.4:
+follow-redirects@^1.0.0, follow-redirects@^1.14.7:
   version "1.14.7"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.7.tgz#2004c02eb9436eee9a21446a6477debf17e81685"
   integrity sha512-+hbxoLbFMbRKDwohX8GkTataGqO6Jb7jGwpAlwgy2bIz25XtRm7KEzJM76R1WiNT5SwZkX4Y75SwBolkpmE7iQ==
@@ -10301,7 +10296,7 @@ tslib@^1.9.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2.3.0:
+tslib@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
@@ -10715,11 +10710,6 @@ vue-meta@2.4.0:
   integrity sha512-XEeZUmlVeODclAjCNpWDnjgw+t3WA6gdzs6ENoIAgwO1J1d5p1tezDhtteLUFwcaQaTtayRrsx7GL6oXp/m2Jw==
   dependencies:
     deepmerge "^4.2.2"
-
-vue-router@3.5.2:
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.5.2.tgz#5f55e3f251970e36c3e8d88a7cd2d67a350ade5c"
-  integrity sha512-807gn82hTnjCYGrnF3eNmIw/dk7/GE4B5h69BlyCK9KHASwSloD1Sjcn06zg9fVG4fYH2DrsNBZkpLtb25WtaQ==
 
 vue-router@3.5.3:
   version "3.5.3"
