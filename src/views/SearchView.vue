@@ -350,7 +350,9 @@ export default {
 
     const search = () => {
       router.push({ name: 'search', query: filter })
-      author.find({ term: filter.term })
+      if (filter.term !== null) {
+        author.find({ term: filter.term })
+      }
       book.find({ options: filter })
     }
 
