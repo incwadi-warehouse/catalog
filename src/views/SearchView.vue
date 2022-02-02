@@ -107,7 +107,7 @@
       <p>
         {{
           $tc(
-            'results_counter',
+            'results_counter_author',
             author.state.authors ? author.state.authors.length : 0,
             {
               counter: author.state.authors ? author.state.authors.length : 0,

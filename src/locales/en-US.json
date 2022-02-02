@@ -223,5 +223,6 @@
   "activateCart": "Activate Cart",
   "current_reservations": "Current Reservations",
   "inventory_mode": "Inventory Mode",
-  "show_cover": "Show Cover"
+  "show_cover": "Show Cover",
+  "results_counter_author": "No Result | Show  {counter} author | Show {counter} authors"
 }
