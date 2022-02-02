@@ -57,7 +57,7 @@
         filter
         branded
         @input="search"
-        @submit.prevent="search"
+        @submit.prevent="search(true)"
         @reset="reset"
         @filter="modal = 'filter'"
         v-model="filter.term"
@@ -357,12 +357,14 @@ export default {
       book.upload(data)
     }
 
-    const search = () => {
+    const search = (force = false) => {
       router.push({ name: 'search', query: filter })
       if (filter.term !== null) {
         author.find({ term: filter.term })
       }
-      book.find({ options: filter })
+      if (filter.term !== null || force) {
+        book.find({ options: filter })
+      }
     }
 
     const reset = () => {
