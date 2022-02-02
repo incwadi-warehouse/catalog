@@ -91,6 +91,15 @@
         @click="showCover = !showCover"
         >{{ $t('show_cover') }}</b-button
       >
+      <b-button
+        design="text"
+        :style="{ float: 'right' }"
+        @click="
+          filter.limit = book.state.books.counter
+          search()
+        "
+        >{{ $t('show_all') }}</b-button
+      >
       <search-book-results
         :filter="filter"
         :books="book.state.books"
