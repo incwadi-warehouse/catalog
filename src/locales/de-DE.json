@@ -212,7 +212,7 @@
   "common": "Allgemein",
   "range_start": "Von",
   "range_end": "Bis",
-  "results_counter": "Kein Ergebnis | {counter} Ergebnis | {counter} Ergebnisse",
+  "results_counter": "Kein Ergebnis | Zeige {show} von {counter} Buch. | Zeige {show} von {counter} Büchern.",
   "settings_for_branch": "Einstellungen für Filiale",
   "storage_usage_cover": "Speicherverbrauch (Cover)",
   "orderBy": "Sortiere nach",

@@ -70,14 +70,13 @@
         {{
           $tc(
             'results_counter',
-            book.state.books ? book.state.books.books.length : 0,
+            book.state.books ? book.state.books.counter : 0,
             {
-              counter: book.state.books ? book.state.books.books.length : 0,
+              show: book.state.books ? book.state.books.books.length : 0,
+              counter: book.state.books ? book.state.books.counter : 0,
             }
           )
         }}
-        / {{ book.state.books ? book.state.books.counter : 0 }}
-        {{ $t('books') }}
       </p>
       <b-button
         design="text"

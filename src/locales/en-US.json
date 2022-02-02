@@ -212,7 +212,7 @@
   "common": "Common",
   "range_start": "From",
   "range_end": "To",
-  "results_counter": "No Result | { counter } Result | { counter } Results",
+  "results_counter": "No Result | Show {show} from {counter} book | Show {show} from {counter} books",
   "settings_for_branch": "Settings for Branch",
   "storage_usage_cover": "Storage Usage (Cover)",
   "orderBy": "Order By",
