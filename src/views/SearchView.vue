@@ -85,10 +85,17 @@
         v-if="canToggleInventory"
         >{{ $t('inventory_mode') }}</b-button
       >
+      <b-button
+        design="text"
+        :style="{ float: 'right' }"
+        @click="showCover = !showCover"
+        >{{ $t('show_cover') }}</b-button
+      >
       <search-book-results
         :filter="filter"
         :books="book.state.books"
         :hasInventory="hasInventory"
+        :showCover="showCover"
         @sell="sell"
         @remove="remove"
         @add-to-cart="cart.add"
@@ -409,6 +416,8 @@ export default {
       return inventory.state.hasActiveInventory
     })
 
+    const showCover = ref(false)
+
     return {
       filter,
       modal,
@@ -428,6 +437,7 @@ export default {
       hasBooks,
       hasInventory,
       canToggleInventory,
+      showCover,
     }
   },
 }

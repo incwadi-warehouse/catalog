@@ -222,5 +222,6 @@
   "activateCartHelp":"Are users allowed to add books to the cart?",
   "activateCart": "Activate Cart",
   "current_reservations": "Current Reservations",
-  "inventory_mode": "Inventory Mode"
+  "inventory_mode": "Inventory Mode",
+  "show_cover": "Show Cover"
 }

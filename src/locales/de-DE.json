@@ -222,5 +222,6 @@
   "activateCartHelp": "Dürfen Nutzer Bücher in den Warenkorb hinzufügen?",
   "activateCart": "Warenkorb aktivieren",
   "current_reservations": "Aktuelle Reservierungen",
-  "inventory_mode": "Inventur Modus"
+  "inventory_mode": "Inventur Modus",
+  "show_cover": "Zeige Cover"
 }

@@ -2,7 +2,7 @@
   <table>
     <thead>
       <tr>
-        <th>{{ $t('cover') }}</th>
+        <th v-if="showCover">{{ $t('cover') }}</th>
         <th>{{ $t('title') }}</th>
         <th>{{ $t('author') }}</th>
         <th>{{ $t('genre') }}</th>
@@ -23,6 +23,7 @@
     <tbody>
       <tr v-for="item in books.books" :key="item.id">
         <td
+          v-if="showCover"
           :style="{ cursor: 'pointer' }"
           @click="
             $router.push({
@@ -119,6 +120,7 @@ export default {
     books: Object,
     filter: Object,
     hasInventory: Boolean,
+    showCover: Boolean,
   },
   setup() {
     const state = reactive({})
