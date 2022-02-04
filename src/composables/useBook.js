@@ -23,6 +23,12 @@ export default function useBook() {
     })
   }
 
+  const create = (data) => {
+    return request('post', base + '/new', data).then((res) => {
+      state.book = res.data
+    })
+  }
+
   const sell = (id) => {
     return request('put', base + '/sell/' + id).then((res) => {
       state.book = res.data
@@ -61,6 +67,7 @@ export default function useBook() {
     state,
     find,
     show,
+    create,
     stats,
     sell,
     remove,

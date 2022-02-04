@@ -24,16 +24,15 @@
             </b-form-label>
           </b-form-item>
           <b-form-item>
-            <b-form-select id="genre" required v-model="state.genreId">
-              <option></option>
-              <option
-                v-for="item in genre.state.genres"
-                :key="item.id"
-                :value="item.id"
-              >
-                {{ item.name }}
-              </option>
-            </b-form-select>
+            <b-form-select
+              id="genre"
+              required
+              v-model="state.genreId"
+              :items="genre.state.genres"
+              item-key="id"
+              item-value="name"
+              allow-empty
+            />
           </b-form-item>
         </b-form-group>
 
@@ -134,15 +133,14 @@
             </b-form-label>
           </b-form-item>
           <b-form-item>
-            <b-form-select id="type" v-model="state.format">
-              <option
-                v-for="item in format.state.formats"
-                :value="item.id"
-                :key="item.id"
-              >
-                {{ item.name }}
-              </option>
-            </b-form-select>
+            <b-form-select
+              id="type"
+              v-model="state.format"
+              :items="format.state.formats"
+              item-key="id"
+              item-value="name"
+              allow-empty
+            />
           </b-form-item>
         </b-form-group>
 
@@ -203,28 +201,26 @@
             </b-form-label>
           </b-form-item>
           <b-form-item>
-            <b-form-select id="cond" v-model="state.cond_id">
-              <option value=""></option>
-              <option
-                :value="item.id"
-                v-for="item in condition.state.condition"
-                :key="item.id"
-              >
-                {{ item.name }}
-              </option>
-            </b-form-select>
+            <b-form-select
+              id="cond"
+              v-model="state.cond_id"
+              :items="condition.state.conditions"
+              item-key="id"
+              item-value="name"
+              allow-empty
+            />
           </b-form-item>
         </b-form-group>
 
         <!-- tags -->
-        <b-form @submit.prevent="tag.create({ name: state.tag })">
+        <b-form @submit.prevent="createTag">
           <b-form-group>
-            <span v-for="(tag, index) in tags" :key="tag.id">
-              {{ tag.name }}
-              <span @click="tag.remove(tag.id)">
+            <span v-for="(item, index) in state.tags" :key="item.id">
+              {{ item.name }}
+              <span @click="tag.remove(item.id)">
                 <b-icon type="close" :size="12" />
               </span>
-              <span v-if="index !== tags.length - 1">, </span>
+              <span v-if="index !== item.length - 1">, </span>
             </span>
           </b-form-group>
 
@@ -301,18 +297,25 @@ export default {
         tags.push(element.id)
       })
       emit('create', {
-        added: new Date(this.added).getTime() / 1000,
-        title: this.title,
-        shortDescription: this.shortDescription,
-        author: this.authorSurname + ',' + this.authorFirstname,
-        genre: this.genreId,
-        price: this.price,
+        added: new Date(state.added).getTime() / 1000,
+        title: state.title,
+        shortDescription: state.shortDescription,
+        author: state.authorSurname + ',' + state.authorFirstname,
+        genre: state.genreId,
+        price: state.price,
         sold: false,
         removed: false,
-        releaseYear: this.releaseYear,
-        cond: this.cond_id,
+        releaseYear: state.releaseYear,
+        cond: state.cond_id,
         tags: tags,
-        format: this.format,
+        format: state.format,
+      })
+    }
+
+    const createTag = () => {
+      tag.create({ name: state.tag }).then((res) => {
+        state.tags.push(res.data)
+        state.tag = null
       })
     }
 
@@ -324,6 +327,7 @@ export default {
       format,
       tag,
       create,
+      createTag,
     }
   },
 }

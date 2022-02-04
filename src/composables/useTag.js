@@ -16,7 +16,7 @@ export default function useTag() {
   }
 
   const create = (data) => {
-    return request('post', base + '/', data)
+    return request('post', base + '/new', data)
   }
 
   const remove = (id) => {

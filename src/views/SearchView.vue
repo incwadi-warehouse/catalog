@@ -252,7 +252,8 @@
       :me="auth.state.me"
       @close="modal = null"
       @create="
-        book.create
+        book.create($event)
+        modal = false
         $router.push({ name: 'search' })
       "
       v-if="modal == 'create'"
