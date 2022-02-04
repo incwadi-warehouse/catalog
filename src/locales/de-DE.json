@@ -214,7 +214,7 @@
   "range_end": "Bis",
   "results_counter": "Kein Ergebnis | Zeige {show} von {counter} Buch. | Zeige {show} von {counter} Büchern.",
   "settings_for_branch": "Einstellungen für Filiale",
-  "storage_usage_cover": "Speicherverbrauch (Cover)",
+  "storage_usage": "Speicherverbrauch",
   "orderBy": "Sortiere nach",
   "enter_genre_and_hit_enter": "Rubrik eingeben und Enter drücken.",
   "enter_staff_and_hit_enter": "Mitarbeiter eingeben und Enter drücken.",

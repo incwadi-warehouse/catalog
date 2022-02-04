@@ -13,7 +13,7 @@
     </b-container>
 
     <b-container size="m" v-if="book.state.stats">
-      <p>{{ $t('storage_usage_cover') }}: {{ book.state.stats.storage }} MB</p>
+      <p>{{ $t('storage_usage') }}: {{ round(book.state.stats.storage) }} MB</p>
     </b-container>
 
     <b-container size="m" v-if="!book.state.stats">
@@ -67,7 +67,11 @@ export default {
 
     onMounted(book.stats)
 
-    return { book }
+    const round = (value) => {
+      return parseFloat(value).toFixed(2)
+    }
+
+    return { book, round }
   },
 }
 </script>
