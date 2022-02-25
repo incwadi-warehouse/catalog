@@ -130,6 +130,10 @@ import Logo from './components/Logo'
 import router from '~b/router'
 import useBookmark from '@/composables/useBookmark'
 
+if (process.env.VUE_APP_THEME !== 'false') {
+  import('../' + process.env.VUE_APP_THEME)
+}
+
 export default {
   name: 'layout',
   props: {
