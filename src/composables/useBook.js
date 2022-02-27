@@ -18,13 +18,19 @@ export default function useBook() {
   }
 
   const show = (id) => {
-    request('get', base + '/' + id).then((res) => {
+    return request('get', base + '/' + id).then((res) => {
       state.book = res.data
     })
   }
 
   const create = (data) => {
     return request('post', base + '/new', data).then((res) => {
+      state.book = res.data
+    })
+  }
+
+  const update = (data) => {
+    return request('put', base + '/' + data.id, data.params).then((res) => {
       state.book = res.data
     })
   }
@@ -68,6 +74,7 @@ export default function useBook() {
     find,
     show,
     create,
+    update,
     stats,
     sell,
     remove,

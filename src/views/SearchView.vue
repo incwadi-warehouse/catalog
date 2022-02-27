@@ -240,7 +240,7 @@
     </b-modal>
 
     <book-edit
-      :book="book.state.book"
+      :book-id="id"
       :me="auth.state.me"
       @close="modal = null"
       @update="book.update"

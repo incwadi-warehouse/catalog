@@ -1,7 +1,7 @@
 <template>
-  <b-form @submit.prevent="update" v-if="book">
+  <b-form @submit.prevent="update" v-if="book.state.book">
     <b-modal @close="$emit('close')">
-      <b-container size="m" v-if="book.reserved">
+      <b-container size="m" v-if="book.state.book.reserved">
         <b-alert type="warning">
           <p>{{ $t('doNotEditReservedBooks') }}</p>
         </b-alert>
@@ -21,7 +21,7 @@
         </b-form-group>
       </template>
 
-      <b-container size="m" v-if="book">
+      <b-container size="m" v-if="book.state.book">
         <!-- genre -->
         <b-form-group>
           <b-form-item>
@@ -30,15 +30,15 @@
             </b-form-label>
           </b-form-item>
           <b-form-item>
-            <b-form-select id="genre" required v-model="state.genreId">
-              <option
-                v-for="item in genre.state.genres"
-                :key="item.id"
-                :value="item.id"
-              >
-                {{ item.name }}
-              </option>
-            </b-form-select>
+            <b-form-select
+              id="genre"
+              required
+              v-model="state.genreId"
+              :items="genre.state.genres"
+              item-key="id"
+              item-value="name"
+              allow-empty
+            />
           </b-form-item>
         </b-form-group>
 
@@ -139,15 +139,14 @@
             </b-form-label>
           </b-form-item>
           <b-form-item>
-            <b-form-select id="type" v-model="state.format">
-              <option
-                v-for="item in format.state.formats"
-                :value="item.id"
-                :key="item.id"
-              >
-                {{ item.name }}
-              </option>
-            </b-form-select>
+            <b-form-select
+              id="type"
+              v-model="state.format"
+              :items="format.state.formats"
+              item-key="id"
+              item-value="name"
+              allow-empty
+            />
           </b-form-item>
         </b-form-group>
 
@@ -255,16 +254,14 @@
             </b-form-label>
           </b-form-item>
           <b-form-item>
-            <b-form-select id="cond" v-model="state.cond_id">
-              <option value=""></option>
-              <option
-                :value="item.id"
-                v-for="item in condition.state.conditions"
-                :key="item.id"
-              >
-                {{ item.name }}
-              </option>
-            </b-form-select>
+            <b-form-select
+              id="cond"
+              v-model="state.cond_id"
+              :items="condition.state.conditions"
+              item-key="id"
+              item-value="name"
+              allow-empty
+            />
           </b-form-item>
         </b-form-group>
 
@@ -295,10 +292,10 @@
         <!-- cover -->
         <div v-if="cover">
           <!-- status -->
-          <b-notification type="neutral" v-if="isUploading">
+          <b-notification type="neutral" v-if="state.isUploading">
             <p>{{ $t('uploadingFile') }}</p>
           </b-notification>
-          <b-notification type="error" hidable v-if="hasErrorUploading">
+          <b-notification type="error" hidable v-if="state.hasErrorUploading">
             <p>{{ $t('coverUploadError') }}</p>
           </b-notification>
 
@@ -322,7 +319,7 @@
             <b-form
               enctype="multipart/form-data"
               @submit.prevent
-              v-if="!isUploading"
+              v-if="!state.isUploading"
             >
               <b-form-group>
                 <b-form-item>
@@ -332,7 +329,7 @@
                   :style="{
                     position: 'relative',
                     height: '300px',
-                    border: isDragging
+                    border: state.isDragging
                       ? '1px solid var(--color-primary-10)'
                       : '1px solid var(--color-neutral-02)',
                     borderRadius: '5px',
@@ -355,11 +352,11 @@
                       width: '100%',
                       height: '100%',
                     }"
-                    @dragover="isDragging = true"
-                    @dragenter="isDragging = true"
-                    @dragleave="isDragging = false"
-                    @dragend="isDragging = false"
-                    @drop="isDragging = false"
+                    @dragover="state.isDragging = true"
+                    @dragenter="state.isDragging = true"
+                    @dragleave="state.isDragging = false"
+                    @dragend="state.isDragging = false"
+                    @drop="state.isDragging = false"
                   >
                     <b-form-input
                       type="file"
@@ -386,7 +383,13 @@
 </template>
 
 <script>
-import { onMounted, reactive, computed } from '@vue/composition-api'
+import {
+  onMounted,
+  reactive,
+  computed,
+  toRefs,
+  watch,
+} from '@vue/composition-api'
 import useGenre from '@/composables/useGenre'
 import useCondition from '@/composables/useCondition'
 import useFormat from '@/composables/useFormat'
@@ -394,87 +397,75 @@ import useTag from '@/composables/useTag'
 import useBook from '@/composables/useBook'
 
 export default {
-  name: 'book-update',
+  name: 'book-edit',
   props: {
-    book: Object,
+    bookId: String,
     me: Object,
   },
   setup(props, { emit }) {
-    const state = reactive({
-      added: computed(() => {
-        let date = new Date(props.book.added)
-
-        return date.toISOString().split('T')[0]
-      }),
-      title: computed(() => {
-        return props.book ? props.book.title : null
-      }),
-      shortDescription: computed(() => {
-        return props.book ? props.book.shortDescription : null
-      }),
-      authorFirstname: computed(() => {
-        return props.book.author ? props.book.author.firstname : null
-      }),
-      authorSurname: computed(() => {
-        return props.book.author ? props.book.author.surname : null
-      }),
-      genreId: computed(() => {
-        return props.book.genre ? props.book.genre.id : null
-      }),
-      price: computed(() => {
-        return props.book ? props.book.price : null
-      }),
-      sold: computed(() => {
-        return props.book ? props.book.sold : null
-      }),
-      removed: computed(() => {
-        return props.book ? props.book.removed : null
-      }),
-      reserved: computed(() => {
-        return props.book ? props.book.reserved : null
-      }),
-      releaseYear: computed(() => {
-        return props.book ? props.book.releaseYear : null
-      }),
-      cond_id: computed(() => {
-        return props.book.condition ? props.book.condition.id : null
-      }),
-      tag: computed(() => {
-        return null
-      }),
-      tags: computed(() => {
-        return props.book ? props.book.tags : null
-      }),
-      recommendation: computed(() => {
-        return props.book ? props.book.recommendation : null
-      }),
-      isUploading: computed(() => {
-        return false
-      }),
-      hasErrorUploading: computed(() => {
-        return false
-      }),
-      isDragging: computed(() => {
-        return false
-      }),
-      format: computed(() => {
-        return props.book.format ? props.book.format.id : null
-      }),
-    })
-
     const genre = useGenre()
     const condition = useCondition()
     const format = useFormat()
     const tag = useTag()
     const book = useBook()
 
-    const cover = computed(() => {
-      return book.state.cover
+    let state = reactive({
+      added: null,
+      title: null,
+      shortDescription: null,
+      authorFirstname: null,
+      authorSurname: null,
+      genreId: null,
+      price: null,
+      sold: null,
+      removed: null,
+      reserved: null,
+      releaseYear: null,
+      cond_id: null,
+      tag: null,
+      tags: [],
+      recommendation: null,
+      isUploading: false,
+      hasErrorUploading: false,
+      isDragging: false,
+      format: null,
     })
 
-    onMounted(() => {
-      book.getCover(props.book.id)
-    })
+    const loadBook = () => {
+      book.show(bookId.value).then(() => {
+        state.added = formatDate(book.state.book.added)
+        state.title = book.state.book.title
+        state.shortDescription = book.state.book.shortDescription
+        state.authorFirstname = book.state.book.author
+          ? book.state.book.author.firstname
+          : null
+        state.authorSurname = book.state.book.author
+          ? book.state.book.author.surname
+          : null
+        state.genreId = book.state.book.genre ? book.state.book.genre.id : null
+        state.price = book.state.book.price
+        state.sold = book.state.book.sold
+        state.removed = book.state.book.removed
+        state.reserved = book.state.book.reserved
+        state.releaseYear = book.state.book.releaseYear
+        state.cond_id = book.state.book.condition
+          ? book.state.book.condition.id
+          : null
+        state.tag = null
+        state.tags = book.state.book.tags
+        state.recommendation = book.state.book.recommendation
+        state.format = book.state.book.format ? book.state.book.format.id : null
+      })
+    }
+
+    const { bookId } = toRefs(props)
+    loadBook()
+    watch(
+      () => bookId.value,
+      () => {
+        loadBook()
+      }
+    )
 
     const update = () => {
       let tags = []
@@ -484,26 +475,42 @@ export default {
 
       emit('update', {
         me: state.me,
-        id: state.book.id,
-        added: new Date(state.added).getTime() / 1000,
-        title: state.title,
-        shortDescription: state.shortDescription,
-        author: state.authorSurname + ',' + state.authorFirstname,
-        genre: state.genreId,
-        price: state.price,
-        sold: state.sold,
-        removed: state.removed,
-        reserved: state.reserved,
-        releaseYear: state.releaseYear,
-        cond: state.cond_id,
-        tags: tags,
-        recommendation: state.recommendation,
-        format: state.format,
+        id: bookId.value,
+        params: {
+          added: new Date(state.added).getTime() / 1000,
+          title: state.title,
+          shortDescription: state.shortDescription,
+          author: state.authorSurname + ',' + state.authorFirstname,
+          genre: state.genreId,
+          price: state.price,
+          sold: state.sold,
+          removed: state.removed,
+          reserved: state.reserved,
+          releaseYear: state.releaseYear,
+          cond: state.cond_id,
+          tags: tags,
+          recommendation: state.recommendation,
+          format: state.format,
+        },
       })
     }
 
+    const formatDate = (val) => {
+      let date = new Date(val * 1000)
+
+      return date.toISOString().split('T')[0]
+    }
+
+    const cover = computed(() => {
+      return book.state.cover
+    })
+
+    onMounted(() => {
+      book.getCover(bookId.value)
+    })
+
     const upload = (event) => {
-      this.isUploading = true
+      state.isUploading = true
       const file = event.target.files[0]
       const form = new FormData()
       form.append('cover', file)
@@ -511,7 +518,7 @@ export default {
     }
 
     const removeCover = () => {
-      book.removeCover(props.book.id)
+      book.removeCover(bookId.value)
     }
 
     return {
@@ -521,6 +528,7 @@ export default {
       format,
       tag,
       cover,
+      book,
       update,
       upload,
       removeCover,
