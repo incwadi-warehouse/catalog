@@ -141,6 +141,7 @@ export default {
           orderBy: branch.value.orderBy,
           public: branch.value.public,
           pricelist: JSON.stringify(state.pricelist),
+          cart: branch.value.cart,
         },
       })
     }

@@ -25,7 +25,7 @@
       <h1>{{ $t('search') }}</h1>
     </b-container>
 
-    <b-container size="l" v-if="cart.state.cart">
+    <b-container size="l" v-if="cart.state.cart.length >= 1">
       <h2>{{ $t('cart') }} ({{ cart.state.cart.length }})</h2>
 
       <ul>
