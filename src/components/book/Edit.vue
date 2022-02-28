@@ -314,12 +314,22 @@
             <img :src="cover.cover_m" alt="Cover" />
           </div>
 
-          <!-- upload -->
           <div v-else>
+            <!-- tabs -->
+            <div class="tabs">
+              <ul>
+                <li @click="tab = 'upload'">{{ $t('upload') }}</li>
+                <li @click="tab = 'file-manager'">
+                  {{ $t('file_manager') }} (Experiment)
+                </li>
+              </ul>
+            </div>
+
+            <!-- upload -->
             <b-form
               enctype="multipart/form-data"
               @submit.prevent
-              v-if="!state.isUploading"
+              v-if="!state.isUploading && tab == 'upload'"
             >
               <b-form-group>
                 <b-form-item>
@@ -375,6 +385,13 @@
                 </b-form-item>
               </b-form-group>
             </b-form>
+
+            <!-- directory -->
+            <directory-file-manager
+              :id="book.id"
+              @update="setCover"
+              v-if="tab == 'file-manager'"
+            />
           </div>
         </div>
       </b-container>
@@ -389,18 +406,23 @@ import {
   computed,
   toRefs,
   watch,
+  ref,
 } from '@vue/composition-api'
 import useGenre from '@/composables/useGenre'
 import useCondition from '@/composables/useCondition'
 import useFormat from '@/composables/useFormat'
 import useTag from '@/composables/useTag'
 import useBook from '@/composables/useBook'
+import DirectoryFileManager from '@/components/directory/FileManager'
 
 export default {
   name: 'book-edit',
   props: {
     bookId: String,
     me: Object,
+  },
+  components: {
+    DirectoryFileManager,
   },
   setup(props, { emit }) {
     const genre = useGenre()
@@ -521,6 +543,8 @@ export default {
       book.removeCover(bookId.value)
     }
 
+    const tab = ref('upload')
+
     return {
       state,
       genre,
@@ -529,6 +553,7 @@ export default {
       tag,
       cover,
       book,
+      tab,
       update,
       upload,
       removeCover,
@@ -536,3 +561,23 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.tabs {
+  margin: 10px 0;
+  overflow: auto;
+}
+.tabs ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.tabs li {
+  float: left;
+  background: var(--color-neutral-02);
+  border-radius: 10px;
+  padding: 10px;
+  margin-right: 20px;
+  cursor: pointer;
+}
+</style>
