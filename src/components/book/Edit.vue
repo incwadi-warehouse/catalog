@@ -179,6 +179,14 @@
           </b-form-item>
         </b-form-group>
 
+        <details v-if="me">
+          <summary>{{ $t('pricelist') }}</summary>
+          <book-price-calculator
+            :list="pricelist"
+            :currency="me.branch.currency"
+          />
+        </details>
+
         <!-- sold -->
         <b-form-group>
           <b-form-item>
@@ -414,6 +422,7 @@ import useFormat from '@/composables/useFormat'
 import useTag from '@/composables/useTag'
 import useBook from '@/composables/useBook'
 import DirectoryFileManager from '@/components/directory/FileManager'
+import BookPriceCalculator from '@/components/book/PriceCalculator'
 
 export default {
   name: 'book-edit',
@@ -423,6 +432,7 @@ export default {
   },
   components: {
     DirectoryFileManager,
+    BookPriceCalculator,
   },
   setup(props, { emit }) {
     const genre = useGenre()
@@ -545,6 +555,12 @@ export default {
 
     const tab = ref('upload')
 
+    const { me } = toRefs(props)
+
+    const pricelist = computed(() => {
+      return me.value ? JSON.parse(me.value.branch.pricelist) : null
+    })
+
     return {
       state,
       genre,
@@ -557,6 +573,7 @@ export default {
       update,
       upload,
       removeCover,
+      pricelist,
     }
   },
 }
