@@ -4,3 +4,4 @@ dist
 .scannerwork
 .env.local
 .env.*.local
+custom/

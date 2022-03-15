@@ -116,6 +116,10 @@
     <div class="project">
       <a href="https://github.com/abaldeweg">baldeweg OpenSource</a>
     </div>
+
+    <b-toast v-if="current" :type="current.type" :visible="true">{{
+      current.body
+    }}</b-toast>
   </b-app>
 </template>
 
@@ -129,6 +133,11 @@ import {
 import Logo from './components/Logo'
 import router from '~b/router'
 import useBookmark from '@/composables/useBookmark'
+import useToast from './../node_modules/@baldeweg/components/src/composables/useToast'
+
+if (process.env.VUE_APP_THEME !== 'false') {
+  import('../' + process.env.VUE_APP_THEME)
+}
 
 export default {
   name: 'layout',
@@ -173,7 +182,9 @@ export default {
       find: process.env.VUE_APP_FIND,
     })
 
-    return { state, bookmark, links }
+    const { current } = useToast()
+
+    return { state, bookmark, links, current }
   },
 }
 </script>

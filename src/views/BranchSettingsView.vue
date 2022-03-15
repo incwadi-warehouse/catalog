@@ -29,9 +29,6 @@
         v-if="auth.state.me"
       />
     </b-container>
-
-    <b-toast type="success" ref="successToast">Gespeichert</b-toast>
-    <b-toast type="error" ref="errorToast">Fehler</b-toast>
   </article>
 </template>
 
@@ -40,7 +37,8 @@ import BranchEdit from '../components/branch/Edit'
 import BranchCleanBooks from '../components/branch/CleanBooks'
 import BranchPriceCalculator from '@/components/branch/PriceCalculator'
 import useBranch from '@/composables/useBranch'
-import { ref, watch } from '@vue/composition-api'
+import { watch } from '@vue/composition-api'
+import useToast from './../../node_modules/@baldeweg/components/src/composables/useToast'
 
 export default {
   name: 'branch-settings-view',
@@ -58,26 +56,25 @@ export default {
   setup() {
     const branch = useBranch()
 
-    const successToast = ref(null)
-    const errorToast = ref(null)
+    const toast = useToast()
 
     watch(
       () => branch.state.hasSuccess,
       () => {
-        successToast.value.show()
         branch.state.hasSuccess = false
+        toast.add({ type: 'success', body: 'Gespeichert' })
       }
     )
 
     watch(
       () => branch.state.hasError,
       () => {
-        errorToast.value.show()
         branch.state.hasError = false
+        toast.add({ type: 'error', body: 'Fehler' })
       }
     )
 
-    return { branch, successToast, errorToast }
+    return { branch }
   },
 }
 </script>

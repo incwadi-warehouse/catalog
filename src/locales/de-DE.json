@@ -224,5 +224,7 @@
   "current_reservations": "Aktuelle Reservierungen",
   "inventory_mode": "Inventur Modus",
   "show_cover": "Zeige Cover",
-  "results_counter_author": "Kein Ergebnis | Zeige {counter} AutorIn. | Zeige {counter} AutorInnen."
+  "results_counter_author": "Kein Ergebnis | Zeige {counter} AutorIn. | Zeige {counter} AutorInnen.",
+  "upload": "Upload",
+  "file_manager": "Datei-Manager"
 }

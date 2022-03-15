@@ -25,7 +25,7 @@
       <h1>{{ $t('search') }}</h1>
     </b-container>
 
-    <b-container size="l" v-if="cart.state.cart">
+    <b-container size="l" v-if="cart.state.cart && cart.state.cart.length >= 1">
       <h2>{{ $t('cart') }} ({{ cart.state.cart.length }})</h2>
 
       <ul>
@@ -240,7 +240,7 @@
     </b-modal>
 
     <book-edit
-      :book="book.state.book"
+      :book-id="id"
       :me="auth.state.me"
       @close="modal = null"
       @update="book.update"
