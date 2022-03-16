@@ -24,7 +24,7 @@ export default function useBranch() {
   }
 
   const create = (data) => {
-    request('post', base + '/new', data).then(() => {})
+    request('post', base + '/new', data)
   }
 
   const update = (data) => {

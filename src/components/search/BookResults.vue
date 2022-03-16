@@ -1,22 +1,24 @@
 <template>
-  <table>
+  <table :aria-label="$t('books')">
     <thead>
       <tr>
-        <th v-if="showCover">{{ $t('cover') }}</th>
-        <th>{{ $t('title') }}</th>
-        <th>{{ $t('author') }}</th>
-        <th>{{ $t('genre') }}</th>
-        <th>{{ $t('added') }}</th>
-        <th v-if="filter.availability.includes('sold')">{{ $t('sold') }}</th>
-        <th v-if="filter.availability.includes('removed')">
+        <th scope="col" v-if="showCover">{{ $t('cover') }}</th>
+        <th scope="col">{{ $t('title') }}</th>
+        <th scope="col">{{ $t('author') }}</th>
+        <th scope="col">{{ $t('genre') }}</th>
+        <th scope="col">{{ $t('added') }}</th>
+        <th scope="col" v-if="filter.availability.includes('sold')">
+          {{ $t('sold') }}
+        </th>
+        <th scope="col" v-if="filter.availability.includes('removed')">
           {{ $t('removed') }}
         </th>
-        <th>{{ $t('format') }}</th>
-        <th>{{ $t('year') }}</th>
-        <th>{{ $t('price') }}</th>
-        <th></th>
-        <th v-if="hasInventory"></th>
-        <th v-if="hasInventory"></th>
+        <th scope="col">{{ $t('format') }}</th>
+        <th scope="col">{{ $t('year') }}</th>
+        <th scope="col">{{ $t('price') }}</th>
+        <th scope="col"></th>
+        <th scope="col" v-if="hasInventory"></th>
+        <th scope="col" v-if="hasInventory"></th>
       </tr>
     </thead>
 

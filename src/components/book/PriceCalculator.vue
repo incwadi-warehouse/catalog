@@ -1,6 +1,6 @@
 <template>
   <div v-if="list && currency">
-    <table>
+    <table :aria-label="$t('pricelist')">
       <tbody>
         <tr v-if="list.base > 0">
           <th scope="row">{{ $t('baseprice') }}</th>

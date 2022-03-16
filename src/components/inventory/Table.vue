@@ -1,6 +1,6 @@
 <template>
   <b-table v-if="inventories">
-    <table>
+    <table :aria-label="$t('inventory')">
       <thead>
         <tr>
           <th scope="col">{{ $t('startedAt') }}</th>
