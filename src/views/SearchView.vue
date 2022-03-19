@@ -146,7 +146,7 @@
         <b-button
           design="primary_wide"
           @click.prevent="
-            search
+            search()
             modal = null
           "
           >{{ $t('search') }}</b-button
@@ -316,15 +316,15 @@ export default {
 
     var filter = reactive({
       term: query.value.term || null,
-      branch: null,
-      genre: [],
-      releaseYear: '',
-      availability: [],
-      format: null,
-      added: '',
-      orderBy: null,
-      orderByDirection: null,
-      limit: 50,
+      branch: query.value.branch || null,
+      genre: query.value.genre || [],
+      releaseYear: query.value.releaseYear || '',
+      availability: query.value.availability || [],
+      format: query.value.format || null,
+      added: query.value.added || '',
+      orderBy: query.value.orderBy || null,
+      orderByDirection: query.value.orderByDirection || null,
+      limit: query.value.limit || 50,
     })
 
     const modal = ref(null)
