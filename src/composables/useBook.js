@@ -54,11 +54,6 @@ export default function useBook() {
             operator: 'eq',
             value: data.options.availability.indexOf('reserved') != -1,
           },
-          {
-            field: 'recommendation',
-            operator: 'eq',
-            value: data.options.availability.indexOf('recommendation') != -1,
-          },
 
           data.options.format
             ? { field: 'format', operator: 'eq', value: data.options.format }
