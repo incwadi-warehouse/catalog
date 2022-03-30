@@ -231,12 +231,6 @@
         <label for="limit">{{ $t('limit') }}</label>
         <b-form-input type="number" id="limit" v-model="filter.limit" />
       </b-container>
-
-      <b-container size="l">
-        <code>
-          <pre>{{ filter }}</pre>
-        </code>
-      </b-container>
     </b-modal>
 
     <book-edit
