@@ -1,5 +1,5 @@
 <template>
-  <b-dropdown position="bottom">
+  <b-dropdown position="bottom" keep-open>
     <template #selector>
       {{ title }}
       <span v-if="value"> ({{ formattedRange }})</span>

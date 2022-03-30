@@ -1,5 +1,5 @@
 <template>
-  <b-dropdown position="bottom" v-if="items">
+  <b-dropdown position="bottom" v-if="items" keep-open>
     <template #selector>
       {{ title }}
       <span v-if="value && value.length >= 1"> ({{ selectedItemName }})</span>
