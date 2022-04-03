@@ -3,19 +3,78 @@
     <thead>
       <tr>
         <th scope="col" v-if="showCover">{{ $t('cover') }}</th>
-        <th scope="col">{{ $t('title') }}</th>
-        <th scope="col">{{ $t('author') }}</th>
-        <th scope="col">{{ $t('genre') }}</th>
-        <th scope="col">{{ $t('added') }}</th>
+        <th scope="col">
+          <search-direction
+            col="title"
+            :filter="filter"
+            @search="$emit('search', true)"
+            >{{ $t('title') }}
+          </search-direction>
+        </th>
+        <th scope="col">
+          <search-direction
+            col="author"
+            :filter="filter"
+            @search="$emit('search', true)"
+            >{{ $t('author') }}</search-direction
+          >
+        </th>
+        <th scope="col">
+          <search-direction
+            col="genre"
+            :filter="filter"
+            @search="$emit('search', true)"
+            >{{ $t('genre') }}</search-direction
+          >
+        </th>
+        <th scope="col">
+          <search-direction
+            col="added"
+            :filter="filter"
+            @search="$emit('search', true)"
+            >{{ $t('added') }}</search-direction
+          >
+        </th>
         <th scope="col" v-if="filter.availability.includes('sold')">
-          {{ $t('sold') }}
+          <search-direction
+            col="sold"
+            :filter="filter"
+            @search="$emit('search', true)"
+            >{{ $t('sold') }}</search-direction
+          >
         </th>
         <th scope="col" v-if="filter.availability.includes('removed')">
-          {{ $t('removed') }}
+          <search-direction
+            col="removed"
+            :filter="filter"
+            @search="$emit('search', true)"
+            >{{ $t('removed') }}</search-direction
+          >
         </th>
-        <th scope="col">{{ $t('format') }}</th>
-        <th scope="col">{{ $t('year') }}</th>
-        <th scope="col">{{ $t('price') }}</th>
+        <th scope="col">
+          <search-direction
+            col="format"
+            :filter="filter"
+            @search="$emit('search', true)"
+            >{{ $t('format') }}</search-direction
+          >
+        </th>
+        <th scope="col">
+          <search-direction
+            col="year"
+            :filter="filter"
+            @search="$emit('search', true)"
+            >{{ $t('year') }}</search-direction
+          >
+        </th>
+        <th scope="col">
+          <search-direction
+            col="price"
+            :filter="filter"
+            @search="$emit('search', true)"
+            >{{ $t('price') }}</search-direction
+          >
+        </th>
         <th scope="col"></th>
         <th scope="col" v-if="hasInventory"></th>
         <th scope="col" v-if="hasInventory"></th>
@@ -115,6 +174,7 @@
 
 <script>
 import { reactive } from '@vue/composition-api'
+import SearchDirection from './Direction'
 
 export default {
   name: 'search-book-results',
@@ -123,6 +183,9 @@ export default {
     filter: Object,
     hasInventory: Boolean,
     showCover: Boolean,
+  },
+  components: {
+    SearchDirection,
   },
   setup() {
     const state = reactive({})

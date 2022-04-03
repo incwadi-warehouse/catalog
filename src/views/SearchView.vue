@@ -108,6 +108,7 @@
         @sell="sell"
         @remove="remove"
         @add-to-cart="cart.add"
+        @search="search"
       />
     </b-container>
 
