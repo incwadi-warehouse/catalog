@@ -96,7 +96,8 @@ const router = new VueRouter({
       redirect: { name: 'index', params: { is404: true } },
     },
   ],
-  scrollBehavior() {
+  scrollBehavior(to, from) {
+    if (to.name === 'book.update' || from.name === 'book.update') return
     return { x: 0, y: 0 }
   },
 })
