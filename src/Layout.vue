@@ -131,7 +131,7 @@ import {
   reactive,
 } from '@vue/composition-api'
 import Logo from './components/Logo'
-import router from '~b/router'
+import router from '@/router'
 import useBookmark from '@/composables/useBookmark'
 import useToast from './../node_modules/@baldeweg/components/src/composables/useToast'
 

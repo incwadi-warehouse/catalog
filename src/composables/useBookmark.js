@@ -1,5 +1,5 @@
 import { onMounted, reactive } from '@vue/composition-api'
-import { request } from '~b/api'
+import { request } from '@/api'
 
 export default function useBookmark() {
   const base = '/api/bookmark'

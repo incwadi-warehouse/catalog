@@ -1,5 +1,5 @@
 import { reactive } from '@vue/composition-api'
-import { request } from '~b/api'
+import { request } from '@/api'
 
 export default function useBranch() {
   const base = '/api/branch'

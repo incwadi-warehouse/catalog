@@ -1,5 +1,5 @@
 import { reactive } from '@vue/composition-api'
-import { request } from '~b/api'
+import { request } from '@/api'
 import without from 'lodash/without'
 
 export default function useBook() {

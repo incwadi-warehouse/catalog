@@ -265,7 +265,7 @@ import {
   watch,
   computed,
 } from '@vue/composition-api'
-import router from '~b/router'
+import router from '@/router'
 import SearchRadioFilter from '@/components/search/RadioFilter'
 import SearchCheckboxFilter from '@/components/search/CheckboxFilter'
 import SearchNumberRangeFilter from '@/components/search/NumberRangeFilter'

@@ -1,5 +1,5 @@
 import { onMounted, reactive, watch } from '@vue/composition-api'
-import { request } from '~b/api'
+import { request } from '@/api'
 
 export default function useDirectory() {
   const state = reactive({

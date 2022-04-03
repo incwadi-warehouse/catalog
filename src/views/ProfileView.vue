@@ -5,7 +5,7 @@
     </b-container>
 
     <b-container size="m">
-      <auth-password :auth="auth" />
+      <auth-password />
     </b-container>
 
     <b-container size="m">
@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import AuthPassword from '~b/components/auth/Password'
-import ProfileLocale from '~b/components/profile/Locale'
-import ProfileTheme from '~b/components/profile/Theme'
+import AuthPassword from '@/components/auth/Password'
+import ProfileLocale from '@/components/profile/Locale'
+import ProfileTheme from '@/components/profile/Theme'
 
 export default {
   name: 'profile-view',

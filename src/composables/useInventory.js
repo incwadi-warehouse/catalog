@@ -1,5 +1,5 @@
 import { computed, onMounted, reactive } from '@vue/composition-api'
-import { request } from '~b/api'
+import { request } from '@/api'
 
 export default function useInventory() {
   const base = '/api/inventory'
