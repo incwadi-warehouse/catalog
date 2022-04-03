@@ -325,8 +325,8 @@ export default {
 
     const author = useAuthor()
 
-    const removeAuthor = (id) => {
-      author.remove(id).then(search)
+    const removeAuthor = (authorId) => {
+      author.remove(authorId).then(search)
     }
 
     const book = useBook()
@@ -336,14 +336,14 @@ export default {
       return book.state.books.books.length >= 1
     })
 
-    const sell = (id) => {
-      book.sell(id).then(() => {
+    const sell = (bookId) => {
+      book.sell(bookId).then(() => {
         search()
       })
     }
 
-    const remove = (id) => {
-      book.remove(id).then(() => {
+    const remove = (bookId) => {
+      book.remove(bookId).then(() => {
         search()
       })
     }
