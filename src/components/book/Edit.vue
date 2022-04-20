@@ -1,5 +1,8 @@
 <template>
-  <b-form @submit.prevent="update" v-if="book.state.book">
+  <b-form
+    @submit.prevent="update"
+    v-if="book.state.book && genre.state.genres.length >= 1"
+  >
     <b-modal @close="$emit('close')">
       <b-container size="m" v-if="book.state.book.reserved">
         <b-alert type="warning">
@@ -274,14 +277,14 @@
         </b-form-group>
 
         <!-- tags -->
-        <b-form @submit.prevent="tag.create({ name: state.tag })">
+        <b-form @submit.prevent="createTag({ name: state.tag })">
           <b-form-group>
-            <span v-for="(item, index) in tag.state.tags" :key="item.id">
+            <span v-for="(item, index) in state.tags" :key="item.id">
               {{ item.name }}
-              <span @click="tag.remove(item.id)">
+              <span @click="removeTag(item.id)">
                 <b-icon type="close" :size="12" />
               </span>
-              <span v-if="index !== tags.length - 1">, </span>
+              <span v-if="index !== state.tags.length - 1">, </span>
             </span>
           </b-form-group>
           <b-form-group>
@@ -423,6 +426,7 @@ import useTag from '@/composables/useTag'
 import useBook from '@/composables/useBook'
 import DirectoryFileManager from '@/components/directory/FileManager'
 import BookPriceCalculator from '@/components/book/PriceCalculator'
+import { remove as _remove } from 'lodash'
 
 export default {
   name: 'book-edit',
@@ -561,6 +565,20 @@ export default {
       return me.value ? JSON.parse(me.value.branch.pricelist) : null
     })
 
+    const createTag = (item) => {
+      tag.create(item).then((res) => {
+        state.tags.push(res.data)
+      })
+    }
+
+    const removeTag = (id) => {
+      _remove(state.tags, (item) => {
+        return id === item.id
+      })
+      state.tags = Object.assign([], state.tags)
+      console.log(state.tags)
+    }
+
     return {
       state,
       genre,
@@ -574,6 +592,8 @@ export default {
       upload,
       removeCover,
       pricelist,
+      createTag,
+      removeTag,
     }
   },
 }
