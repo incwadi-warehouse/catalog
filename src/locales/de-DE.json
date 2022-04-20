@@ -226,5 +226,7 @@
   "show_cover": "Zeige Cover",
   "results_counter_author": "Kein Ergebnis | Zeige {counter} AutorIn. | Zeige {counter} AutorInnen.",
   "upload": "Upload",
-  "file_manager": "Datei-Manager"
+  "file_manager": "Datei-Manager",
+  "book_saved": "Buch gespeichert",
+  "error_saving_book": "Beim Speichern des Buches trat ein Fehler auf."
 }

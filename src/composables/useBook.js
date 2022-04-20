@@ -1,8 +1,12 @@
 import { reactive } from '@vue/composition-api'
 import { request } from '@/api'
 import without from 'lodash/without'
+import useToast from './../../node_modules/@baldeweg/components/src/composables/useToast'
+import i18n from './../i18n'
 
 export default function useBook() {
+  const { add } = useToast()
+
   const base = '/api/book'
 
   const state = reactive({
@@ -95,9 +99,20 @@ export default function useBook() {
   }
 
   const update = (data) => {
-    return request('put', base + '/' + data.id, data.params).then((res) => {
-      state.book = res.data
-    })
+    return request('put', base + '/' + data.id, data.params)
+      .then((res) => {
+        state.book = res.data
+        add({
+          type: 'success',
+          body: i18n.t('book_saved'),
+        })
+      })
+      .catch(() => {
+        add({
+          type: 'error',
+          body: i18n.t('error_saving_book'),
+        })
+      })
   }
 
   const sell = (id) => {

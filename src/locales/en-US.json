@@ -226,5 +226,7 @@
   "show_cover": "Show Cover",
   "results_counter_author": "No Result | Show  {counter} author | Show {counter} authors",
   "upload": "Upload",
-  "file_manager": "File Manager"
+  "file_manager": "File Manager",
+  "book_saved":"Book saved",
+  "error_saving_book":"Error saving book"
 }
