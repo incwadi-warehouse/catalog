@@ -1,7 +1,12 @@
 <template>
   <b-form
     @submit.prevent="update"
-    v-if="book.state.book && genre.state.genres.length >= 1"
+    v-if="
+      book.state.book &&
+      genre.state.genres.length >= 1 &&
+      format.state.formats.length >= 1 &&
+      condition.state.conditions.length >= 1
+    "
   >
     <b-modal @close="$emit('close')">
       <b-container size="m" v-if="book.state.book.reserved">
