@@ -432,6 +432,7 @@ import useBook from '@/composables/useBook'
 import DirectoryFileManager from '@/components/directory/FileManager'
 import BookPriceCalculator from '@/components/book/PriceCalculator'
 import { remove as _remove } from 'lodash'
+import router from './../../router'
 
 export default {
   name: 'book-edit',
@@ -534,6 +535,9 @@ export default {
           format: state.format,
         },
       })
+
+      emit('close')
+      router.push({ name: 'search' })
     }
 
     const formatDate = (val) => {
