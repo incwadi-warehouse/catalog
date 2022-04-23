@@ -240,6 +240,7 @@
       @close="modal = null"
       @update="book.update"
       @cover-upload="uploadCover"
+      :isUploading="isUploading"
       v-if="modal == 'update'"
     />
 
@@ -349,8 +350,12 @@ export default {
       })
     }
 
+    const isUploading = ref(false)
     const uploadCover = (data) => {
-      book.upload(data)
+      isUploading.value = true
+      book.upload(data).then(() => {
+        isUploading.value = false
+      })
     }
 
     const search = (force = false) => {
@@ -447,6 +452,7 @@ export default {
       hasInventory,
       canToggleInventory,
       showCover,
+      isUploading,
     }
   },
 }
