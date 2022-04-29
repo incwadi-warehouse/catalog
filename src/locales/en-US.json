@@ -228,5 +228,9 @@
   "upload": "Upload",
   "file_manager": "File Manager",
   "book_saved":"Book saved",
-  "error_saving_book":"Error saving book"
+  "error_saving_book":"Error saving book",
+  "directory": "Directory",
+  "back": "Back",
+  "bytes": "Bytes",
+  "use_as_cover": "Use as Cover"
 }

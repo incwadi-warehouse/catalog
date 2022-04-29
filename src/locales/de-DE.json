@@ -228,5 +228,9 @@
   "upload": "Upload",
   "file_manager": "Datei-Manager",
   "book_saved": "Buch gespeichert",
-  "error_saving_book": "Beim Speichern des Buches trat ein Fehler auf."
+  "error_saving_book": "Beim Speichern des Buches trat ein Fehler auf.",
+  "directory": "Verzeichnis",
+  "back": "Zurück",
+  "bytes": "Bytes",
+  "use_as_cover": "Als Cover nutzen"
 }

@@ -110,6 +110,11 @@
             </a>
           </template>
         </b-list>
+        <b-list :route="{ name: 'directory' }" divider>
+          <template #title>
+            {{ $t('directory') }}
+          </template>
+        </b-list>
       </div>
     </b-drawer>
 

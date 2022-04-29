@@ -336,7 +336,7 @@
               <ul>
                 <li @click="tab = 'upload'">{{ $t('upload') }}</li>
                 <li @click="tab = 'file-manager'">
-                  {{ $t('file_manager') }} (Experiment)
+                  {{ $t('directory') }} (Experiment)
                 </li>
               </ul>
             </div>
@@ -403,9 +403,9 @@
             </b-form>
 
             <!-- directory -->
-            <directory-file-manager
-              :id="book.id"
-              @update="setCover"
+            <directory-list
+              :id="bookId"
+              @update="book.getCover(bookId)"
               v-if="tab == 'file-manager'"
             />
           </div>
@@ -429,7 +429,7 @@ import useCondition from '@/composables/useCondition'
 import useFormat from '@/composables/useFormat'
 import useTag from '@/composables/useTag'
 import useBook from '@/composables/useBook'
-import DirectoryFileManager from '@/components/directory/FileManager'
+import DirectoryList from '@/components/directory/List'
 import BookPriceCalculator from '@/components/book/PriceCalculator'
 import { remove as _remove } from 'lodash'
 
@@ -440,7 +440,7 @@ export default {
     me: Object,
   },
   components: {
-    DirectoryFileManager,
+    DirectoryList,
     BookPriceCalculator,
   },
   setup(props, { emit }) {

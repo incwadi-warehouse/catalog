@@ -87,6 +87,11 @@ const router = new VueRouter({
       component: () => import('../views/BookmarkSettingsView'),
     },
     {
+      path: '/directory',
+      name: 'directory',
+      component: () => import('../views/DirectoryView'),
+    },
+    {
       path: '/profile',
       name: 'profile',
       component: () => import('../views/ProfileView'),
