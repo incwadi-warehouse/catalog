@@ -38,7 +38,7 @@
   "branch": "Filiale",
   "branches": "Filialen",
   "search_in_title_author_genre_tags": "Suche in Titel, Autor, Rubriken und Schlagworten",
-  "search_in_title_author_genre_tag": "Suche in Titel, Autor, Rubriken und Schlagworten",
+  "search_in_title_author_genre_tag": "Suche in Titel, Autor, Rubriken oder Schlagworten",
   "firstname": "Vorname",
   "surname": "Nachname",
   "limit": "Limit",
