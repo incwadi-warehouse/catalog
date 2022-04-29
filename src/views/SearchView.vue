@@ -162,6 +162,7 @@
           fieldKey="id"
           fieldValue="name"
           v-model="filter.branch"
+          v-if="auth.state.me.isAdmin"
         />
 
         <!-- genre -->
