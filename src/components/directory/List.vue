@@ -1,25 +1,17 @@
 <template>
   <article>
-    <b-spinner size="m" v-if="directory.state.isLoading" />
+    <b-spinner size="m" v-if="isLoading" />
 
-    <div v-if="directory.state.elements != null">
+    <div v-if="elements != null">
       <!-- back -->
-      <b-list v-if="directory.state.elements.details.current.path != ''">
+      <b-list v-if="elements.details.current.path != ''">
         <template #image>
-          <span
-            @click="
-              directory.state.dir = directory.state.elements.details.parent.path
-            "
-          >
+          <span @click="dir = elements.details.parent.path">
             <b-icon type="directory" />
           </span>
         </template>
         <template #title>
-          <span
-            @click="
-              directory.state.dir = directory.state.elements.details.parent.path
-            "
-          >
+          <span @click="dir = elements.details.parent.path">
             {{ $t('back') }}
           </span>
         </template>
@@ -27,15 +19,12 @@
 
       <!-- item -->
       <b-list
-        v-for="(element, index) in directory.state.elements.contents"
+        v-for="(element, index) in elements.contents"
         :key="index"
         :disabled="element.isFile"
       >
         <template #image>
-          <span
-            v-if="element.isDir"
-            @click="directory.state.dir = element.path"
-          >
+          <span v-if="element.isDir" @click="dir = element.path">
             <b-icon type="directory" />
           </span>
           <span v-if="element.isFile">
@@ -44,10 +33,7 @@
         </template>
 
         <template #title>
-          <span
-            v-if="element.isDir"
-            @click="directory.state.dir = element.path"
-          >
+          <span v-if="element.isDir" @click="dir = element.path">
             {{ element.name }}</span
           >
           <span v-if="element.isFile">
@@ -64,11 +50,11 @@
             <template #selector>
               <b-icon type="meatballs" />
             </template>
-            <b-dropdown-item @click.prevent="directory.remove(element.name)">
+            <b-dropdown-item @click.prevent="removeElement(element.name)">
               {{ $t('remove') }}
             </b-dropdown-item>
             <b-dropdown-item
-              @click.prevent="useCover(element.path)"
+              @click.prevent="uploadCover(id, element.path)"
               v-if="id && element.isFile && !element.doc"
             >
               {{ $t('use_as_cover') }}
@@ -84,20 +70,15 @@
 import useDirectory from '@/composables/useDirectory'
 
 export default {
-  name: 'directory-file-manager',
+  name: 'directory-list',
   props: {
     id: String,
   },
   setup(props, { emit }) {
-    const directory = useDirectory()
+    const { dir, elements, isLoading, removeElement, uploadCover } =
+      useDirectory(emit)
 
-    const useCover = (url) => {
-      directory.useCover(props.id, url).then(() => {
-        emit('update')
-      })
-    }
-
-    return { directory, useCover }
+    return { dir, elements, isLoading, removeElement, uploadCover }
   },
 }
 </script>

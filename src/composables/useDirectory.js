@@ -1,39 +1,37 @@
-import { onMounted, reactive, watch } from '@vue/composition-api'
+import { onMounted, ref, watch } from '@vue/composition-api'
 import { request } from '@/api'
 import useToast from '@baldeweg/components/src/composables/useToast'
 import i18n from './../i18n'
 
-export default function useDirectory() {
+const dir = ref('./')
+
+export default function useDirectory(emit) {
   const { add } = useToast()
 
-  const state = reactive({
-    elements: null,
-    dir: './',
-    isLoading: false,
-  })
+  const elements = ref(null)
+  const isLoading = ref(false)
 
-  const list = () => {
-    state.isLoading = true
-    request('get', '/api/directory/', null, { dir: state.dir })
-      .then((response) => {
-        state.elements = response.data
-      })
-      .finally(() => {
-        state.isLoading = false
-      })
+  const listElements = () => {
+    isLoading.value = true
+    return request('get', '/api/directory/', null, { dir: dir.value }).then(
+      (response) => {
+        elements.value = response.data
+        isLoading.value = false
+      }
+    )
   }
 
-  const useCover = (id, url) => {
-    return request('post', '/api/directory/cover/' + id, { url })
-  }
+  onMounted(listElements)
 
-  const remove = (file) => {
-    request('delete', '/api/directory/', null, {
+  watch(() => dir.value, listElements)
+
+  const removeElement = (file) => {
+    return request('delete', '/api/directory/', null, {
       name: file,
-      path: state.dir,
+      path: dir.value,
     })
       .then(() => {
-        list()
+        listElements()
         add({
           type: 'success',
           body: i18n.t('success_removing'),
@@ -47,14 +45,17 @@ export default function useDirectory() {
       })
   }
 
-  onMounted(list)
-
-  watch(() => state.dir, list)
+  const uploadCover = (id, url) => {
+    return request('post', '/api/directory/cover/' + id, { url }).then(() => {
+      emit('update')
+    })
+  }
 
   return {
-    state,
-    list,
-    useCover,
-    remove,
+    dir,
+    elements,
+    isLoading,
+    removeElement,
+    uploadCover,
   }
 }
