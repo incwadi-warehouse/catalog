@@ -3,19 +3,18 @@
 </template>
 
 <script>
+import { computed } from '@vue/composition-api'
+
 export default {
   name: 'logo',
-  data() {
-    return {
-      logo: null,
-    }
-  },
-  created() {
-    return process.env.VUE_APP_LOGO !== 'false'
-      ? import('../../' + process.env.VUE_APP_LOGO).then(
-          (logo) => (this.logo = logo.default)
-        )
-      : null
+  setup() {
+    const logo = computed(() => {
+      return process.env.VUE_APP_LOGO !== 'false'
+        ? process.env.VUE_APP_LOGO
+        : null
+    })
+
+    return { logo }
   },
 }
 </script>

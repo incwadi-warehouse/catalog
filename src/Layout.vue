@@ -140,10 +140,6 @@ import router from '@/router'
 import useBookmark from '@/composables/useBookmark'
 import useToast from './../node_modules/@baldeweg/components/src/composables/useToast'
 
-if (process.env.VUE_APP_THEME !== 'false') {
-  import('../' + process.env.VUE_APP_THEME)
-}
-
 export default {
   name: 'layout',
   props: {
