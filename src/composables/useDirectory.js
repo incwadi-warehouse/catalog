@@ -4,11 +4,12 @@ import useToast from '@baldeweg/components/src/composables/useToast'
 import i18n from './../i18n'
 
 const dir = ref('./')
+const elements = ref(null)
 
 export default function useDirectory(emit) {
   const { add } = useToast()
 
-  const elements = ref(null)
+  const dirname = ref('')
   const isLoading = ref(false)
 
   const listElements = () => {
@@ -45,6 +46,27 @@ export default function useDirectory(emit) {
       })
   }
 
+  const createDir = () => {
+    return request('post', '/api/directory/new', null, {
+      name: dirname.value,
+      path: dir.value,
+    })
+      .then(() => {
+        listElements()
+        add({
+          type: 'success',
+          body: i18n.t('success_create_dir'),
+        })
+        dirname.value = ''
+      })
+      .catch(() => {
+        add({
+          type: 'error',
+          body: i18n.t('error_create_dir'),
+        })
+      })
+  }
+
   const uploadCover = (id, url) => {
     return request('post', '/api/directory/cover/' + id, { url }).then(() => {
       emit('update')
@@ -54,8 +76,10 @@ export default function useDirectory(emit) {
   return {
     dir,
     elements,
+    dirname,
     isLoading,
     removeElement,
+    createDir,
     uploadCover,
   }
 }

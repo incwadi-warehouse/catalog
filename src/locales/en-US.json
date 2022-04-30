@@ -234,5 +234,8 @@
   "bytes": "Bytes",
   "use_as_cover": "Use as Cover",
   "error_removing": "Sorry, can not delete object.",
-  "success_removing": "Removed"
+  "success_removing": "Removed",
+  "success_create_dir": "Directory created",
+  "error_create_dir": "Error while creating directory",
+  "create_new_directory": "Create a New Directory"
 }

@@ -234,5 +234,8 @@
   "bytes": "Bytes",
   "use_as_cover": "Als Cover nutzen",
   "error_removing": "Entschuldigung, das Objekt kann nicht entfernt werden.",
-  "success_removing": "Entfernt"
+  "success_removing": "Entfernt",
+  "success_create_dir": "Ordner angelegt",
+  "error_create_dir": "Fehler beim Anlegen eines Ordners.",
+  "create_new_directory": "Neuen Ordner anlegen"
 }
