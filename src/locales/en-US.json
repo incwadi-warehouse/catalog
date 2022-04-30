@@ -232,5 +232,7 @@
   "directory": "Directory",
   "back": "Back",
   "bytes": "Bytes",
-  "use_as_cover": "Use as Cover"
+  "use_as_cover": "Use as Cover",
+  "error_removing": "Sorry, can not delete object.",
+  "success_removing": "Removed"
 }

@@ -64,6 +64,9 @@
             <template #selector>
               <b-icon type="meatballs" />
             </template>
+            <b-dropdown-item @click.prevent="directory.remove(element.name)">
+              {{ $t('remove') }}
+            </b-dropdown-item>
             <b-dropdown-item
               @click.prevent="useCover(element.path)"
               v-if="id && element.isFile && !element.doc"

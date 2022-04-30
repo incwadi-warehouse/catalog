@@ -232,5 +232,7 @@
   "directory": "Verzeichnis",
   "back": "Zurück",
   "bytes": "Bytes",
-  "use_as_cover": "Als Cover nutzen"
+  "use_as_cover": "Als Cover nutzen",
+  "error_removing": "Entschuldigung, das Objekt kann nicht entfernt werden.",
+  "success_removing": "Entfernt"
 }

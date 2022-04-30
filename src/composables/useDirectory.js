@@ -1,7 +1,11 @@
 import { onMounted, reactive, watch } from '@vue/composition-api'
 import { request } from '@/api'
+import useToast from '@baldeweg/components/src/composables/useToast'
+import i18n from './../i18n'
 
 export default function useDirectory() {
+  const { add } = useToast()
+
   const state = reactive({
     elements: null,
     dir: './',
@@ -23,6 +27,26 @@ export default function useDirectory() {
     return request('post', '/api/directory/cover/' + id, { url })
   }
 
+  const remove = (file) => {
+    request('delete', '/api/directory/', null, {
+      name: file,
+      path: state.dir,
+    })
+      .then(() => {
+        list()
+        add({
+          type: 'success',
+          body: i18n.t('success_removing'),
+        })
+      })
+      .catch(() => {
+        add({
+          type: 'error',
+          body: i18n.t('error_removing'),
+        })
+      })
+  }
+
   onMounted(list)
 
   watch(() => state.dir, list)
@@ -31,5 +55,6 @@ export default function useDirectory() {
     state,
     list,
     useCover,
+    remove,
   }
 }
