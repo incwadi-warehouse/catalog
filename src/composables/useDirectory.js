@@ -70,6 +70,27 @@ export default function useDirectory(emit) {
       })
   }
 
+  const editElement = (orig, target) => {
+    return request('put', '/api/directory/edit', null, {
+      orig,
+      target,
+      path: dir.value,
+    })
+      .then(() => {
+        listElements()
+        add({
+          type: 'success',
+          body: i18n.t('success_rename'),
+        })
+      })
+      .catch(() => {
+        add({
+          type: 'error',
+          body: i18n.t('error_rename'),
+        })
+      })
+  }
+
   const uploadCover = (id, url) => {
     return request('post', '/api/directory/cover/' + id, { url }).then(() => {
       emit('update')
@@ -110,6 +131,7 @@ export default function useDirectory(emit) {
     isDragging,
     removeElement,
     createDir,
+    editElement,
     uploadCover,
     uploadImage,
   }

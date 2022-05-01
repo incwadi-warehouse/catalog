@@ -18,67 +18,32 @@
       </b-list>
 
       <!-- item -->
-      <b-list
+      <directory-element
         v-for="(element, index) in elements.contents"
         :key="index"
-        :disabled="element.isFile"
-      >
-        <template #image>
-          <span v-if="element.isDir" @click="dir = element.path">
-            <b-icon type="directory" />
-          </span>
-          <span v-if="element.isFile">
-            <b-icon type="file" no-hover />
-          </span>
-        </template>
-
-        <template #title>
-          <span v-if="element.isDir" @click="dir = element.path">
-            {{ element.name }}</span
-          >
-          <span v-if="element.isFile">
-            {{ element.name }} ({{ element.size }} {{ $t('bytes') }})
-          </span>
-        </template>
-
-        <template #subtitle v-if="element.doc">
-          {{ element.doc }}
-        </template>
-
-        <template #options>
-          <b-dropdown position="selector">
-            <template #selector>
-              <b-icon type="meatballs" />
-            </template>
-            <b-dropdown-item @click.prevent="removeElement(element.name)">
-              {{ $t('remove') }}
-            </b-dropdown-item>
-            <b-dropdown-item
-              @click.prevent="uploadCover(id, element.path)"
-              v-if="id && element.isFile && !element.doc"
-            >
-              {{ $t('use_as_cover') }}
-            </b-dropdown-item>
-          </b-dropdown>
-        </template>
-      </b-list>
+        :id="id"
+        :element="element"
+      />
     </div>
   </article>
 </template>
 
 <script>
 import useDirectory from '@/composables/useDirectory'
+import DirectoryElement from './Element.vue'
 
 export default {
   name: 'directory-list',
   props: {
     id: String,
   },
+  components: {
+    DirectoryElement,
+  },
   setup(props, { emit }) {
-    const { dir, elements, isLoading, removeElement, uploadCover } =
-      useDirectory(emit)
+    const { dir, elements, isLoading } = useDirectory(emit)
 
-    return { dir, elements, isLoading, removeElement, uploadCover }
+    return { dir, elements, isLoading }
   },
 }
 </script>

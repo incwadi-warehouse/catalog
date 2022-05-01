@@ -167,5 +167,8 @@
   "success_upload": "Hochgeladen",
   "error_upload": "Fehler aufgetreten",
   "allowed_extensions": "zulässige Dateiendungen",
-  "max_size": "max. Größe"
+  "max_size": "max. Größe",
+  "success_rename": "Name geändert",
+  "error_rename": "Umbenennen nicht erfolgreich.",
+  "rename": "Rename"
 }

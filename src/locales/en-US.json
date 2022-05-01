@@ -167,5 +167,8 @@
   "success_upload": "Uploaded",
   "error_upload": "Error occurred",
   "allowed_extensions": "Allowed Extensions",
-  "max_size": "max. Size"
+  "max_size": "max. Size",
+  "success_rename": "Name changed",
+  "error_rename": "Cannot change the name",
+  "rename": "Rename"
 }
