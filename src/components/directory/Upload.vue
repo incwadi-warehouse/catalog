@@ -54,7 +54,7 @@ export default {
 .upload {
   position: relative;
   height: 300px;
-  border: 1px solid var(--color-neutral-02);
+  border: 1px solid var(--color-neutral-04);
   border-radius: 20px;
 }
 .upload.isDragging,
