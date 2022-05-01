@@ -162,5 +162,10 @@
   "passwordError": "Passwort nicht gespeichert",
   "new_bookmark": "Neues Bookmark",
   "new_genre": "Neue Rubrik",
-  "theme": "Design"
+  "theme": "Design",
+  "upload_image": "Bild hochladen",
+  "success_upload": "Hochgeladen",
+  "error_upload": "Fehler aufgetreten",
+  "allowed_extensions": "zulässige Dateiendungen",
+  "max_size": "max. Größe"
 }

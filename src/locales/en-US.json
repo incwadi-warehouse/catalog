@@ -162,5 +162,10 @@
   "passwordError": "Password not saved",
   "new_bookmark": "New Bookmark",
   "new_genre": "New Genre",
-  "theme": "Theme"
+  "theme": "Theme",
+  "upload_image": "Upload Image",
+  "success_upload": "Uploaded",
+  "error_upload": "Error occurred",
+  "allowed_extensions": "Allowed Extensions",
+  "max_size": "max. Size"
 }

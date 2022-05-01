@@ -11,12 +11,17 @@
     <b-container size="m">
       <directory-create />
     </b-container>
+
+    <b-container size="m">
+      <directory-upload />
+    </b-container>
   </article>
 </template>
 
 <script>
 import DirectoryList from '@/components/directory/List'
 import DirectoryCreate from '@/components/directory/Create'
+import DirectoryUpload from '@/components/directory/Upload'
 
 export default {
   name: 'directory-view',
@@ -26,6 +31,7 @@ export default {
   components: {
     DirectoryList,
     DirectoryCreate,
+    DirectoryUpload,
   },
   props: {
     auth: Object,

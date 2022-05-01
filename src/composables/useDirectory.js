@@ -12,6 +12,9 @@ export default function useDirectory(emit) {
   const dirname = ref('')
   const isLoading = ref(false)
 
+  const isUploading = ref(false)
+  const isDragging = ref(false)
+
   const listElements = () => {
     isLoading.value = true
     return request('get', '/api/directory/', null, { dir: dir.value }).then(
@@ -73,13 +76,41 @@ export default function useDirectory(emit) {
     })
   }
 
+  const uploadImage = (event) => {
+    isUploading.value = true
+
+    const file = event.target.files[0]
+    const form = new FormData()
+    form.append('image', file)
+
+    return request('post', '/api/directory/upload', form, { dir: dir.value })
+      .then(() => {
+        listElements()
+        add({
+          type: 'success',
+          body: i18n.t('success_upload'),
+        })
+        isUploading.value = false
+      })
+      .catch(() => {
+        add({
+          type: 'error',
+          body: i18n.t('error_upload'),
+        })
+        isUploading.value = false
+      })
+  }
+
   return {
     dir,
     elements,
     dirname,
     isLoading,
+    isUploading,
+    isDragging,
     removeElement,
     createDir,
     uploadCover,
+    uploadImage,
   }
 }
