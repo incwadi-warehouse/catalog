@@ -320,7 +320,7 @@ export default {
       format: query.value.format || null,
       added: query.value.added || '',
       orderBy: query.value.orderBy || null,
-      orderByDirection: query.value.orderByDirection || null,
+      orderByDirection: query.value.orderByDirection || 'asc',
       limit: query.value.limit || 50,
     })
 
