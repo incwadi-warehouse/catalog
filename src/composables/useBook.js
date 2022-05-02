@@ -63,10 +63,18 @@ export default function useBook() {
             ? { field: 'format', operator: 'eq', value: data.options.format }
             : undefined,
           data.options.added
-            ? { field: 'added', operator: 'gte', value: data.options.added }
+            ? {
+                field: 'added',
+                operator: 'gte',
+                value: data.options.added.split('..')[0],
+              }
             : undefined,
           data.options.added
-            ? { field: 'added', operator: 'lte', value: data.options.added }
+            ? {
+                field: 'added',
+                operator: 'lte',
+                value: data.options.added.split('..')[1],
+              }
             : undefined,
         ],
         undefined
