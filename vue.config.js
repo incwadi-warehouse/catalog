@@ -19,4 +19,5 @@ module.exports = {
       enableBridge: undefined,
     },
   },
+  publicPath: process.env.VUE_APP_BASE_URL,
 }
