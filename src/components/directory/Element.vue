@@ -11,8 +11,8 @@
 
     <template #title>
       <span v-if="element.isDir && !isEditing" @click="dir = element.path">
-        {{ element.name }}</span
-      >
+        {{ element.name }}
+      </span>
       <span v-if="element.isFile && !isEditing">
         {{ element.name }} ({{ element.size }} {{ $t('bytes') }})
       </span>
@@ -38,11 +38,11 @@
         <template #selector>
           <b-icon type="meatballs" />
         </template>
-        <b-dropdown-item @click.prevent="removeElement(element.name)">
-          {{ $t('remove') }}
-        </b-dropdown-item>
         <b-dropdown-item @click.prevent="isEditing = true">
           {{ $t('rename') }}
+        </b-dropdown-item>
+        <b-dropdown-item @click.prevent="removeElement(element.name)">
+          {{ $t('remove') }}
         </b-dropdown-item>
         <b-dropdown-item
           @click.prevent="uploadCover(id, element.path)"

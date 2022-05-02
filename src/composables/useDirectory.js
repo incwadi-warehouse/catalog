@@ -11,7 +11,6 @@ export default function useDirectory(emit) {
 
   const dirname = ref('')
   const isLoading = ref(false)
-
   const isUploading = ref(false)
   const isDragging = ref(false)
 
