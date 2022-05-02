@@ -223,8 +223,8 @@
         <search-radio-filter
           :title="$t('order_by_direction')"
           :items="[
-            { key: 1, value: 'item1' },
-            { key: 2, value: 'item2' },
+            { key: 'asc', value: $t('asc') },
+            { key: 'desc', value: $t('desc') },
           ]"
           v-model="filter.orderByDirection"
         />

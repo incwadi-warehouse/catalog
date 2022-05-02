@@ -23,7 +23,7 @@ import { computed } from '@vue/composition-api'
 export default {
   name: 'search-radio-filter',
   props: {
-    value: Number,
+    value: String,
     items: Array,
     title: String,
     fieldKey: {
