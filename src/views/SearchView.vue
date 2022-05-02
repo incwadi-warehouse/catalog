@@ -147,7 +147,7 @@
         <b-button
           design="primary_wide"
           @click.prevent="
-            search()
+            search(true)
             modal = null
           "
           >{{ $t('search') }}</b-button
