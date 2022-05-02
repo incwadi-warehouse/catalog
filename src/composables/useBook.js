@@ -82,7 +82,7 @@ export default function useBook() {
               ],
             }
           : undefined,
-      limit: 50,
+      limit: data.options.limit,
     }
   }
 
