@@ -76,12 +76,14 @@
         <span
           class="action"
           @click.prevent="$router.push({ name: 'reservation' })"
-          v-if="
-            stateReservation.reservations &&
-            stateReservation.reservations.length >= 1
-          "
         >
-          <b-badge :content="stateReservation.reservations.length">
+          <b-badge
+            :content="
+              stateReservation.reservations &&
+              stateReservation.reservations.length
+            "
+            hide-empty
+          >
             <b-icon type="euro" />
           </b-badge>
         </span>
