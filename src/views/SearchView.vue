@@ -144,14 +144,26 @@
       </template>
 
       <template #footer>
-        <b-button
-          design="primary_wide"
-          @click.prevent="
-            search(true)
-            modal = null
-          "
-          >{{ $t('search') }}</b-button
-        >
+        <b-form-group buttons>
+          <b-form-item>
+            <b-button
+              design="text"
+              @click.prevent="
+                reset
+                modal = null
+              "
+              >{{ $t('reset') }}</b-button
+            >
+            <b-button
+              design="primary"
+              @click.prevent="
+                search(true)
+                modal = null
+              "
+              >{{ $t('search') }}</b-button
+            >
+          </b-form-item>
+        </b-form-group>
       </template>
 
       <b-container size="l">
