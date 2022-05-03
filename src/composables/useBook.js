@@ -60,7 +60,7 @@ export default function useBook() {
           },
 
           data.options.format
-            ? { field: 'format', operator: 'eq', value: data.options.format }
+            ? { field: 'format', operator: 'in', value: data.options.format }
             : undefined,
           data.options.added
             ? {

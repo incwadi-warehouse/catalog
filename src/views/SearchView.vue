@@ -190,7 +190,7 @@
         />
 
         <!-- format -->
-        <search-radio-filter
+        <search-checkbox-filter
           :title="$t('format')"
           :items="format.state.formats"
           fieldKey="id"
