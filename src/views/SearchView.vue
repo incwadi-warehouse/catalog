@@ -373,18 +373,16 @@ export default {
     }
 
     const reset = () => {
-      filter = {
-        term: null,
-        branch: null,
-        genre: [],
-        releaseYear: '',
-        availability: [],
-        format: null,
-        added: '',
-        orderBy: null,
-        orderByDirection: null,
-        limit: 50,
-      }
+      filter.term = null
+      filter.branch = null
+      filter.genre = []
+      filter.releaseYear = ''
+      filter.availability = []
+      filter.format = null
+      filter.added = ''
+      filter.orderBy = null
+      filter.orderByDirection = null
+      filter.limit = 50
       book.state.books = null
       author.state.authors = null
     }
