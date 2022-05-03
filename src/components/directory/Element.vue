@@ -1,5 +1,9 @@
 <template>
-  <b-list :disabled="element.isFile">
+  <b-list
+    :disabled="element.isFile"
+    image-position="start"
+    actions-position="start"
+  >
     <template #image>
       <span v-if="element.isDir" @click="dir = element.path">
         <b-icon type="directory" />
