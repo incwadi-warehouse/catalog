@@ -6,7 +6,7 @@
 
     <ul>
       <li v-for="book in reservation.books" :key="book.id">
-        <router-link :to="{ name: 'book', params: { bookId: book.id } }">
+        <router-link :to="{ name: 'book.update', params: { id: book.id } }">
           {{ book.title }} - {{ book.genre.name }} - {{ book.author.surname }},
           {{ book.author.firstname }}
           <span v-if="book.sold"> - {{ $t('sold') }}</span>
