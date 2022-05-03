@@ -238,7 +238,10 @@
     <book-edit
       :book-id="id"
       :me="auth.state.me"
-      @close="modal = null"
+      @close="
+        modal = null
+        $router.push({ name: 'search' })
+      "
       @update="book.update"
       @cover-upload="uploadCover"
       :isUploading="isUploading"
