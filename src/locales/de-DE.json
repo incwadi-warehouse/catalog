@@ -170,5 +170,6 @@
   "max_size": "max. Größe",
   "success_rename": "Name geändert",
   "error_rename": "Umbenennen nicht erfolgreich.",
-  "rename": "Rename"
+  "rename": "Rename",
+  "reset": "Zurücksetzen"
 }
