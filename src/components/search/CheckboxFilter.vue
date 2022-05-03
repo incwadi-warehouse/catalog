@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { computed, ref } from '@vue/composition-api'
+import { computed, onMounted, ref } from '@vue/composition-api'
 
 export default {
   name: 'search-checkbox-filter',
@@ -54,6 +54,9 @@ export default {
     })
 
     const selected = ref([])
+    onMounted(() => {
+      selected.value = selected.value.concat(props.value)
+    })
 
     const selectAll = () => {
       document
