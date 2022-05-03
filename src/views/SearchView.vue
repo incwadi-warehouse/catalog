@@ -1,20 +1,5 @@
 <template>
   <article>
-    <b-container
-      size="l"
-      v-if="
-        reservation.state.reservations &&
-        reservation.state.reservations.length >= 1
-      "
-    >
-      <b-alert type="success">
-        <router-link :to="{ name: 'reservation' }">
-          {{ $t('current_reservations') }}:
-          {{ reservation.state.reservations.length }}
-        </router-link>
-      </b-alert>
-    </b-container>
-
     <b-container size="l">
       <b-button
         design="primary"
@@ -262,7 +247,6 @@ import {
   toRefs,
   ref,
   onMounted,
-  onUnmounted,
   watch,
   computed,
 } from '@vue/composition-api'
@@ -282,7 +266,6 @@ import useCart from '@/composables/useCart'
 import BookEdit from '@/components/book/Edit'
 import BookCreate from '@/components/book/Create'
 import SearchScrollToTop from '../components/search/ScrollToTop'
-import useReservation from '@/composables/useReservation'
 import useInventory from '@/composables/useInventory'
 
 export default {
@@ -407,16 +390,6 @@ export default {
       }
     )
 
-    const reservation = useReservation()
-    reservation.list()
-    const reservationInterval = window.setInterval(() => {
-      reservation.list()
-    }, 5000)
-
-    onUnmounted(() => {
-      window.clearInterval(reservationInterval)
-    })
-
     const inventory = useInventory()
 
     const hasInventory = ref(false)
@@ -438,7 +411,6 @@ export default {
       author,
       book,
       cart,
-      reservation,
       sell,
       remove,
       uploadCover,

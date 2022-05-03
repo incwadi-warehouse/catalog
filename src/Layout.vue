@@ -72,6 +72,19 @@
             {{ $t('bookmarks') }}
           </b-dropdown-item>
         </b-dropdown>
+
+        <span
+          class="action"
+          @click.prevent="$router.push({ name: 'reservation' })"
+          v-if="
+            stateReservation.reservations &&
+            stateReservation.reservations.length >= 1
+          "
+        >
+          <b-badge :content="stateReservation.reservations.length">
+            <b-icon type="euro" />
+          </b-badge>
+        </span>
       </b-masthead-item>
     </b-masthead>
 
@@ -134,11 +147,13 @@ import {
   onMounted,
   computed,
   reactive,
+  onUnmounted,
 } from '@vue/composition-api'
 import Logo from './components/Logo'
 import router from '@/router'
 import useBookmark from '@/composables/useBookmark'
 import useToast from './../node_modules/@baldeweg/components/src/composables/useToast'
+import useReservation from '@/composables/useReservation'
 
 export default {
   name: 'layout',
@@ -185,7 +200,15 @@ export default {
 
     const { current } = useToast()
 
-    return { state, bookmark, links, current }
+    const { state: stateReservation, list: listReservations } = useReservation()
+    listReservations()
+    const reservationInterval = setInterval(listReservations, 5000)
+
+    onUnmounted(() => {
+      window.clearInterval(reservationInterval)
+    })
+
+    return { state, bookmark, links, current, stateReservation }
   },
 }
 </script>
