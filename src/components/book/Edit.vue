@@ -308,12 +308,12 @@
         <!-- cover -->
         <div v-if="cover">
           <!-- status -->
-          <b-notification type="neutral" v-if="state.isUploading">
+          <b-alert type="neutral" v-if="isUploading">
             <p>{{ $t('uploadingFile') }}</p>
-          </b-notification>
-          <b-notification type="error" hidable v-if="state.hasErrorUploading">
+          </b-alert>
+          <b-alert type="error" hidable v-if="state.hasErrorUploading">
             <p>{{ $t('coverUploadError') }}</p>
-          </b-notification>
+          </b-alert>
 
           <div v-if="cover.cover_s || cover.cover_m || cover.cover_l">
             <!-- remove -->
@@ -345,7 +345,7 @@
             <b-form
               enctype="multipart/form-data"
               @submit.prevent
-              v-if="!state.isUploading && tab == 'upload'"
+              v-if="!isUploading && tab == 'upload'"
             >
               <b-form-group>
                 <b-form-item>
@@ -432,12 +432,14 @@ import useBook from '@/composables/useBook'
 import DirectoryList from '@/components/directory/List'
 import BookPriceCalculator from '@/components/book/PriceCalculator'
 import { remove as _remove } from 'lodash'
+import router from './../../router'
 
 export default {
   name: 'book-edit',
   props: {
     bookId: String,
     me: Object,
+    isUploading: Boolean,
   },
   components: {
     DirectoryList,
@@ -466,7 +468,6 @@ export default {
       tag: null,
       tags: [],
       recommendation: null,
-      isUploading: false,
       hasErrorUploading: false,
       isDragging: false,
       format: null,
@@ -534,6 +535,9 @@ export default {
           format: state.format,
         },
       })
+
+      emit('close')
+      router.push({ name: 'search' })
     }
 
     const formatDate = (val) => {
@@ -550,12 +554,18 @@ export default {
       book.getCover(bookId.value)
     })
 
+    watch(
+      () => props.isUploading,
+      () => {
+        book.getCover(bookId.value)
+      }
+    )
+
     const upload = (event) => {
-      state.isUploading = true
       const file = event.target.files[0]
       const form = new FormData()
       form.append('cover', file)
-      emit('cover-upload', { id: this.book.id, form: form })
+      emit('cover-upload', { id: bookId.value, form: form })
     }
 
     const removeCover = () => {

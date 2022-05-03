@@ -129,14 +129,26 @@
       </template>
 
       <template #footer>
-        <b-button
-          design="primary_wide"
-          @click.prevent="
-            search()
-            modal = null
-          "
-          >{{ $t('search') }}</b-button
-        >
+        <b-form-group buttons>
+          <b-form-item>
+            <b-button
+              design="text"
+              @click.prevent="
+                reset
+                modal = null
+              "
+              >{{ $t('reset') }}</b-button
+            >
+            <b-button
+              design="primary"
+              @click.prevent="
+                search(true)
+                modal = null
+              "
+              >{{ $t('search') }}</b-button
+            >
+          </b-form-item>
+        </b-form-group>
       </template>
 
       <b-container size="l">
@@ -147,6 +159,7 @@
           fieldKey="id"
           fieldValue="name"
           v-model="filter.branch"
+          v-if="auth.state.me.isAdmin"
         />
 
         <!-- genre -->
@@ -207,8 +220,8 @@
         <search-radio-filter
           :title="$t('order_by_direction')"
           :items="[
-            { key: 1, value: 'item1' },
-            { key: 2, value: 'item2' },
+            { key: 'asc', value: $t('asc') },
+            { key: 'desc', value: $t('desc') },
           ]"
           v-model="filter.orderByDirection"
         />
@@ -222,9 +235,13 @@
     <book-edit
       :book-id="id"
       :me="auth.state.me"
-      @close="modal = null"
+      @close="
+        modal = null
+        $router.push({ name: 'search' })
+      "
       @update="book.update"
       @cover-upload="uploadCover"
+      :isUploading="isUploading"
       v-if="modal == 'update'"
     />
 
@@ -301,7 +318,7 @@ export default {
       format: query.value.format || null,
       added: query.value.added || '',
       orderBy: query.value.orderBy || null,
-      orderByDirection: query.value.orderByDirection || null,
+      orderByDirection: query.value.orderByDirection || 'asc',
       limit: query.value.limit || 50,
     })
 
@@ -332,8 +349,12 @@ export default {
       })
     }
 
+    const isUploading = ref(false)
     const uploadCover = (data) => {
-      book.upload(data)
+      isUploading.value = true
+      book.upload(data).then(() => {
+        isUploading.value = false
+      })
     }
 
     const search = (force = false) => {
@@ -347,18 +368,16 @@ export default {
     }
 
     const reset = () => {
-      filter = {
-        term: null,
-        branch: null,
-        genre: [],
-        releaseYear: '',
-        availability: [],
-        format: null,
-        added: '',
-        orderBy: null,
-        orderByDirection: null,
-        limit: 50,
-      }
+      filter.term = null
+      filter.branch = null
+      filter.genre = []
+      filter.releaseYear = ''
+      filter.availability = []
+      filter.format = null
+      filter.added = ''
+      filter.orderBy = null
+      filter.orderByDirection = null
+      filter.limit = 50
       book.state.books = null
       author.state.authors = null
     }
@@ -419,6 +438,7 @@ export default {
       hasInventory,
       canToggleInventory,
       showCover,
+      isUploading,
     }
   },
 }
