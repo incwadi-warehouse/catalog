@@ -149,7 +149,7 @@
             <b-button
               design="text"
               @click.prevent="
-                reset
+                reset()
                 modal = null
               "
               >{{ $t('reset') }}</b-button
