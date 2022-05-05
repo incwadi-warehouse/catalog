@@ -106,6 +106,19 @@
       </b-form-item>
     </b-form-group>
 
+    <!-- content -->
+    <b-form-group>
+      <b-form-item>
+        <b-form-label for="content">{{ $t('content') }}</b-form-label>
+      </b-form-item>
+      <b-form-item>
+        <b-form-helpline>{{ $t('content_help') }}</b-form-helpline>
+      </b-form-item>
+      <b-form-item>
+        <b-form-textarea id="content" v-model="state.content" rows="5" />
+      </b-form-item>
+    </b-form-group>
+
     <!-- buttons -->
     <b-form-group buttons v-if="me && me.isAdmin">
       <b-form-group>
@@ -138,6 +151,7 @@ export default {
       isPublic: branch.value.public,
       pricelist: branch.value.pricelist,
       cart: branch.value.cart,
+      content: branch.value.content,
     })
 
     const update = () => {
@@ -154,6 +168,7 @@ export default {
           public: state.isPublic,
           pricelist: state.pricelist,
           cart: state.cart,
+          content: state.content,
         },
       })
     }

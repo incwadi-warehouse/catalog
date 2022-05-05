@@ -142,6 +142,7 @@ export default {
           public: branch.value.public,
           pricelist: JSON.stringify(state.pricelist),
           cart: branch.value.cart,
+          content: branch.value.content,
         },
       })
     }

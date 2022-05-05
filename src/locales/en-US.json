@@ -171,5 +171,7 @@
   "success_rename": "Name changed",
   "error_rename": "Cannot change the name",
   "rename": "Rename",
-  "reset": "Reset"
+  "reset": "Reset",
+  "content": "Content",
+  "content_help": "The content will be shown on the shop's homepage. Markdown is allowed, HTML will getting stripped."
 }
