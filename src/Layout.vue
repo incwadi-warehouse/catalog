@@ -134,7 +134,9 @@
     </b-drawer>
 
     <div class="project">
-      <a href="https://github.com/abaldeweg">baldeweg OpenSource</a>
+      <a href="https://github.com/incwadi-warehouse/docu"
+        >A baldeweg Open Source project</a
+      >
     </div>
 
     <b-toast v-if="current" :type="current.type" :visible="true">{{
