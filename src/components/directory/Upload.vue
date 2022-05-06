@@ -28,7 +28,7 @@
             id="image"
             @change="uploadImage"
             event
-            accept="image/jpeg, image/jpg, image/png, image/webp"
+            accept="image/jpeg, image/jpg, image/png, image/webp, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             class="input"
           />
         </div>
