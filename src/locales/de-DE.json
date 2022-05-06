@@ -173,5 +173,11 @@
   "rename": "Rename",
   "reset": "Zurücksetzen",
   "content": "Content",
-  "content_help": "Der Content wird auf der Startseite des Shops gezeigt. Markdown ist möglich, HTML wird entfernt."
+  "content_help": "Der Content wird auf der Startseite des Shops gezeigt. Markdown ist möglich, HTML wird entfernt.",
+  "salutation": "Anrede",
+  "mail": "Mail",
+  "phone": "Telefon",
+  "mr": "Herr",
+  "mrs": "Frau",
+  "none_divers": "Keine Angabe/ Divers"
 }

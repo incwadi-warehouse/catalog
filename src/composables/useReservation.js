@@ -32,6 +32,11 @@ export default function useReservation() {
       collection: data.collection,
       notes: data.notes,
       books: data.books,
+      salutation: data.salutation,
+      firstname: data.firstname,
+      surname: data.surname,
+      mail: data.mail,
+      phone: data.phone,
     })
   }
 

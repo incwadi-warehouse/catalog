@@ -41,6 +41,69 @@
 
       <b-form-group>
         <b-form-item>
+          <b-form-label for="salutation">
+            {{ $t('salutation') }}
+          </b-form-label>
+        </b-form-item>
+        <b-form-item>
+          <b-form-select
+            :items="[
+              { key: 'm', value: $t('mr') },
+              { key: 'f', value: $t('mrs') },
+              { key: 'd', value: $t('none_divers') },
+            ]"
+            id="salutation"
+            v-model="state.salutation"
+          />
+        </b-form-item>
+      </b-form-group>
+
+      <b-form-group>
+        <b-form-item>
+          <b-form-label for="firstname">
+            {{ $t('firstname') }}
+          </b-form-label>
+        </b-form-item>
+        <b-form-item>
+          <b-form-input type="text" id="firstname" v-model="state.firstname" />
+        </b-form-item>
+      </b-form-group>
+
+      <b-form-group>
+        <b-form-item>
+          <b-form-label for="surname">
+            {{ $t('surname') }}
+          </b-form-label>
+        </b-form-item>
+        <b-form-item>
+          <b-form-input type="text" id="surname" v-model="state.surname" />
+        </b-form-item>
+      </b-form-group>
+
+      <b-form-group>
+        <b-form-item>
+          <b-form-label for="mail">
+            {{ $t('mail') }}
+          </b-form-label>
+        </b-form-item>
+        <b-form-item>
+          <b-form-input type="email" id="mail" v-model="state.mail" />
+        </b-form-item>
+      </b-form-group>
+
+      <b-form-group>
+        <b-form-item>
+          <b-form-label for="phone">
+            {{ $t('phone') }}
+          </b-form-label>
+        </b-form-item>
+        <b-form-item>
+          <b-form-input type="tel" id="phone" v-model="state.phone" />
+        </b-form-item>
+      </b-form-group>
+
+      <b-form-group>
+        <b-form-item>
           <b-form-label for="notes">{{ $t('notes') }}</b-form-label>
         </b-form-item>
         <b-form-item>
@@ -89,6 +152,11 @@ export default {
         let date = new Date(state.date + ' ' + state.time + 'Z')
         return date.getTime() / 1000
       }),
+      salutation: props.reservation.salutation,
+      firstname: props.reservation.firstname,
+      surname: props.reservation.surname,
+      mail: props.reservation.mail,
+      phone: props.reservation.phone,
     })
 
     const update = () => {
@@ -97,6 +165,11 @@ export default {
         collection: state.collection,
         notes: state.notes,
         books: state.books,
+        salutation: state.salutation,
+        firstname: state.firstname,
+        surname: state.surname,
+        mail: state.mail,
+        phone: state.phone,
       })
     }
 

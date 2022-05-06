@@ -173,5 +173,11 @@
   "rename": "Rename",
   "reset": "Reset",
   "content": "Content",
-  "content_help": "The content will be shown on the shop's homepage. Markdown is allowed, HTML will getting stripped."
+  "content_help": "The content will be shown on the shop's homepage. Markdown is allowed, HTML will getting stripped.",
+  "salutation": "Salutation",
+  "mail": "Mail",
+  "phone": "Phone",
+  "mr": "Mr.",
+  "mrs": "Mrs.",
+  "none_divers": "None/ Diverse"
 }
