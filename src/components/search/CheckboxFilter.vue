@@ -80,10 +80,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.dropdown {
-  max-height: 300px;
-  overflow: auto;
-}
-</style>
