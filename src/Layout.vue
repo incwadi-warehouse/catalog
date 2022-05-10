@@ -113,6 +113,11 @@
             {{ $t('reservation') }}
           </template>
         </b-list>
+        <b-list :route="{ name: 'directory' }" divider>
+          <template #title>
+            {{ $t('directory') }}
+          </template>
+        </b-list>
         <b-list :route="{ name: 'settings' }" divider>
           <template #title>
             {{ $t('settings') }}
@@ -123,11 +128,6 @@
             <a :href="links.find">
               {{ $t('find') }}
             </a>
-          </template>
-        </b-list>
-        <b-list :route="{ name: 'directory' }" divider>
-          <template #title>
-            {{ $t('directory') }}
           </template>
         </b-list>
       </div>
