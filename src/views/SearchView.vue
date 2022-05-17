@@ -56,7 +56,7 @@
         :placeholder="$t('search_in_title_author_genre_tag')"
         filter
         branded
-        @input="search"
+        @input="delaySearch"
         @submit.prevent="search(true)"
         @reset="reset"
         @filter="modal = 'filter'"
@@ -301,6 +301,7 @@ import BookCreate from '@/components/book/Create'
 import SearchScrollToTop from '../components/search/ScrollToTop'
 import useInventory from '@/composables/useInventory'
 import useReservation from '@/composables/useReservation'
+import { debounce } from 'lodash'
 
 export default {
   name: 'search-view',
@@ -445,6 +446,12 @@ export default {
 
     const showCover = ref(false)
 
+    const delaySearch = () => {
+      debounce(() => {
+        search()
+      }, 1000)()
+    }
+
     return {
       filter,
       modal,
@@ -466,6 +473,8 @@ export default {
       showCover,
       isUploading,
       reservation,
+      debounce,
+      delaySearch,
     }
   },
 }
