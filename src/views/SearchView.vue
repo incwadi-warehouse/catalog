@@ -329,7 +329,7 @@ export default {
 
     var filter = reactive({
       term: query.value.term || null,
-      branch: query.value.branch || null,
+      branch: query.value.branch || props.auth?.state.me?.branch.id || null,
       genre: query.value.genre || [],
       releaseYear: query.value.releaseYear || '',
       availability: query.value.availability || [],
