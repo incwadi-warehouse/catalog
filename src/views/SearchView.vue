@@ -96,7 +96,7 @@
         :style="{ float: 'right' }"
         @click="
           filter.limit = book.state.books.counter
-          search()
+          search(true)
         "
         >{{ $t('show_all') }}</b-button
       >
