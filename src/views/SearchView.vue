@@ -56,7 +56,7 @@
         :placeholder="$t('search_in_title_author_genre_tag')"
         filter
         branded
-        @input="search"
+        @input="delaySearch"
         @submit.prevent="search(true)"
         @reset="reset"
         @filter="modal = 'filter'"
@@ -96,7 +96,7 @@
         :style="{ float: 'right' }"
         @click="
           filter.limit = book.state.books.counter
-          search()
+          search(true)
         "
         >{{ $t('show_all') }}</b-button
       >
@@ -301,6 +301,7 @@ import BookCreate from '@/components/book/Create'
 import SearchScrollToTop from '../components/search/ScrollToTop'
 import useInventory from '@/composables/useInventory'
 import useReservation from '@/composables/useReservation'
+import { debounce } from 'lodash'
 
 export default {
   name: 'search-view',
@@ -328,7 +329,7 @@ export default {
 
     var filter = reactive({
       term: query.value.term || null,
-      branch: query.value.branch || null,
+      branch: query.value.branch || props.auth?.state.me?.branch.id || null,
       genre: query.value.genre || [],
       releaseYear: query.value.releaseYear || '',
       availability: query.value.availability || [],
@@ -445,6 +446,12 @@ export default {
 
     const showCover = ref(false)
 
+    const delaySearch = () => {
+      debounce(() => {
+        search()
+      }, 1000)()
+    }
+
     return {
       filter,
       modal,
@@ -466,6 +473,8 @@ export default {
       showCover,
       isUploading,
       reservation,
+      debounce,
+      delaySearch,
     }
   },
 }

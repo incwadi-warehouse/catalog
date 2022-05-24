@@ -61,7 +61,7 @@
         </th>
         <th scope="col">
           <search-direction
-            col="year"
+            col="releaseYear"
             :filter="filter"
             @search="$emit('search', true)"
             >{{ $t('year') }}</search-direction
@@ -245,6 +245,7 @@ thead {
   top: var(--masthead-top-height);
   background: var(--color-neutral-00);
   z-index: 2;
+  cursor: pointer;
 }
 th:first-child {
   min-width: 200px;
