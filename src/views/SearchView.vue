@@ -1,5 +1,5 @@
 <template>
-  <article>
+  <article v-if="auth.state.me">
     <b-container
       size="l"
       v-if="
