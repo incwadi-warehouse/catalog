@@ -65,10 +65,7 @@
           <b-dropdown-item icon="plus" @click="bookmark.createFromPage()">
             {{ $t('addThisPage') }}
           </b-dropdown-item>
-          <b-dropdown-item
-            icon="star"
-            @click="$router.push({ name: 'settings.bookmark' })"
-          >
+          <b-dropdown-item icon="star" @click="navigateToBookmarks">
             {{ $t('bookmarks') }}
           </b-dropdown-item>
         </b-dropdown>
@@ -219,6 +216,10 @@ export default {
     const settings = process.env.VUE_APP_SETTINGS
     const orders = process.env.VUE_APP_ORDERS
 
+    const navigateToBookmarks = () => {
+      window.location = settings + '/bookmark'
+    }
+
     return {
       state,
       bookmark,
@@ -227,6 +228,7 @@ export default {
       stateReservation,
       settings,
       orders,
+      navigateToBookmarks,
     }
   },
 }
