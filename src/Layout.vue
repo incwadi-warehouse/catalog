@@ -108,9 +108,11 @@
             {{ $t('search') }}
           </template>
         </b-list>
-        <b-list :route="{ name: 'reservation' }" divider>
+        <b-list divider>
           <template #title>
-            {{ $t('reservation') }}
+            <a :href="orders">
+              {{ $t('reservation') }}
+            </a>
           </template>
         </b-list>
         <b-list :route="{ name: 'directory' }" divider>
@@ -118,9 +120,11 @@
             {{ $t('directory') }}
           </template>
         </b-list>
-        <b-list :route="{ name: 'settings' }" divider>
+        <b-list divider>
           <template #title>
-            {{ $t('settings') }}
+            <a :href="settings">
+              {{ $t('settings') }}
+            </a>
           </template>
         </b-list>
         <b-list divider>
@@ -212,7 +216,18 @@ export default {
       window.clearInterval(reservationInterval)
     })
 
-    return { state, bookmark, links, current, stateReservation }
+    const settings = process.env.VUE_APP_SETTINGS
+    const orders = process.env.VUE_APP_ORDERS
+
+    return {
+      state,
+      bookmark,
+      links,
+      current,
+      stateReservation,
+      settings,
+      orders,
+    }
   },
 }
 </script>
