@@ -33,8 +33,9 @@
       </b-form>
     </template>
 
-    <template #subtitle v-if="element.doc">
-      {{ element.doc }}
+    <template #subtitle v-if="element.doc || element.preview">
+      <span v-if="element.doc">{{ element.doc }}</span>
+      <span v-if="element.preview"><img :src="element.preview" /></span>
     </template>
 
     <template #options>
