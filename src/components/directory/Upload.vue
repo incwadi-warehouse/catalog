@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import useDirectory from './../../composables/useDirectory'
+import { useDirectory } from './../../composables/useDirectory'
 
 export default {
   name: 'directory-upload',

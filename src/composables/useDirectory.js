@@ -6,7 +6,7 @@ import i18n from './../i18n'
 const dir = ref('./')
 const elements = ref(null)
 
-export default function useDirectory(emit) {
+export function useDirectory(emit) {
   const { add } = useToast()
 
   const dirname = ref('')

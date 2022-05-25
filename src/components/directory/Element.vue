@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import useDirectory from '@/composables/useDirectory'
+import { useDirectory } from '@/composables/useDirectory'
 import { ref, toRefs, watchEffect } from '@vue/composition-api'
 
 export default {

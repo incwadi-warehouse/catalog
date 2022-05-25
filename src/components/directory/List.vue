@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import useDirectory from '@/composables/useDirectory'
+import { useDirectory } from '@/composables/useDirectory'
 import DirectoryElement from './Element.vue'
 
 export default {
