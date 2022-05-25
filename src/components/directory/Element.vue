@@ -27,7 +27,7 @@
             <b-form-label for="name" hidden>{{ $t('name') }}</b-form-label>
           </b-form-item>
           <b-form-item>
-            <b-form-input id="name" v-model="name" />
+            <b-form-input id="name" v-model="newName" />
           </b-form-item>
         </b-form-group>
       </b-form>
@@ -61,7 +61,7 @@
 
 <script>
 import useDirectory from '@/composables/useDirectory'
-import { ref } from '@vue/composition-api'
+import { ref, toRefs, watchEffect } from '@vue/composition-api'
 
 export default {
   name: 'directory-element',
@@ -70,18 +70,35 @@ export default {
     element: Object,
   },
   setup(props, { emit }) {
+    const { element } = toRefs(props)
+
     const { dir, removeElement, editElement, uploadCover } = useDirectory(emit)
 
-    const name = ref(props.element.name)
     const isEditing = ref(false)
 
+    const oldName = ref(null)
+    const newName = ref(null)
+
+    watchEffect(() => {
+      oldName.value = element.value.name
+      newName.value = element.value.name
+    })
+
     const edit = () => {
-      editElement(props.element.name, name.value).then(() => {
+      editElement(oldName.value, newName.value).then(() => {
         isEditing.value = false
       })
     }
 
-    return { name, isEditing, dir, removeElement, uploadCover, edit }
+    return {
+      oldName,
+      newName,
+      isEditing,
+      dir,
+      removeElement,
+      uploadCover,
+      edit,
+    }
   },
 }
 </script>
