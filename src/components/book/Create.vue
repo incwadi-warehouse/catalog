@@ -204,7 +204,7 @@
             <b-form-select
               id="cond"
               v-model="state.cond_id"
-              :items="condition.state.conditions"
+              :items="conditions"
               item-key="id"
               item-value="name"
               allow-empty
@@ -246,7 +246,7 @@
 import { computed, reactive, toRefs } from '@vue/composition-api'
 import BookPriceCalculator from '@/components/book/PriceCalculator'
 import useGenre from '@/composables/useGenre'
-import useCondition from '@/composables/useCondition'
+import { useCondition } from '@/composables/useCondition'
 import useFormat from '@/composables/useFormat'
 import { useTag } from '@/composables/useTag'
 
@@ -283,7 +283,7 @@ export default {
     })
 
     const genre = useGenre()
-    const condition = useCondition()
+    const { conditions } = useCondition()
     const format = useFormat()
     const { create: createNewTag, removeTag } = useTag()
 
@@ -323,7 +323,7 @@ export default {
       state,
       pricelist,
       genre,
-      condition,
+      conditions,
       format,
       removeTag,
       create,

@@ -5,7 +5,7 @@
       book.state.book &&
       genre.state.genres.length >= 1 &&
       format.state.formats.length >= 1 &&
-      condition.state.conditions.length >= 1
+      conditions.length >= 1
     "
   >
     <b-modal @close="$emit('close')">
@@ -273,7 +273,7 @@
             <b-form-select
               id="cond"
               v-model="state.cond_id"
-              :items="condition.state.conditions"
+              :items="conditions"
               item-key="id"
               item-value="name"
               allow-empty
@@ -425,7 +425,7 @@ import {
   ref,
 } from '@vue/composition-api'
 import useGenre from '@/composables/useGenre'
-import useCondition from '@/composables/useCondition'
+import { useCondition } from '@/composables/useCondition'
 import useFormat from '@/composables/useFormat'
 import { useTag } from '@/composables/useTag'
 import useBook from '@/composables/useBook'
@@ -447,7 +447,7 @@ export default {
   },
   setup(props, { emit }) {
     const genre = useGenre()
-    const condition = useCondition()
+    const { conditions } = useCondition()
     const format = useFormat()
     const { create: createNewTag } = useTag()
     const book = useBook()
@@ -597,7 +597,7 @@ export default {
     return {
       state,
       genre,
-      condition,
+      conditions,
       format,
       cover,
       book,

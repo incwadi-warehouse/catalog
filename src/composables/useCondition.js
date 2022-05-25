@@ -1,45 +1,18 @@
-import { onMounted, reactive } from '@vue/composition-api'
+import { onMounted, ref } from '@vue/composition-api'
 import { request } from '@/api'
 
-export default function useCondition() {
-  const base = '/api/condition'
-
-  const state = reactive({
-    conditions: [],
-  })
+export function useCondition() {
+  const conditions = ref([])
 
   const list = () => {
-    return request('get', base + '/').then((response) => {
-      state.conditions = response.data
+    return request('get', '/api/condition/').then((res) => {
+      conditions.value = res.data
     })
   }
 
   onMounted(list)
 
-  const create = (data) => {
-    return request('post', base + '/new', { name: data }).then(() => {
-      list()
-    })
-  }
-
-  const update = (data) => {
-    return request('put', base + '/' + data.id, { name: data.name }).catch(
-      () => {
-        list()
-      }
-    )
-  }
-
-  const remove = (data) => {
-    return request('delete', base + '/' + data.id).then(() => {
-      list()
-    })
-  }
-
   return {
-    state,
-    create,
-    update,
-    remove,
+    conditions,
   }
 }
