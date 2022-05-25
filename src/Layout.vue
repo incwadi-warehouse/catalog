@@ -53,16 +53,16 @@
             </span>
           </template>
           <b-dropdown-item
-            v-for="item in bookmark.state.bookmarks"
+            v-for="item in bookmarks"
             :key="item.id"
-            @click.prevent="bookmark.open(item.url)"
+            @click.prevent="open(item.url)"
           >
             {{ item.name }}
           </b-dropdown-item>
 
           <b-dropdown-divider />
 
-          <b-dropdown-item icon="plus" @click="bookmark.createFromPage()">
+          <b-dropdown-item icon="plus" @click="createFromPage()">
             {{ $t('addThisPage') }}
           </b-dropdown-item>
           <b-dropdown-item icon="star" @click="navigateToBookmarks">
@@ -156,7 +156,7 @@ import {
 } from '@vue/composition-api'
 import Logo from './components/Logo'
 import router from '@/router'
-import useBookmark from '@/composables/useBookmark'
+import { useBookmark } from '@/composables/useBookmark'
 import useToast from './../node_modules/@baldeweg/components/src/composables/useToast'
 import useReservation from '@/composables/useReservation'
 
@@ -188,10 +188,15 @@ export default {
       })
     })
 
-    const bookmark = useBookmark()
+    const {
+      bookmarks,
+      list: listBookmarks,
+      createFromPage,
+      open,
+    } = useBookmark()
 
     const refresh = () => {
-      state.refresh = setInterval(bookmark.list, 5000)
+      state.refresh = setInterval(listBookmarks, 5000)
     }
 
     onMounted(refresh)
@@ -222,7 +227,9 @@ export default {
 
     return {
       state,
-      bookmark,
+      bookmarks,
+      open,
+      createFromPage,
       links,
       current,
       stateReservation,
