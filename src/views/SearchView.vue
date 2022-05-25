@@ -327,9 +327,13 @@ export default {
   setup(props) {
     const { query, id } = toRefs(props)
 
+    const branchId = computed(() => {
+      return query.value.branch || props.auth?.state.me?.branch.id || null
+    })
+
     var filter = reactive({
       term: query.value.term || null,
-      branch: query.value.branch || props.auth?.state.me?.branch.id || null,
+      branch: branchId,
       genre: query.value.genre || [],
       releaseYear: query.value.releaseYear || '',
       availability: query.value.availability || [],
