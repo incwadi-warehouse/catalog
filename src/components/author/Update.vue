@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { reactive, toRefs, computed } from '@vue/composition-api'
+import { reactive, toRefs } from '@vue/composition-api'
 
 export default {
   name: 'author-update',
@@ -42,12 +42,8 @@ export default {
     const { author } = toRefs(props)
 
     const state = reactive({
-      firstname: computed(() => {
-        return author.value ? author.value.firstname : ''
-      }),
-      surname: computed(() => {
-        return author.value ? author.value.surname : ''
-      }),
+      firstname: author.value.firstname,
+      surname: author.value.surname,
     })
 
     const update = () => {

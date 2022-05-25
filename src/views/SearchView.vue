@@ -337,7 +337,7 @@ export default {
 
     const modal = ref(null)
 
-    const { authors, find: findAuthor, removeAuthor: rmAuthor } = useAuthor()
+    const { authors, find: findAuthor, remove: rmAuthor } = useAuthor()
 
     const removeAuthor = (authorId) => {
       rmAuthor(authorId).then(search)
