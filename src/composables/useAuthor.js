@@ -1,33 +1,29 @@
-import { reactive } from '@vue/composition-api'
+import { ref } from '@vue/composition-api'
 import { request } from '@/api'
 
-export default function useAuthor() {
-  const base = '/api/author'
-
-  const state = reactive({
-    authors: null,
-    author: null,
-  })
+export function useAuthor() {
+  const authors = ref(null)
+  const author = ref(null)
 
   const find = (data) => {
-    return request('get', base + '/find', null, data).then((res) => {
-      state.authors = res.data
+    return request('get', '/api/author/find', null, data).then((res) => {
+      authors.value = res.data
     })
   }
 
   const show = (id) => {
-    return request('get', base + '/' + id).then((res) => {
-      state.author = res.data
+    return request('get', '/api/author/' + id).then((res) => {
+      author.value = res.data
     })
   }
 
   const update = (id, data) => {
-    return request('put', base + '/' + id, data)
+    return request('put', '/api/author/' + id, data)
   }
 
   const remove = (id) => {
-    return request('delete', base + '/' + id)
+    return request('delete', '/api/author/' + id)
   }
 
-  return { state, find, show, update, remove }
+  return { authors, author, find, show, update, remove }
 }

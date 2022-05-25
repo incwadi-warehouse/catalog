@@ -112,23 +112,16 @@
       />
     </b-container>
 
-    <b-container size="l" v-if="author.state.authors != null">
+    <b-container size="l" v-if="authors != null">
       <h2>{{ $t('authors') }}</h2>
       <p>
         {{
-          $tc(
-            'results_counter_author',
-            author.state.authors ? author.state.authors.length : 0,
-            {
-              counter: author.state.authors ? author.state.authors.length : 0,
-            }
-          )
+          $tc('results_counter_author', authors ? authors.length : 0, {
+            counter: authors ? authors.length : 0,
+          })
         }}
       </p>
-      <search-author-results
-        :authors="author.state.authors"
-        @remove="removeAuthor"
-      />
+      <search-author-results :authors="authors" @remove="removeAuthor" />
     </b-container>
 
     <search-scroll-to-top v-if="hasBooks" />
@@ -295,7 +288,7 @@ import SearchAuthorResults from '@/components/search/AuthorResults'
 import useBranch from '@/composables/useBranch'
 import useGenre from '@/composables/useGenre'
 import useFormat from '@/composables/useFormat'
-import useAuthor from '@/composables/useAuthor'
+import { useAuthor } from '@/composables/useAuthor'
 import useBook from '@/composables/useBook'
 import useCart from '@/composables/useCart'
 import BookEdit from '@/components/book/Edit'
@@ -344,10 +337,10 @@ export default {
 
     const modal = ref(null)
 
-    const author = useAuthor()
+    const { authors, find: findAuthor, removeAuthor: rmAuthor } = useAuthor()
 
     const removeAuthor = (authorId) => {
-      author.remove(authorId).then(search)
+      rmAuthor(authorId).then(search)
     }
 
     const book = useBook()
@@ -380,7 +373,7 @@ export default {
     const search = (force = false) => {
       router.push({ name: 'search', query: filter })
       if (filter.term !== null) {
-        author.find({ term: filter.term })
+        findAuthor({ term: filter.term })
       }
       if (filter.term !== null || force) {
         book.find({ options: filter })
@@ -399,7 +392,7 @@ export default {
       filter.orderByDirection = null
       filter.limit = 50
       book.state.books = null
-      author.state.authors = null
+      authors.value = null
     }
 
     if (filter.term !== null) {
@@ -462,7 +455,7 @@ export default {
       branch,
       genre,
       format,
-      author,
+      authors,
       book,
       cart,
       sell,

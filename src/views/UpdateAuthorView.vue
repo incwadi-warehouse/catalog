@@ -4,10 +4,10 @@
       <h1>{{ $t('edit_author') }}</h1>
     </b-container>
 
-    <b-container size="m" v-if="author.state.author">
+    <b-container size="m" v-if="author">
       <author-update
-        :author="author.state.author"
-        @update="author.update($event.id, $event.params)"
+        :author="author"
+        @update="updateAuthor($event.id, $event.params)"
       />
     </b-container>
   </article>
@@ -15,7 +15,7 @@
 
 <script>
 import AuthorUpdate from '../components/author/Update'
-import useAuthor from '@/composables/useAuthor'
+import { useAuthor } from '@/composables/useAuthor'
 import { toRefs, onMounted } from '@vue/composition-api'
 
 export default {
@@ -32,13 +32,13 @@ export default {
   setup(props) {
     const { id } = toRefs(props)
 
-    const author = useAuthor()
+    const { author, show: showAuthor, update: updateAuthor } = useAuthor()
 
     onMounted(() => {
-      author.show(id.value)
+      showAuthor(id.value)
     })
 
-    return { author }
+    return { author, showAuthor, updateAuthor }
   },
 }
 </script>
