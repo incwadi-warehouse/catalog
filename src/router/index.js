@@ -47,46 +47,6 @@ const router = new VueRouter({
       component: () => import('../views/ReservationView'),
     },
     {
-      path: '/settings',
-      name: 'settings',
-      component: () => import('../views/SettingsView'),
-    },
-    {
-      path: '/settings/branch',
-      name: 'settings.branch',
-      component: () => import('../views/BranchSettingsView'),
-    },
-    {
-      path: '/settings/inventory',
-      name: 'settings.inventory',
-      component: () => import('../views/InventorySettingsView'),
-    },
-    {
-      path: '/settings/condition',
-      name: 'settings.condition',
-      component: () => import('../views/ConditionSettingsView'),
-    },
-    {
-      path: '/settings/format',
-      name: 'settings.format',
-      component: () => import('../views/FormatSettingsView'),
-    },
-    {
-      path: '/settings/genre',
-      name: 'settings.genre',
-      component: () => import('../views/GenreSettingsView'),
-    },
-    {
-      path: '/settings/staff',
-      name: 'settings.staff',
-      component: () => import('../views/StaffSettingsView'),
-    },
-    {
-      path: '/settings/bookmark',
-      name: 'settings.bookmark',
-      component: () => import('../views/BookmarkSettingsView'),
-    },
-    {
       path: '/directory',
       name: 'directory',
       component: () => import('../views/DirectoryView'),
