@@ -294,7 +294,7 @@ import useCart from '@/composables/useCart'
 import BookEdit from '@/components/book/Edit'
 import BookCreate from '@/components/book/Create'
 import SearchScrollToTop from '../components/search/ScrollToTop'
-import useInventory from '@/composables/useInventory'
+import { useInventory } from '@/composables/useInventory'
 import useReservation from '@/composables/useReservation'
 import { debounce } from 'lodash'
 
@@ -430,12 +430,12 @@ export default {
       window.clearInterval(reservationInterval)
     })
 
-    const inventory = useInventory()
+    const { hasActiveInventory } = useInventory()
 
     const hasInventory = ref(false)
 
     const canToggleInventory = computed(() => {
-      return inventory.state.hasActiveInventory
+      return hasActiveInventory.value
     })
 
     const showCover = ref(false)
