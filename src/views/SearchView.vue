@@ -163,7 +163,7 @@
         <!-- branch -->
         <search-radio-filter
           :title="$t('branch')"
-          :items="branch.state.branches"
+          :items="branches"
           fieldKey="id"
           fieldValue="name"
           v-model="filter.branch"
@@ -285,7 +285,7 @@ import SearchNumberRangeFilter from '@/components/search/NumberRangeFilter'
 import SearchDateRangeFilter from '@/components/search/DateRangeFilter'
 import SearchBookResults from '@/components/search/BookResults'
 import SearchAuthorResults from '@/components/search/AuthorResults'
-import useBranch from '@/composables/useBranch'
+import { useBranch } from '@/composables/useBranch'
 import { useGenre } from '@/composables/useGenre'
 import { useFormat } from '@/composables/useFormat'
 import { useAuthor } from '@/composables/useAuthor'
@@ -399,8 +399,7 @@ export default {
       onMounted(search)
     }
 
-    const branch = useBranch()
-    branch.list()
+    const { branches } = useBranch()
 
     const { genres } = useGenre()
 
@@ -452,7 +451,7 @@ export default {
       modal,
       search,
       reset,
-      branch,
+      branches,
       genres,
       formats,
       authors,
