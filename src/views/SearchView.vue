@@ -200,7 +200,7 @@
         <!-- format -->
         <search-checkbox-filter
           :title="$t('format')"
-          :items="format.state.formats"
+          :items="formats"
           fieldKey="id"
           fieldValue="name"
           v-model="filter.format"
@@ -287,7 +287,7 @@ import SearchBookResults from '@/components/search/BookResults'
 import SearchAuthorResults from '@/components/search/AuthorResults'
 import useBranch from '@/composables/useBranch'
 import { useGenre } from '@/composables/useGenre'
-import useFormat from '@/composables/useFormat'
+import { useFormat } from '@/composables/useFormat'
 import { useAuthor } from '@/composables/useAuthor'
 import useBook from '@/composables/useBook'
 import useCart from '@/composables/useCart'
@@ -404,7 +404,7 @@ export default {
 
     const { genres } = useGenre()
 
-    const format = useFormat()
+    const { formats } = useFormat()
 
     const cart = useCart()
 
@@ -454,7 +454,7 @@ export default {
       reset,
       branch,
       genres,
-      format,
+      formats,
       authors,
       book,
       cart,

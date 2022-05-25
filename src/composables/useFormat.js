@@ -1,45 +1,18 @@
-import { onMounted, reactive } from '@vue/composition-api'
+import { onMounted, ref } from '@vue/composition-api'
 import { request } from '@/api'
 
-export default function useFormat() {
-  const base = '/api/format'
-
-  const state = reactive({
-    formats: [],
-  })
+export function useFormat() {
+  const formats = ref([])
 
   const list = () => {
-    return request('get', base + '/').then((response) => {
-      state.formats = response.data
+    return request('get', '/api/format/').then((res) => {
+      formats.value = res.data
     })
   }
 
   onMounted(list)
 
-  const create = (data) => {
-    return request('post', base + '/new', { name: data }).then(() => {
-      list()
-    })
-  }
-
-  const update = (data) => {
-    return request('put', base + '/' + data.id, { name: data.name }).catch(
-      () => {
-        list()
-      }
-    )
-  }
-
-  const remove = (data) => {
-    return request('delete', base + '/' + data.id).then(() => {
-      list()
-    })
-  }
-
   return {
-    state,
-    create,
-    update,
-    remove,
+    formats,
   }
 }

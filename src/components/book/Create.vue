@@ -126,7 +126,7 @@
         </b-form-group>
 
         <!-- format -->
-        <b-form-group v-if="format.state.formats">
+        <b-form-group v-if="formats">
           <b-form-item>
             <b-form-label for="format">
               {{ $t('format') }}
@@ -136,7 +136,7 @@
             <b-form-select
               id="type"
               v-model="state.format"
-              :items="format.state.formats"
+              :items="formats"
               item-key="id"
               item-value="name"
               allow-empty
@@ -247,7 +247,7 @@ import { computed, reactive, toRefs } from '@vue/composition-api'
 import BookPriceCalculator from '@/components/book/PriceCalculator'
 import { useGenre } from '@/composables/useGenre'
 import { useCondition } from '@/composables/useCondition'
-import useFormat from '@/composables/useFormat'
+import { useFormat } from '@/composables/useFormat'
 import { useTag } from '@/composables/useTag'
 
 export default {
@@ -284,7 +284,7 @@ export default {
 
     const { genres } = useGenre()
     const { conditions } = useCondition()
-    const format = useFormat()
+    const { formats } = useFormat()
     const { create: createNewTag, removeTag } = useTag()
 
     const pricelist = computed(() => {
@@ -324,7 +324,7 @@ export default {
       pricelist,
       genres,
       conditions,
-      format,
+      formats,
       removeTag,
       create,
       createTag,

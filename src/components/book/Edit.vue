@@ -4,7 +4,7 @@
     v-if="
       book.state.book &&
       genres.length >= 1 &&
-      format.state.formats.length >= 1 &&
+      formats.length >= 1 &&
       conditions.length >= 1
     "
   >
@@ -140,7 +140,7 @@
         </b-form-group>
 
         <!-- format -->
-        <b-form-group v-if="format.state.formats">
+        <b-form-group v-if="formats">
           <b-form-item>
             <b-form-label for="format">
               {{ $t('format') }}
@@ -150,7 +150,7 @@
             <b-form-select
               id="type"
               v-model="state.format"
-              :items="format.state.formats"
+              :items="formats"
               item-key="id"
               item-value="name"
               allow-empty
@@ -426,7 +426,7 @@ import {
 } from '@vue/composition-api'
 import { useGenre } from '@/composables/useGenre'
 import { useCondition } from '@/composables/useCondition'
-import useFormat from '@/composables/useFormat'
+import { useFormat } from '@/composables/useFormat'
 import { useTag } from '@/composables/useTag'
 import useBook from '@/composables/useBook'
 import DirectoryList from '@/components/directory/List'
@@ -448,7 +448,7 @@ export default {
   setup(props, { emit }) {
     const { genres } = useGenre()
     const { conditions } = useCondition()
-    const format = useFormat()
+    const { formats } = useFormat()
     const { create: createNewTag } = useTag()
     const book = useBook()
 
@@ -598,7 +598,7 @@ export default {
       state,
       genres,
       conditions,
-      format,
+      formats,
       cover,
       book,
       tab,
