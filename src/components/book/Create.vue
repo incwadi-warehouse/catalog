@@ -217,7 +217,7 @@
           <b-form-group>
             <span v-for="(item, index) in state.tags" :key="item.id">
               {{ item.name }}
-              <span @click="tag.remove(item.id)">
+              <span @click="removeTag(item.id)">
                 <b-icon type="close" :size="12" />
               </span>
               <span v-if="index !== item.length - 1">, </span>
@@ -248,7 +248,7 @@ import BookPriceCalculator from '@/components/book/PriceCalculator'
 import useGenre from '@/composables/useGenre'
 import useCondition from '@/composables/useCondition'
 import useFormat from '@/composables/useFormat'
-import useTag from '@/composables/useTag'
+import { useTag } from '@/composables/useTag'
 
 export default {
   name: 'book-create',
@@ -285,7 +285,7 @@ export default {
     const genre = useGenre()
     const condition = useCondition()
     const format = useFormat()
-    const tag = useTag()
+    const { create: createNewTag, removeTag } = useTag()
 
     const pricelist = computed(() => {
       return me ? JSON.parse(me.value.branch.pricelist) : null
@@ -313,7 +313,7 @@ export default {
     }
 
     const createTag = () => {
-      tag.create({ name: state.tag }).then((res) => {
+      createNewTag({ name: state.tag }).then((res) => {
         state.tags.push(res.data)
         state.tag = null
       })
@@ -325,7 +325,7 @@ export default {
       genre,
       condition,
       format,
-      tag,
+      removeTag,
       create,
       createTag,
     }

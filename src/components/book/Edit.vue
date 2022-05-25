@@ -427,7 +427,7 @@ import {
 import useGenre from '@/composables/useGenre'
 import useCondition from '@/composables/useCondition'
 import useFormat from '@/composables/useFormat'
-import useTag from '@/composables/useTag'
+import { useTag } from '@/composables/useTag'
 import useBook from '@/composables/useBook'
 import DirectoryList from '@/components/directory/List'
 import BookPriceCalculator from '@/components/book/PriceCalculator'
@@ -449,7 +449,7 @@ export default {
     const genre = useGenre()
     const condition = useCondition()
     const format = useFormat()
-    const tag = useTag()
+    const { create: createNewTag } = useTag()
     const book = useBook()
 
     let state = reactive({
@@ -581,7 +581,7 @@ export default {
     })
 
     const createTag = (item) => {
-      tag.create(item).then((res) => {
+      createNewTag(item).then((res) => {
         state.tags.push(res.data)
       })
     }
@@ -599,7 +599,6 @@ export default {
       genre,
       condition,
       format,
-      tag,
       cover,
       book,
       tab,

@@ -1,27 +1,13 @@
-import { reactive } from '@vue/composition-api'
 import { request } from '@/api'
 
-export default function useTag() {
-  const base = '/api/tag'
-
-  const state = reactive({
-    tags: null,
-    tag: null,
-  })
-
-  const list = () => {
-    return request('get', base + '/').then((res) => {
-      state.tags = res.data
-    })
-  }
-
+export function useTag() {
   const create = (data) => {
-    return request('post', base + '/new', data)
+    return request('post', '/api/tag/new', data)
   }
 
   const remove = (id) => {
-    return request('delete', base + '/' + id)
+    return request('delete', '/api/tag/' + id)
   }
 
-  return { state, list, create, remove }
+  return { create, remove }
 }
