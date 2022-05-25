@@ -3,7 +3,7 @@
     @submit.prevent="update"
     v-if="
       book.state.book &&
-      genre.state.genres.length >= 1 &&
+      genres.length >= 1 &&
       format.state.formats.length >= 1 &&
       conditions.length >= 1
     "
@@ -42,7 +42,7 @@
               id="genre"
               required
               v-model="state.genreId"
-              :items="genre.state.genres"
+              :items="genres"
               item-key="id"
               item-value="name"
               allow-empty
@@ -424,7 +424,7 @@ import {
   watch,
   ref,
 } from '@vue/composition-api'
-import useGenre from '@/composables/useGenre'
+import { useGenre } from '@/composables/useGenre'
 import { useCondition } from '@/composables/useCondition'
 import useFormat from '@/composables/useFormat'
 import { useTag } from '@/composables/useTag'
@@ -446,7 +446,7 @@ export default {
     BookPriceCalculator,
   },
   setup(props, { emit }) {
-    const genre = useGenre()
+    const { genres } = useGenre()
     const { conditions } = useCondition()
     const format = useFormat()
     const { create: createNewTag } = useTag()
@@ -596,7 +596,7 @@ export default {
 
     return {
       state,
-      genre,
+      genres,
       conditions,
       format,
       cover,

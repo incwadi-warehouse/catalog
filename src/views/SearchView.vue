@@ -173,7 +173,7 @@
         <!-- genre -->
         <search-checkbox-filter
           :title="$t('genre')"
-          :items="genre.state.genres"
+          :items="genres"
           fieldKey="id"
           fieldValue="name"
           v-model="filter.genre"
@@ -286,7 +286,7 @@ import SearchDateRangeFilter from '@/components/search/DateRangeFilter'
 import SearchBookResults from '@/components/search/BookResults'
 import SearchAuthorResults from '@/components/search/AuthorResults'
 import useBranch from '@/composables/useBranch'
-import useGenre from '@/composables/useGenre'
+import { useGenre } from '@/composables/useGenre'
 import useFormat from '@/composables/useFormat'
 import { useAuthor } from '@/composables/useAuthor'
 import useBook from '@/composables/useBook'
@@ -402,7 +402,7 @@ export default {
     const branch = useBranch()
     branch.list()
 
-    const genre = useGenre()
+    const { genres } = useGenre()
 
     const format = useFormat()
 
@@ -453,7 +453,7 @@ export default {
       search,
       reset,
       branch,
-      genre,
+      genres,
       format,
       authors,
       book,

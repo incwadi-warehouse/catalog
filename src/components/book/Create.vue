@@ -28,7 +28,7 @@
               id="genre"
               required
               v-model="state.genreId"
-              :items="genre.state.genres"
+              :items="genres"
               item-key="id"
               item-value="name"
               allow-empty
@@ -245,7 +245,7 @@
 <script>
 import { computed, reactive, toRefs } from '@vue/composition-api'
 import BookPriceCalculator from '@/components/book/PriceCalculator'
-import useGenre from '@/composables/useGenre'
+import { useGenre } from '@/composables/useGenre'
 import { useCondition } from '@/composables/useCondition'
 import useFormat from '@/composables/useFormat'
 import { useTag } from '@/composables/useTag'
@@ -282,7 +282,7 @@ export default {
       format: null,
     })
 
-    const genre = useGenre()
+    const { genres } = useGenre()
     const { conditions } = useCondition()
     const format = useFormat()
     const { create: createNewTag, removeTag } = useTag()
@@ -322,7 +322,7 @@ export default {
     return {
       state,
       pricelist,
-      genre,
+      genres,
       conditions,
       format,
       removeTag,
