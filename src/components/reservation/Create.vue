@@ -1,3 +1,66 @@
+<script>
+import { computed, reactive } from '@vue/composition-api'
+
+export default {
+  name: 'reservation-create',
+  props: {
+    cart: Array,
+  },
+  setup(props, { emit }) {
+    const state = reactive({
+      date: null,
+      time: '00:00',
+      notes: null,
+      books: computed(() => {
+        if (null === props.cart) return
+        let list = []
+        props.cart.forEach((element) => {
+          list.push(element.id)
+        })
+        return list.join(',')
+      }),
+      collection: computed(() => {
+        if (null === state.date || null === state.time) return
+        let date = new Date(state.date + ' ' + state.time + 'Z')
+        return date.getTime() / 1000
+      }),
+      salutation: null,
+      firstname: null,
+      surname: null,
+      mail: null,
+      phone: null,
+    })
+
+    const create = () => {
+      emit('create', {
+        collection: state.collection,
+        notes: state.notes,
+        books: state.books,
+        salutation: state.salutation,
+        firstname: state.firstname,
+        surname: state.surname,
+        mail: state.mail,
+        phone: state.phone,
+      })
+      emit('created')
+      state.date = null
+      state.time = null
+      state.notes = null
+      state.salutation = null
+      state.firstname = null
+      state.surname = null
+      state.mail = null
+      state.phone = null
+    }
+
+    return {
+      state,
+      create,
+    }
+  },
+}
+</script>
+
 <template>
   <article>
     <ul v-if="null !== cart">
@@ -114,66 +177,3 @@
     </b-form>
   </article>
 </template>
-
-<script>
-import { computed, reactive } from '@vue/composition-api'
-
-export default {
-  name: 'reservation-create',
-  props: {
-    cart: Array,
-  },
-  setup(props, { emit }) {
-    const state = reactive({
-      date: null,
-      time: '00:00',
-      notes: null,
-      books: computed(() => {
-        if (null === props.cart) return
-        let list = []
-        props.cart.forEach((element) => {
-          list.push(element.id)
-        })
-        return list.join(',')
-      }),
-      collection: computed(() => {
-        if (null === state.date || null === state.time) return
-        let date = new Date(state.date + ' ' + state.time + 'Z')
-        return date.getTime() / 1000
-      }),
-      salutation: null,
-      firstname: null,
-      surname: null,
-      mail: null,
-      phone: null,
-    })
-
-    const create = () => {
-      emit('create', {
-        collection: state.collection,
-        notes: state.notes,
-        books: state.books,
-        salutation: state.salutation,
-        firstname: state.firstname,
-        surname: state.surname,
-        mail: state.mail,
-        phone: state.phone,
-      })
-      emit('created')
-      state.date = null
-      state.time = null
-      state.notes = null
-      state.salutation = null
-      state.firstname = null
-      state.surname = null
-      state.mail = null
-      state.phone = null
-    }
-
-    return {
-      state,
-      create,
-    }
-  },
-}
-</script>

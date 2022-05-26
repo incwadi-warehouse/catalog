@@ -1,3 +1,87 @@
+<script>
+import { computed, onMounted, reactive } from '@vue/composition-api'
+
+export default {
+  name: 'reservation-show',
+  props: {
+    reservation: Object,
+  },
+  setup(props, { emit }) {
+    const state = reactive({
+      date: null,
+      time: null,
+      notes: props.reservation.notes,
+      books: computed(() => {
+        let list = []
+        props.reservation.books.forEach((element) => {
+          list.push(element.id)
+        })
+        return list.join(',')
+      }),
+      collection: computed(() => {
+        let date = new Date(state.date + ' ' + state.time + 'Z')
+        return date.getTime() / 1000
+      }),
+      salutation: props.reservation.salutation,
+      firstname: props.reservation.firstname,
+      surname: props.reservation.surname,
+      mail: props.reservation.mail,
+      phone: props.reservation.phone,
+    })
+
+    const update = () => {
+      emit('update', {
+        id: props.reservation.id,
+        collection: state.collection,
+        notes: state.notes,
+        books: state.books,
+        salutation: state.salutation,
+        firstname: state.firstname,
+        surname: state.surname,
+        mail: state.mail,
+        phone: state.phone,
+      })
+    }
+
+    onMounted(() => {
+      setCollection()
+    })
+
+    const setCollection = () => {
+      if (null === props.reservation.collection) return
+
+      let date = new Date(props.reservation.collection * 1000)
+
+      let month = formatNumber(date.getMonth() + 1)
+      let day = formatNumber(date.getDate())
+      state.date = date.getFullYear() + '-' + month + '-' + day
+
+      let hours = formatNumber(date.getHours())
+      let minutes = formatNumber(date.getMinutes())
+      state.time = hours + ':' + minutes
+    }
+
+    const formatNumber = (number) => {
+      if (number <= 9) {
+        return '0' + number
+      }
+      return number
+    }
+
+    const toLocaleDateString = (data) => {
+      let date = new Date(data * 1000)
+      return date.toLocaleString()
+    }
+
+    return {
+      state,
+      update,
+      toLocaleDateString,
+    }
+  },
+}
+</script>
+
 <template>
   <div class="reservation">
     <p>
@@ -127,90 +211,6 @@
     </b-form>
   </div>
 </template>
-
-<script>
-import { computed, onMounted, reactive } from '@vue/composition-api'
-
-export default {
-  name: 'reservation-show',
-  props: {
-    reservation: Object,
-  },
-  setup(props, { emit }) {
-    const state = reactive({
-      date: null,
-      time: null,
-      notes: props.reservation.notes,
-      books: computed(() => {
-        let list = []
-        props.reservation.books.forEach((element) => {
-          list.push(element.id)
-        })
-        return list.join(',')
-      }),
-      collection: computed(() => {
-        let date = new Date(state.date + ' ' + state.time + 'Z')
-        return date.getTime() / 1000
-      }),
-      salutation: props.reservation.salutation,
-      firstname: props.reservation.firstname,
-      surname: props.reservation.surname,
-      mail: props.reservation.mail,
-      phone: props.reservation.phone,
-    })
-
-    const update = () => {
-      emit('update', {
-        id: props.reservation.id,
-        collection: state.collection,
-        notes: state.notes,
-        books: state.books,
-        salutation: state.salutation,
-        firstname: state.firstname,
-        surname: state.surname,
-        mail: state.mail,
-        phone: state.phone,
-      })
-    }
-
-    onMounted(() => {
-      setCollection()
-    })
-
-    const setCollection = () => {
-      if (null === props.reservation.collection) return
-
-      let date = new Date(props.reservation.collection * 1000)
-
-      let month = formatNumber(date.getMonth() + 1)
-      let day = formatNumber(date.getDate())
-      state.date = date.getFullYear() + '-' + month + '-' + day
-
-      let hours = formatNumber(date.getHours())
-      let minutes = formatNumber(date.getMinutes())
-      state.time = hours + ':' + minutes
-    }
-
-    const formatNumber = (number) => {
-      if (number <= 9) {
-        return '0' + number
-      }
-      return number
-    }
-
-    const toLocaleDateString = (data) => {
-      let date = new Date(data * 1000)
-      return date.toLocaleString()
-    }
-
-    return {
-      state,
-      update,
-      toLocaleDateString,
-    }
-  },
-}
-</script>
 
 <style scoped>
 .reservation {
