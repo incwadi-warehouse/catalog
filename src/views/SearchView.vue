@@ -1,3 +1,214 @@
+<script>
+import {
+  reactive,
+  toRefs,
+  ref,
+  onMounted,
+  watch,
+  computed,
+  onUnmounted,
+} from '@vue/composition-api'
+import router from '@/router'
+import SearchRadioFilter from '@/components/search/RadioFilter.vue'
+import SearchCheckboxFilter from '@/components/search/CheckboxFilter.vue'
+import SearchNumberRangeFilter from '@/components/search/NumberRangeFilter.vue'
+import SearchDateRangeFilter from '@/components/search/DateRangeFilter.vue'
+import SearchBookResults from '@/components/search/BookResults.vue'
+import SearchAuthorResults from '@/components/search/AuthorResults.vue'
+import { useBranch } from '@/composables/useBranch.js'
+import { useGenre } from '@/composables/useGenre.js'
+import { useFormat } from '@/composables/useFormat.js'
+import { useAuthor } from '@/composables/useAuthor.js'
+import { useBook } from '@/composables/useBook.js'
+import { useCart } from '@/composables/useCart.js'
+import BookEdit from '@/components/book/Edit.vue'
+import BookCreate from '@/components/book/Create.vue'
+import SearchScrollToTop from '../components/search/ScrollToTop.vue'
+import { useInventory } from '@/composables/useInventory.js'
+import { useReservation } from '@/composables/useReservation.js'
+import { debounce } from 'lodash'
+
+export default {
+  name: 'search-view',
+  head: {
+    title: 'Search',
+  },
+  components: {
+    SearchRadioFilter,
+    SearchCheckboxFilter,
+    SearchNumberRangeFilter,
+    SearchDateRangeFilter,
+    SearchBookResults,
+    SearchAuthorResults,
+    BookEdit,
+    BookCreate,
+    SearchScrollToTop,
+  },
+  props: {
+    auth: Object,
+    query: Object,
+    id: String,
+  },
+  setup(props) {
+    const { query, id } = toRefs(props)
+
+    var filter = reactive({
+      term: query.value.term || null,
+      branch: query.value.branch || props.auth?.state.me?.branch.id || null,
+      genre: query.value.genre || [],
+      releaseYear: query.value.releaseYear || '',
+      availability: query.value.availability || [],
+      format: query.value.format || null,
+      added: query.value.added || '',
+      orderBy: query.value.orderBy || null,
+      orderByDirection: query.value.orderByDirection || 'asc',
+      limit: query.value.limit || 50,
+    })
+
+    const modal = ref(null)
+
+    const { authors, find: findAuthor, remove: rmAuthor } = useAuthor()
+
+    const removeAuthor = (authorId) => {
+      rmAuthor(authorId).then(search)
+    }
+
+    const { books, find, show, update, create, sell, remove, upload } =
+      useBook()
+
+    const hasBooks = computed(() => {
+      if (books === null) return false
+      return books.length >= 1
+    })
+
+    const sellBook = (bookId) => {
+      sell(bookId).then(() => {
+        search()
+      })
+    }
+
+    const removeBook = (bookId) => {
+      remove(bookId).then(() => {
+        search()
+      })
+    }
+
+    const isUploading = ref(false)
+    const uploadCover = (data) => {
+      isUploading.value = true
+      upload(data).then(() => {
+        isUploading.value = false
+      })
+    }
+
+    const search = (force = false) => {
+      router.push({ name: 'search', query: filter })
+      if (filter.term !== null) {
+        findAuthor({ term: filter.term })
+      }
+      if (filter.term !== null || force) {
+        find({ options: filter })
+      }
+    }
+
+    const reset = () => {
+      filter.term = null
+      filter.branch = null
+      filter.genre = []
+      filter.releaseYear = ''
+      filter.availability = []
+      filter.format = null
+      filter.added = ''
+      filter.orderBy = null
+      filter.orderByDirection = null
+      filter.limit = 50
+      books.value = null
+      authors.value = null
+    }
+
+    if (filter.term !== null) {
+      onMounted(search)
+    }
+
+    const { branches } = useBranch()
+
+    const { genres } = useGenre()
+
+    const { formats } = useFormat()
+
+    const { cart, add, remove: removeCart, clean } = useCart()
+
+    onMounted(() => {
+      if (id.value === undefined) return
+      if (id.value) modal.value = 'update'
+      show(id.value)
+    })
+
+    watch(
+      () => id.value,
+      () => {
+        if (id.value) modal.value = 'update'
+        show(id.value)
+      }
+    )
+
+    const { reservations, list } = useReservation()
+    const reservationInterval = window.setInterval(() => {
+      list()
+    }, 5000)
+    onUnmounted(() => {
+      window.clearInterval(reservationInterval)
+    })
+
+    const { hasActiveInventory } = useInventory()
+
+    const hasInventory = ref(false)
+
+    const canToggleInventory = computed(() => {
+      return hasActiveInventory.value
+    })
+
+    const showCover = ref(false)
+
+    const delaySearch = () => {
+      debounce(() => {
+        search()
+      }, 1000)()
+    }
+
+    return {
+      filter,
+      modal,
+      search,
+      reset,
+      branches,
+      genres,
+      formats,
+      authors,
+      books,
+      update,
+      create,
+      cart,
+      add,
+      removeCart,
+      clean,
+      sellBook,
+      removeBook,
+      uploadCover,
+      removeAuthor,
+      hasBooks,
+      hasInventory,
+      canToggleInventory,
+      showCover,
+      isUploading,
+      reservations,
+      debounce,
+      delaySearch,
+    }
+  },
+}
+</script>
+
 <template>
   <article v-if="auth.state.me">
     <b-container size="l" v-if="reservations && reservations.length >= 1">
@@ -257,214 +468,3 @@
     </keep-alive>
   </article>
 </template>
-
-<script>
-import {
-  reactive,
-  toRefs,
-  ref,
-  onMounted,
-  watch,
-  computed,
-  onUnmounted,
-} from '@vue/composition-api'
-import router from '@/router'
-import SearchRadioFilter from '@/components/search/RadioFilter'
-import SearchCheckboxFilter from '@/components/search/CheckboxFilter'
-import SearchNumberRangeFilter from '@/components/search/NumberRangeFilter'
-import SearchDateRangeFilter from '@/components/search/DateRangeFilter'
-import SearchBookResults from '@/components/search/BookResults'
-import SearchAuthorResults from '@/components/search/AuthorResults'
-import { useBranch } from '@/composables/useBranch'
-import { useGenre } from '@/composables/useGenre'
-import { useFormat } from '@/composables/useFormat'
-import { useAuthor } from '@/composables/useAuthor'
-import { useBook } from '@/composables/useBook'
-import { useCart } from '@/composables/useCart'
-import BookEdit from '@/components/book/Edit'
-import BookCreate from '@/components/book/Create'
-import SearchScrollToTop from '../components/search/ScrollToTop'
-import { useInventory } from '@/composables/useInventory'
-import { useReservation } from '@/composables/useReservation'
-import { debounce } from 'lodash'
-
-export default {
-  name: 'search-view',
-  head: {
-    title: 'Search',
-  },
-  components: {
-    SearchRadioFilter,
-    SearchCheckboxFilter,
-    SearchNumberRangeFilter,
-    SearchDateRangeFilter,
-    SearchBookResults,
-    SearchAuthorResults,
-    BookEdit,
-    BookCreate,
-    SearchScrollToTop,
-  },
-  props: {
-    auth: Object,
-    query: Object,
-    id: String,
-  },
-  setup(props) {
-    const { query, id } = toRefs(props)
-
-    var filter = reactive({
-      term: query.value.term || null,
-      branch: query.value.branch || props.auth?.state.me?.branch.id || null,
-      genre: query.value.genre || [],
-      releaseYear: query.value.releaseYear || '',
-      availability: query.value.availability || [],
-      format: query.value.format || null,
-      added: query.value.added || '',
-      orderBy: query.value.orderBy || null,
-      orderByDirection: query.value.orderByDirection || 'asc',
-      limit: query.value.limit || 50,
-    })
-
-    const modal = ref(null)
-
-    const { authors, find: findAuthor, remove: rmAuthor } = useAuthor()
-
-    const removeAuthor = (authorId) => {
-      rmAuthor(authorId).then(search)
-    }
-
-    const { books, find, show, update, create, sell, remove, upload } =
-      useBook()
-
-    const hasBooks = computed(() => {
-      if (books === null) return false
-      return books.length >= 1
-    })
-
-    const sellBook = (bookId) => {
-      sell(bookId).then(() => {
-        search()
-      })
-    }
-
-    const removeBook = (bookId) => {
-      remove(bookId).then(() => {
-        search()
-      })
-    }
-
-    const isUploading = ref(false)
-    const uploadCover = (data) => {
-      isUploading.value = true
-      upload(data).then(() => {
-        isUploading.value = false
-      })
-    }
-
-    const search = (force = false) => {
-      router.push({ name: 'search', query: filter })
-      if (filter.term !== null) {
-        findAuthor({ term: filter.term })
-      }
-      if (filter.term !== null || force) {
-        find({ options: filter })
-      }
-    }
-
-    const reset = () => {
-      filter.term = null
-      filter.branch = null
-      filter.genre = []
-      filter.releaseYear = ''
-      filter.availability = []
-      filter.format = null
-      filter.added = ''
-      filter.orderBy = null
-      filter.orderByDirection = null
-      filter.limit = 50
-      books.value = null
-      authors.value = null
-    }
-
-    if (filter.term !== null) {
-      onMounted(search)
-    }
-
-    const { branches } = useBranch()
-
-    const { genres } = useGenre()
-
-    const { formats } = useFormat()
-
-    const { cart, add, remove: removeCart, clean } = useCart()
-
-    onMounted(() => {
-      if (id.value === undefined) return
-      if (id.value) modal.value = 'update'
-      show(id.value)
-    })
-
-    watch(
-      () => id.value,
-      () => {
-        if (id.value) modal.value = 'update'
-        show(id.value)
-      }
-    )
-
-    const { reservations, list } = useReservation()
-    const reservationInterval = window.setInterval(() => {
-      list()
-    }, 5000)
-    onUnmounted(() => {
-      window.clearInterval(reservationInterval)
-    })
-
-    const { hasActiveInventory } = useInventory()
-
-    const hasInventory = ref(false)
-
-    const canToggleInventory = computed(() => {
-      return hasActiveInventory.value
-    })
-
-    const showCover = ref(false)
-
-    const delaySearch = () => {
-      debounce(() => {
-        search()
-      }, 1000)()
-    }
-
-    return {
-      filter,
-      modal,
-      search,
-      reset,
-      branches,
-      genres,
-      formats,
-      authors,
-      books,
-      update,
-      create,
-      cart,
-      add,
-      removeCart,
-      clean,
-      sellBook,
-      removeBook,
-      uploadCover,
-      removeAuthor,
-      hasBooks,
-      hasInventory,
-      canToggleInventory,
-      showCover,
-      isUploading,
-      reservations,
-      debounce,
-      delaySearch,
-    }
-  },
-}
-</script>
