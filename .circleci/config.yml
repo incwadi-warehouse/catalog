@@ -2,35 +2,13 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.2
   cypress: cypress-io/cypress@1.29.0
-jobs:
-  unit:
-    parameters:
-      version:
-        type: string
-        default: lts
-    executor:
-      name: node/default
-      tag: <<parameters.version>>
-    steps:
-      - checkout
-      - node/install-packages:
-          pkg-manager: yarn
-      - run:
-          command: yarn test:unit
 workflows:
   test:
     jobs:
-      - unit:
-          matrix:
-            parameters:
-              version:
-                - 'lts'
-                - '12.22'
       - cypress/run:
           matrix:
             parameters:
               executor:
                 - cypress/base-14
-                - cypress/base-12
           yarn: true
           command: yarn test:e2e --headless
