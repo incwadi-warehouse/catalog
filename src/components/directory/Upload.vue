@@ -1,3 +1,16 @@
+<script>
+import { useDirectory } from './../../composables/useDirectory.js'
+
+export default {
+  name: 'directory-upload',
+  setup(props, { emit }) {
+    const { isUploading, isDragging, uploadImage } = useDirectory(emit)
+
+    return { isUploading, isDragging, uploadImage }
+  },
+}
+</script>
+
 <template>
   <b-spinner size="l" v-if="isUploading" />
   <b-form enctype="multipart/form-data" @submit.prevent v-else>
@@ -36,19 +49,6 @@
     </b-form-group>
   </b-form>
 </template>
-
-<script>
-import { useDirectory } from './../../composables/useDirectory'
-
-export default {
-  name: 'directory-upload',
-  setup(props, { emit }) {
-    const { isUploading, isDragging, uploadImage } = useDirectory(emit)
-
-    return { isUploading, isDragging, uploadImage }
-  },
-}
-</script>
 
 <style scoped>
 .upload {

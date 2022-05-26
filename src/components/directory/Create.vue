@@ -1,3 +1,16 @@
+<script>
+import { useDirectory } from '@/composables/useDirectory.js'
+
+export default {
+  name: 'directory-create',
+  setup(props, { emit }) {
+    const { dirname, createDir } = useDirectory(emit)
+
+    return { dirname, createDir }
+  },
+}
+</script>
+
 <template>
   <b-form @submit.prevent="createDir">
     <b-form-group>
@@ -12,16 +25,3 @@
     </b-form-group>
   </b-form>
 </template>
-
-<script>
-import { useDirectory } from '@/composables/useDirectory'
-
-export default {
-  name: 'directory-create',
-  setup(props, { emit }) {
-    const { dirname, createDir } = useDirectory(emit)
-
-    return { dirname, createDir }
-  },
-}
-</script>

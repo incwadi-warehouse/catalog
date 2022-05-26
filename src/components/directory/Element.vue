@@ -1,3 +1,47 @@
+<script>
+import { useDirectory } from '@/composables/useDirectory.js'
+import { ref, toRefs, watchEffect } from '@vue/composition-api'
+
+export default {
+  name: 'directory-element',
+  props: {
+    id: String,
+    element: Object,
+  },
+  setup(props, { emit }) {
+    const { element } = toRefs(props)
+
+    const { dir, removeElement, editElement, uploadCover } = useDirectory(emit)
+
+    const isEditing = ref(false)
+
+    const oldName = ref(null)
+    const newName = ref(null)
+
+    watchEffect(() => {
+      oldName.value = element.value.name
+      newName.value = element.value.name
+    })
+
+    const edit = () => {
+      editElement(oldName.value, newName.value).then(() => {
+        isEditing.value = false
+      })
+    }
+
+    return {
+      oldName,
+      newName,
+      isEditing,
+      dir,
+      removeElement,
+      uploadCover,
+      edit,
+    }
+  },
+}
+</script>
+
 <template>
   <b-list
     :disabled="element.isFile"
@@ -59,47 +103,3 @@
     </template>
   </b-list>
 </template>
-
-<script>
-import { useDirectory } from '@/composables/useDirectory'
-import { ref, toRefs, watchEffect } from '@vue/composition-api'
-
-export default {
-  name: 'directory-element',
-  props: {
-    id: String,
-    element: Object,
-  },
-  setup(props, { emit }) {
-    const { element } = toRefs(props)
-
-    const { dir, removeElement, editElement, uploadCover } = useDirectory(emit)
-
-    const isEditing = ref(false)
-
-    const oldName = ref(null)
-    const newName = ref(null)
-
-    watchEffect(() => {
-      oldName.value = element.value.name
-      newName.value = element.value.name
-    })
-
-    const edit = () => {
-      editElement(oldName.value, newName.value).then(() => {
-        isEditing.value = false
-      })
-    }
-
-    return {
-      oldName,
-      newName,
-      isEditing,
-      dir,
-      removeElement,
-      uploadCover,
-      edit,
-    }
-  },
-}
-</script>

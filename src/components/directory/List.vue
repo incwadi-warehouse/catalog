@@ -1,3 +1,23 @@
+<script>
+import { useDirectory } from '@/composables/useDirectory.js'
+import DirectoryElement from './Element.vue'
+
+export default {
+  name: 'directory-list',
+  props: {
+    id: String,
+  },
+  components: {
+    DirectoryElement,
+  },
+  setup(props, { emit }) {
+    const { dir, elements, isLoading } = useDirectory(emit)
+
+    return { dir, elements, isLoading }
+  },
+}
+</script>
+
 <template>
   <article>
     <b-spinner size="m" v-if="isLoading" />
@@ -27,23 +47,3 @@
     </div>
   </article>
 </template>
-
-<script>
-import { useDirectory } from '@/composables/useDirectory'
-import DirectoryElement from './Element.vue'
-
-export default {
-  name: 'directory-list',
-  props: {
-    id: String,
-  },
-  components: {
-    DirectoryElement,
-  },
-  setup(props, { emit }) {
-    const { dir, elements, isLoading } = useDirectory(emit)
-
-    return { dir, elements, isLoading }
-  },
-}
-</script>
