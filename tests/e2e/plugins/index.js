@@ -1,5 +1,5 @@
 /* eslint-disable arrow-body-style */
-module.exports = (on, config) => {
+module.exports = (_on, config) => {
   return Object.assign({}, config, {
     fixturesFolder: 'tests/e2e/fixtures',
     integrationFolder: 'tests/e2e/integration',

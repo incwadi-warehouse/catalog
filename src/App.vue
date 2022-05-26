@@ -1,39 +1,254 @@
-<template>
-  <layout :auth="auth">
-    <router-view :auth="auth" v-if="!needsAuth || auth.state.isAuthenticated" />
-
-    <b-container size="s" v-if="needsAuth && !auth.state.isAuthenticated">
-      <h1>{{ $t('login') }}</h1>
-      <auth-login />
-    </b-container>
-  </layout>
-</template>
-
 <script>
-import Layout from '@/Layout'
-import AuthLogin from '@/components/auth/Login'
-import useAuth from '@/composables/useAuth'
-import config from '@/../vue.config'
+import AuthLogin from '@/components/auth/Login.vue'
+import Logo from './components/Logo.vue'
+import useAuth from '@/composables/useAuth.js'
+import { useBookmark } from '@/composables/useBookmark.js'
+import { useReservation } from '@/composables/useReservation.js'
+import useToast from './../node_modules/@baldeweg/components/src/composables/useToast.js'
+import { onMounted, onUnmounted, ref } from '@vue/composition-api'
+import router from '@/router'
 
 export default {
   name: 'app',
   components: {
-    Layout,
     AuthLogin,
+    Logo,
   },
   head: {
     title: 'Home',
-    titleTemplate: (title) => {
-      return title
-        ? title + ' - ' + config.pluginOptions.components.title
-        : config.pluginOptions.components.title
-    },
   },
   setup() {
-    const needsAuth = config.pluginOptions.components.needsAuth
-    const auth = needsAuth ? useAuth() : null
+    const auth = useAuth()
 
-    return { needsAuth, auth }
+    const about = process.env.VUE_APP_ABOUT
+
+    const hasLogo = process.env.VUE_APP_LOGO === 'false' ? false : true
+
+    const isDrawerActive = ref(false)
+
+    onMounted(() => {
+      router.beforeEach((to, from, next) => {
+        isDrawerActive.value = false
+        next()
+      })
+    })
+
+    const find = process.env.VUE_APP_FIND
+    const settings = process.env.VUE_APP_SETTINGS
+    const orders = process.env.VUE_APP_ORDERS
+
+    const {
+      bookmarks,
+      list: listBookmarks,
+      createFromPage,
+      open,
+    } = useBookmark()
+
+    const refreshInterval = ref(null)
+
+    const refresh = () => {
+      refreshInterval.value = setInterval(listBookmarks, 5000)
+    }
+
+    onMounted(refresh)
+
+    onUnmounted(() => {
+      clearInterval(refreshInterval.value)
+    })
+
+    const navigateToBookmarks = () => {
+      window.location = settings + '/bookmark'
+    }
+
+    const { current } = useToast()
+
+    const { reservations, list: listReservations } = useReservation()
+
+    const reservationInterval = setInterval(listReservations, 5000)
+
+    onUnmounted(() => {
+      window.clearInterval(reservationInterval)
+    })
+
+    return {
+      auth,
+      about,
+      hasLogo,
+      isDrawerActive,
+      bookmarks,
+      open,
+      createFromPage,
+      find,
+      current,
+      reservations,
+      settings,
+      orders,
+      navigateToBookmarks,
+    }
   },
 }
 </script>
+
+<template>
+  <b-app>
+    <b-masthead>
+      <b-masthead-item type="start" v-if="auth.state.isAuthenticated">
+        <span @click="isDrawerActive = true">
+          <b-icon type="hamburger" />
+        </span>
+      </b-masthead-item>
+
+      <b-masthead-item type="center">
+        <router-link :to="{ name: 'index' }">
+          <logo v-if="hasLogo" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="50"
+            height="50"
+            viewBox="0 0 200 200"
+            class="logo"
+            v-else
+          >
+            <path
+              d="M 27.435547 9.8710938 C 17.706307 9.8710935 9.8710935 17.706307 9.8710938 27.435547 L 9.8710938 172.56445 C 9.8710935 182.29369 17.706307 190.12891 27.435547 190.12891 L 172.56445 190.12891 C 182.29369 190.12891 190.12891 182.29369 190.12891 172.56445 L 190.12891 27.435547 C 190.12891 17.706307 182.29369 9.8710938 172.56445 9.8710938 L 27.435547 9.8710938 z M 55 40 L 145 40 L 145 160 L 100 124 L 55 160 L 55 40 z "
+            />
+          </svg>
+        </router-link>
+      </b-masthead-item>
+
+      <b-masthead-item type="end" v-if="auth.state.isAuthenticated">
+        <b-dropdown position="bottom" class="action">
+          <template #selector>
+            <span @click.prevent>
+              <b-icon type="profile" />
+            </span>
+          </template>
+          <b-dropdown-item no-hover v-if="auth.state.me">
+            {{ $t('hello') }}, {{ auth.state.me.username }}!
+          </b-dropdown-item>
+
+          <b-dropdown-divider />
+
+          <b-dropdown-item @click.prevent="$router.push({ name: 'profile' })">
+            {{ $t('settings') }}
+          </b-dropdown-item>
+          <b-dropdown-item @click.prevent="auth.logout()">
+            {{ $t('logout') }}
+          </b-dropdown-item>
+        </b-dropdown>
+
+        <b-dropdown position="bottom" class="action">
+          <template #selector>
+            <span @click.prevent>
+              <b-icon type="star" />
+            </span>
+          </template>
+          <b-dropdown-item
+            v-for="item in bookmarks"
+            :key="item.id"
+            @click.prevent="open(item.url)"
+          >
+            {{ item.name }}
+          </b-dropdown-item>
+
+          <b-dropdown-divider />
+
+          <b-dropdown-item icon="plus" @click="createFromPage()">
+            {{ $t('addThisPage') }}
+          </b-dropdown-item>
+          <b-dropdown-item icon="star" @click="navigateToBookmarks">
+            {{ $t('bookmarks') }}
+          </b-dropdown-item>
+        </b-dropdown>
+
+        <span
+          class="action"
+          @click.prevent="$router.push({ name: 'reservation' })"
+        >
+          <b-badge :content="reservations && reservations.length" hide-empty>
+            <b-icon type="euro" />
+          </b-badge>
+        </span>
+      </b-masthead-item>
+    </b-masthead>
+    <router-view :auth="auth" v-if="auth.state.isAuthenticated" />
+
+    <b-container size="s" v-if="!auth.state.isAuthenticated">
+      <h1>{{ $t('login') }}</h1>
+      <auth-login />
+    </b-container>
+    <b-container size="m">
+      <div v-html="about" />
+    </b-container>
+
+    <b-drawer
+      :active="isDrawerActive"
+      collapsable
+      @open-menu="isDrawerActive = true"
+      @close-menu="isDrawerActive = false"
+    >
+      <div :style="{ padding: '20px' }">
+        <b-list :route="{ name: 'search' }" divider>
+          <template #title>
+            {{ $t('search') }}
+          </template>
+        </b-list>
+        <b-list divider>
+          <template #title>
+            <a :href="orders">
+              {{ $t('reservation') }}
+            </a>
+          </template>
+        </b-list>
+        <b-list :route="{ name: 'directory' }" divider>
+          <template #title>
+            {{ $t('directory') }}
+          </template>
+        </b-list>
+        <b-list divider>
+          <template #title>
+            <a :href="settings">
+              {{ $t('settings') }}
+            </a>
+          </template>
+        </b-list>
+        <b-list divider>
+          <template #title>
+            <a :href="find">
+              {{ $t('find') }}
+            </a>
+          </template>
+        </b-list>
+      </div>
+    </b-drawer>
+
+    <div class="project">
+      <a href="https://github.com/incwadi-warehouse/docu"
+        >A baldeweg Open Source project</a
+      >
+    </div>
+
+    <b-toast v-if="current" :type="current.type" :visible="true">{{
+      current.body
+    }}</b-toast>
+  </b-app>
+</template>
+
+<style scoped>
+.logo {
+  fill: var(--color-primary-10);
+}
+.action {
+  float: right;
+  margin-left: 20px;
+}
+.project {
+  text-align: right;
+  font-size: 0.6rem;
+  margin: 0 20px;
+}
+.project a,
+.project a:hover {
+  color: var(--color-neutral-04);
+}
+</style>
