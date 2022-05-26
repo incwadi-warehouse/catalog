@@ -1,7 +1,5 @@
 <script>
-import AuthorUpdate from '../components/author/Update.vue'
-import { useAuthor } from '@/composables/useAuthor.js'
-import { toRefs } from '@vue/composition-api'
+import AuthorUpdate from '@/components/author/Update.vue'
 
 export default {
   name: 'update-author-view',
@@ -14,15 +12,6 @@ export default {
   props: {
     id: Number,
   },
-  setup(props) {
-    const { id } = toRefs(props)
-
-    const { author, show, update } = useAuthor()
-
-    show(id.value)
-
-    return { author, update }
-  },
 }
 </script>
 
@@ -32,11 +21,8 @@ export default {
       <h1>{{ $t('edit_author') }}</h1>
     </b-container>
 
-    <b-container size="m" v-if="author">
-      <author-update
-        :author="author"
-        @update="update($event.id, $event.params)"
-      />
+    <b-container size="m">
+      <author-update :id="id" />
     </b-container>
   </article>
 </template>

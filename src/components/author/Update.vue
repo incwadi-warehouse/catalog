@@ -1,5 +1,26 @@
+<script>
+import { useAuthor } from '@/composables/useAuthor.js'
+import { toRefs } from '@vue/composition-api'
+
+export default {
+  name: 'author-update',
+  props: {
+    id: Number,
+  },
+  setup(props) {
+    const { id } = toRefs(props)
+
+    const { author, show, update } = useAuthor()
+
+    show(id.value)
+
+    return { author, update }
+  },
+}
+</script>
+
 <template>
-  <b-form @submit.prevent="update" v-if="author">
+  <b-form @submit.prevent="update(author.id)" v-if="author">
     <b-form-group>
       <b-form-item>
         <b-form-label for="firstname">
@@ -7,7 +28,7 @@
         </b-form-label>
       </b-form-item>
       <b-form-item>
-        <b-form-input type="text" id="firstname" v-model="state.firstname" />
+        <b-form-input type="text" id="firstname" v-model="author.firstname" />
       </b-form-item>
     </b-form-group>
 
@@ -16,44 +37,16 @@
         <b-form-label for="surname">{{ $t('surname') }}</b-form-label>
       </b-form-item>
       <b-form-item>
-        <b-form-input type="text" id="surname" v-model="state.surname" />
+        <b-form-input type="text" id="surname" v-model="author.surname" />
       </b-form-item>
     </b-form-group>
 
-    <b-form-group buttons>
+    <b-form-group>
       <b-form-item>
-        <b-button design="primary">
+        <b-button design="primary_wide">
           {{ $t('save') }}
         </b-button>
       </b-form-item>
     </b-form-group>
   </b-form>
 </template>
-
-<script>
-import { reactive, toRefs } from '@vue/composition-api'
-
-export default {
-  name: 'author-update',
-  props: {
-    author: Object,
-  },
-  setup(props, { emit }) {
-    const { author } = toRefs(props)
-
-    const state = reactive({
-      firstname: author.value.firstname,
-      surname: author.value.surname,
-    })
-
-    const update = () => {
-      emit('update', {
-        id: author.value.id,
-        params: { firstname: state.firstname, surname: state.surname },
-      })
-    }
-
-    return { state, update }
-  },
-}
-</script>

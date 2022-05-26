@@ -1,10 +1,14 @@
 import { ref } from '@vue/composition-api'
 import { request } from '@/api'
+import useToast from '@baldeweg/components/src/composables/useToast'
+import i18n from '@/i18n.js'
 
 const authors = ref(null)
 
 export function useAuthor() {
   const author = ref(null)
+
+  const { add } = useToast()
 
   const find = (data) => {
     return request('get', '/api/author/find', null, data).then((res) => {
@@ -18,8 +22,23 @@ export function useAuthor() {
     })
   }
 
-  const update = (id, data) => {
-    return request('put', '/api/author/' + id, data)
+  const update = (id) => {
+    return request('put', '/api/author/' + id, {
+      firstname: author.value.firstname,
+      surname: author.value.surname,
+    })
+      .then(() => {
+        add({
+          type: 'success',
+          body: i18n.t('updated'),
+        })
+      })
+      .catch(() => {
+        add({
+          type: 'error',
+          body: i18n.t('error'),
+        })
+      })
   }
 
   const remove = (id) => {

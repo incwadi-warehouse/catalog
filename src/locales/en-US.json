@@ -179,5 +179,7 @@
   "phone": "Phone",
   "mr": "Mr.",
   "mrs": "Mrs.",
-  "none_divers": "None/ Diverse"
+  "none_divers": "None/ Diverse",
+  "updated": "Updated",
+  "error": "Error"
 }
