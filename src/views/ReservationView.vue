@@ -7,7 +7,7 @@
     <b-container size="m">
       <h2>{{ $t('newReservation') }}</h2>
       <reservation-create
-        :cart="cart.state.cart"
+        :cart="cart"
         @create="reservation.create($event)"
         @created="onCreated"
       />
@@ -35,7 +35,7 @@
 
 <script>
 import useReservation from '../composables/useReservation'
-import useCart from '../composables/useCart'
+import { useCart } from '../composables/useCart'
 import ReservationCreate from './../components/reservation/Create'
 import { onMounted, toRefs } from '@vue/composition-api'
 import ReservationShow from './../components/reservation/Show'
@@ -55,14 +55,12 @@ export default {
   setup(props) {
     const { me } = toRefs(props.auth.state)
 
-    const cart = useCart()
-    cart.list()
+    const { cart, clean } = useCart()
 
     const reservation = useReservation()
 
     const onCreated = () => {
-      cart.clean()
-      cart.list()
+      clean()
     }
 
     onMounted(() => {

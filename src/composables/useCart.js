@@ -1,45 +1,39 @@
-import { onMounted, reactive } from '@vue/composition-api'
+import { onMounted, ref } from '@vue/composition-api'
 import { remove as _remove } from 'lodash'
 
-export default function useCart() {
-  const state = reactive({
-    cart: JSON.parse(localStorage.getItem('cart')),
-  })
+export function useCart() {
+  const cart = ref(JSON.parse(localStorage.getItem('cart')) || [])
 
   const list = () => {
-    state.cart = JSON.parse(localStorage.getItem('cart'))
+    cart.value = JSON.parse(localStorage.getItem('cart')) || []
   }
+
+  onMounted(list)
 
   const save = (books) => {
     localStorage.setItem('cart', JSON.stringify(books))
   }
 
-  const add = (book) => {
-    let books = state.cart || []
-    books.push({ id: book.id, title: book.title, price: book.price })
-    save(books)
-    list()
+  const add = ({ id, title, price }) => {
+    cart.value.push({ id, title, price })
+    save(cart.value)
   }
 
   const remove = (book) => {
-    let books = _remove(state.cart, (item) => {
+    cart.value = _remove(cart.value, (item) => {
       return item !== book
     })
-    state.cart = books
-    save(books)
-    if (books.length === 0) {
+    save(cart.value)
+    if (cart.value.length === 0) {
       localStorage.removeItem('cart')
-      state.cart = undefined
+      cart.value = []
     }
-    list()
   }
 
   const clean = () => {
     localStorage.removeItem('cart')
-    list()
+    cart.value = []
   }
 
-  onMounted(list)
-
-  return { state, list, add, remove, clean }
+  return { cart, add, remove, clean }
 }

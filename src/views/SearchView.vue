@@ -25,21 +25,21 @@
       <h1>{{ $t('search') }}</h1>
     </b-container>
 
-    <b-container size="l" v-if="cart.state.cart && cart.state.cart.length >= 1">
-      <h2>{{ $t('cart') }} ({{ cart.state.cart.length }})</h2>
+    <b-container size="l" v-if="cart && cart.length >= 1">
+      <h2>{{ $t('cart') }} ({{ cart.length }})</h2>
 
       <ul>
-        <li v-for="book in cart.state.cart" :key="book.id">
+        <li v-for="book in cart" :key="book.id">
           <router-link :to="{ name: 'book.update', params: { id: book.id } }">
             {{ book.title }}
           </router-link>
-          <span @click="cart.remove(book)"
+          <span @click="removeCart(book)"
             ><b-icon type="close" :size="15"
           /></span>
         </li>
       </ul>
 
-      <b-button type="button" design="text" @click="cart.clean">
+      <b-button type="button" design="text" @click="clean">
         {{ $t('cleanCart') }}
       </b-button>
       <b-button
@@ -107,7 +107,7 @@
         :showCover="showCover"
         @sell="sell"
         @remove="remove"
-        @add-to-cart="cart.add"
+        @add-to-cart="add"
         @search="search"
       />
     </b-container>
@@ -290,7 +290,7 @@ import { useGenre } from '@/composables/useGenre'
 import { useFormat } from '@/composables/useFormat'
 import { useAuthor } from '@/composables/useAuthor'
 import useBook from '@/composables/useBook'
-import useCart from '@/composables/useCart'
+import { useCart } from '@/composables/useCart'
 import BookEdit from '@/components/book/Edit'
 import BookCreate from '@/components/book/Create'
 import SearchScrollToTop from '../components/search/ScrollToTop'
@@ -405,7 +405,7 @@ export default {
 
     const { formats } = useFormat()
 
-    const cart = useCart()
+    const { cart, add, remove: removeCart, clean } = useCart()
 
     onMounted(() => {
       if (id.value === undefined) return
@@ -457,6 +457,9 @@ export default {
       authors,
       book,
       cart,
+      add,
+      removeCart,
+      clean,
       sell,
       remove,
       uploadCover,
