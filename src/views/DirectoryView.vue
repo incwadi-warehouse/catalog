@@ -1,3 +1,24 @@
+<script>
+import DirectoryList from '@/components/directory/List.vue'
+import DirectoryCreate from '@/components/directory/Create.vue'
+import DirectoryUpload from '@/components/directory/Upload.vue'
+
+export default {
+  name: 'directory-view',
+  head: {
+    title: 'Directory',
+  },
+  components: {
+    DirectoryList,
+    DirectoryCreate,
+    DirectoryUpload,
+  },
+  props: {
+    auth: Object,
+  },
+}
+</script>
+
 <template>
   <article>
     <b-container size="m">
@@ -17,24 +38,3 @@
     </b-container>
   </article>
 </template>
-
-<script>
-import DirectoryList from '@/components/directory/List'
-import DirectoryCreate from '@/components/directory/Create'
-import DirectoryUpload from '@/components/directory/Upload'
-
-export default {
-  name: 'directory-view',
-  head: {
-    title: 'Directory',
-  },
-  components: {
-    DirectoryList,
-    DirectoryCreate,
-    DirectoryUpload,
-  },
-  props: {
-    auth: Object,
-  },
-}
-</script>
