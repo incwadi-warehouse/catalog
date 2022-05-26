@@ -74,13 +74,7 @@
           class="action"
           @click.prevent="$router.push({ name: 'reservation' })"
         >
-          <b-badge
-            :content="
-              stateReservation.reservations &&
-              stateReservation.reservations.length
-            "
-            hide-empty
-          >
+          <b-badge :content="reservations && reservations.length" hide-empty>
             <b-icon type="euro" />
           </b-badge>
         </span>
@@ -158,7 +152,7 @@ import Logo from './components/Logo'
 import router from '@/router'
 import { useBookmark } from '@/composables/useBookmark'
 import useToast from './../node_modules/@baldeweg/components/src/composables/useToast'
-import useReservation from '@/composables/useReservation'
+import { useReservation } from '@/composables/useReservation'
 
 export default {
   name: 'layout',
@@ -210,8 +204,7 @@ export default {
 
     const { current } = useToast()
 
-    const { state: stateReservation, list: listReservations } = useReservation()
-    listReservations()
+    const { reservations, list: listReservations } = useReservation()
     const reservationInterval = setInterval(listReservations, 5000)
 
     onUnmounted(() => {
@@ -232,7 +225,7 @@ export default {
       createFromPage,
       links,
       current,
-      stateReservation,
+      reservations,
       settings,
       orders,
       navigateToBookmarks,

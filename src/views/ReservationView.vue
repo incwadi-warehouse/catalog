@@ -8,21 +8,21 @@
       <h2>{{ $t('newReservation') }}</h2>
       <reservation-create
         :cart="cart"
-        @create="reservation.create($event)"
+        @create="create($event)"
         @created="onCreated"
       />
     </b-container>
 
     <b-container size="m">
       <h2>{{ $t('reservedBooks') }}</h2>
-      <b-spinner size="l" v-if="reservation.state.isLoading" />
-      <div v-if="reservation.state.reservations">
+      <b-spinner size="l" v-if="isLoading" />
+      <div v-if="reservations">
         <reservation-show
-          v-for="item in reservation.state.reservations"
+          v-for="item in reservations"
           :key="item.id"
           :reservation="item"
-          @update="reservation.update($event)"
-          @remove="reservation.remove($event)"
+          @update="update($event)"
+          @remove="remove($event)"
         />
       </div>
     </b-container>
@@ -34,10 +34,10 @@
 </template>
 
 <script>
-import useReservation from '../composables/useReservation'
+import { useReservation } from '../composables/useReservation'
 import { useCart } from '../composables/useCart'
 import ReservationCreate from './../components/reservation/Create'
-import { onMounted, toRefs } from '@vue/composition-api'
+import { toRefs } from '@vue/composition-api'
 import ReservationShow from './../components/reservation/Show'
 
 export default {
@@ -57,18 +57,18 @@ export default {
 
     const { cart, clean } = useCart()
 
-    const reservation = useReservation()
+    const { reservations, isLoading, create, update, remove } = useReservation()
 
     const onCreated = () => {
       clean()
     }
 
-    onMounted(() => {
-      reservation.list()
-    })
-
     return {
-      reservation,
+      reservations,
+      isLoading,
+      create,
+      update,
+      remove,
       onCreated,
       cart,
       me,

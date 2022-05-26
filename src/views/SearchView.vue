@@ -1,16 +1,10 @@
 <template>
   <article v-if="auth.state.me">
-    <b-container
-      size="l"
-      v-if="
-        reservation.state.reservations &&
-        reservation.state.reservations.length >= 1
-      "
-    >
+    <b-container size="l" v-if="reservations && reservations.length >= 1">
       <b-alert type="success">
         <router-link :to="{ name: 'reservation' }">
           {{ $t('current_reservations') }}:
-          {{ reservation.state.reservations.length }}
+          {{ reservations.length }}
         </router-link>
       </b-alert>
     </b-container>
@@ -295,7 +289,7 @@ import BookEdit from '@/components/book/Edit'
 import BookCreate from '@/components/book/Create'
 import SearchScrollToTop from '../components/search/ScrollToTop'
 import { useInventory } from '@/composables/useInventory'
-import useReservation from '@/composables/useReservation'
+import { useReservation } from '@/composables/useReservation'
 import { debounce } from 'lodash'
 
 export default {
@@ -421,10 +415,9 @@ export default {
       }
     )
 
-    const reservation = useReservation()
-    reservation.list()
+    const { reservations, list } = useReservation()
     const reservationInterval = window.setInterval(() => {
-      reservation.list()
+      list()
     }, 5000)
     onUnmounted(() => {
       window.clearInterval(reservationInterval)
@@ -469,7 +462,7 @@ export default {
       canToggleInventory,
       showCover,
       isUploading,
-      reservation,
+      reservations,
       debounce,
       delaySearch,
     }
