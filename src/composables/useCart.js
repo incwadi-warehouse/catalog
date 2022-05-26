@@ -1,9 +1,9 @@
 import { onMounted, ref } from '@vue/composition-api'
 import { remove as _remove } from 'lodash'
 
-export function useCart() {
-  const cart = ref(JSON.parse(localStorage.getItem('cart')) || [])
+const cart = ref(JSON.parse(localStorage.getItem('cart')) || [])
 
+export function useCart() {
   const list = () => {
     cart.value = JSON.parse(localStorage.getItem('cart')) || []
   }

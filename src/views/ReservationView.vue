@@ -1,3 +1,42 @@
+<script>
+import ReservationCreate from './../components/reservation/Create.vue'
+import ReservationShow from './../components/reservation/Show.vue'
+import { useReservation } from '../composables/useReservation.js'
+import { useCart } from '../composables/useCart.js'
+import { toRefs } from '@vue/composition-api'
+
+export default {
+  name: 'reservation-view',
+  head: {
+    title: 'Reservation',
+  },
+  components: {
+    ReservationCreate,
+    ReservationShow,
+  },
+  props: {
+    auth: Object,
+  },
+  setup(props) {
+    const { me } = toRefs(props.auth.state)
+
+    const { cart } = useCart()
+
+    const { reservations, isLoading, create, update, remove } = useReservation()
+
+    return {
+      me,
+      cart,
+      reservations,
+      isLoading,
+      create,
+      update,
+      remove,
+    }
+  },
+}
+</script>
+
 <template>
   <article>
     <b-container size="m">
@@ -6,11 +45,7 @@
 
     <b-container size="m">
       <h2>{{ $t('newReservation') }}</h2>
-      <reservation-create
-        :cart="cart"
-        @create="create($event)"
-        @created="onCreated"
-      />
+      <reservation-create :cart="cart" @create="create($event)" />
     </b-container>
 
     <b-container size="m">
@@ -32,47 +67,3 @@
     </b-container>
   </article>
 </template>
-
-<script>
-import { useReservation } from '../composables/useReservation'
-import { useCart } from '../composables/useCart'
-import ReservationCreate from './../components/reservation/Create'
-import { toRefs } from '@vue/composition-api'
-import ReservationShow from './../components/reservation/Show'
-
-export default {
-  name: 'reservation-view',
-  head: {
-    title: 'Reservation',
-  },
-  components: {
-    ReservationCreate,
-    ReservationShow,
-  },
-  props: {
-    auth: Object,
-  },
-  setup(props) {
-    const { me } = toRefs(props.auth.state)
-
-    const { cart, clean } = useCart()
-
-    const { reservations, isLoading, create, update, remove } = useReservation()
-
-    const onCreated = () => {
-      clean()
-    }
-
-    return {
-      reservations,
-      isLoading,
-      create,
-      update,
-      remove,
-      onCreated,
-      cart,
-      me,
-    }
-  },
-}
-</script>

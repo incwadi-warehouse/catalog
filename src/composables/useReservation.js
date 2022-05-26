@@ -1,7 +1,9 @@
+import { useCart } from './useCart.js'
 import { onMounted, ref } from '@vue/composition-api'
 import { request } from '@/api'
 
 export function useReservation() {
+  const { clean } = useCart()
   const reservations = ref(null)
   const reservation = ref(null)
   const isLoading = ref(false)
@@ -17,9 +19,13 @@ export function useReservation() {
   onMounted(list)
 
   const create = (data) => {
-    return request('post', '/api/reservation/new', data).then(() => {
-      list()
-    })
+    return request('post', '/api/reservation/new', data)
+      .then(() => {
+        clean()
+      })
+      .then(() => {
+        list()
+      })
   }
 
   const update = (data) => {
