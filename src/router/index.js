@@ -15,7 +15,7 @@ const router = new VueRouter({
     {
       path: '/search',
       name: 'search',
-      component: () => import('../views/SearchView'),
+      component: () => import('../views/SearchView.vue'),
       props: (route) => ({
         is404: route.params.is404,
         query: route.query,
@@ -24,7 +24,7 @@ const router = new VueRouter({
     {
       path: '/search/book/:id',
       name: 'book.update',
-      component: () => import('../views/SearchView'),
+      component: () => import('../views/SearchView.vue'),
       props: (route) => ({
         is404: route.params.is404,
         query: route.query,
@@ -34,7 +34,7 @@ const router = new VueRouter({
     {
       path: '/search/author/:id',
       name: 'author.update',
-      component: () => import('../views/UpdateAuthorView'),
+      component: () => import('../views/UpdateAuthorView.vue'),
       props(route) {
         const props = route.params
         props.id = +props.id
@@ -44,17 +44,17 @@ const router = new VueRouter({
     {
       path: '/reservation',
       name: 'reservation',
-      component: () => import('../views/ReservationView'),
+      component: () => import('../views/ReservationView.vue'),
     },
     {
       path: '/directory',
       name: 'directory',
-      component: () => import('../views/DirectoryView'),
+      component: () => import('../views/DirectoryView.vue'),
     },
     {
       path: '/profile',
       name: 'profile',
-      component: () => import('../views/ProfileView'),
+      component: () => import('../views/ProfileView.vue'),
     },
     {
       path: '*',
