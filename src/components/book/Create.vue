@@ -249,6 +249,7 @@ import { useGenre } from '@/composables/useGenre'
 import { useCondition } from '@/composables/useCondition'
 import { useFormat } from '@/composables/useFormat'
 import { useTag } from '@/composables/useTag'
+import { useBook } from '@/composables/useBook'
 
 export default {
   name: 'book-create',
@@ -291,12 +292,14 @@ export default {
       return me ? JSON.parse(me.value.branch.pricelist) : null
     })
 
+    const { create: createBook } = useBook()
+
     const create = () => {
       let tags = []
       state.tags.forEach((element) => {
         tags.push(element.id)
       })
-      emit('create', {
+      createBook({
         added: new Date(state.added).getTime() / 1000,
         title: state.title,
         shortDescription: state.shortDescription,
@@ -309,6 +312,8 @@ export default {
         cond: state.cond_id,
         tags: tags,
         format: state.format,
+      }).then(() => {
+        emit('close')
       })
     }
 

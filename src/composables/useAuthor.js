@@ -1,8 +1,9 @@
 import { ref } from '@vue/composition-api'
 import { request } from '@/api'
 
+const authors = ref(null)
+
 export function useAuthor() {
-  const authors = ref(null)
   const author = ref(null)
 
   const find = (data) => {

@@ -439,7 +439,6 @@ export default {
   props: {
     bookId: String,
     me: Object,
-    isUploading: Boolean,
   },
   components: {
     DirectoryList,
@@ -450,7 +449,14 @@ export default {
     const { conditions } = useCondition()
     const { formats } = useFormat()
     const { create: createNewTag } = useTag()
-    const { book, show, getCover, removeCover } = useBook()
+    const {
+      book,
+      show,
+      update: updateBook,
+      upload: uploadCover,
+      getCover,
+      removeCover,
+    } = useBook()
 
     let state = reactive({
       added: null,
@@ -513,7 +519,7 @@ export default {
         tags.push(element.id)
       })
 
-      emit('update', {
+      updateBook({
         me: state.me,
         id: bookId.value,
         params: {
@@ -559,11 +565,17 @@ export default {
       }
     )
 
+    const isUploading = ref(false)
+
     const upload = (event) => {
       const file = event.target.files[0]
       const form = new FormData()
       form.append('cover', file)
-      emit('cover-upload', { id: bookId.value, form: form })
+
+      isUploading.value = true
+      uploadCover({ id: bookId.value, form: form }).then(() => {
+        isUploading.value = false
+      })
     }
 
     const tab = ref('upload')
@@ -601,6 +613,7 @@ export default {
       pricelist,
       createTag,
       removeTag,
+      isUploading,
     }
   },
 }

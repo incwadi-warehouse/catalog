@@ -4,10 +4,11 @@ import { without } from 'lodash'
 import useToast from '@baldeweg/components/src/composables/useToast'
 import i18n from './../i18n'
 
+const books = ref(null)
+
 export function useBook() {
   const { add } = useToast()
 
-  const books = ref(null)
   const book = ref(null)
   const cover = ref(null)
 
