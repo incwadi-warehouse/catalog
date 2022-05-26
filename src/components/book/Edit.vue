@@ -585,7 +585,6 @@ export default {
         return id === item.id
       })
       state.tags = Object.assign([], state.tags)
-      console.log(state.tags)
     }
 
     return {
