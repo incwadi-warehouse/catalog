@@ -34,7 +34,7 @@ const router = new VueRouter({
     {
       path: '/search/author/:id',
       name: 'author.update',
-      component: () => import('../views/UpdateAuthorView.vue'),
+      component: () => import('../views/AuthorUpdateView.vue'),
       props(route) {
         const props = route.params
         props.id = +props.id
@@ -45,16 +45,19 @@ const router = new VueRouter({
       path: '/reservation',
       name: 'reservation',
       component: () => import('../views/ReservationView.vue'),
+      props: true,
     },
     {
       path: '/directory',
       name: 'directory',
       component: () => import('../views/DirectoryView.vue'),
+      props: true,
     },
     {
       path: '/profile',
       name: 'profile',
       component: () => import('../views/ProfileView.vue'),
+      props: true,
     },
     {
       path: '*',
