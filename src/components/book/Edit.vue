@@ -2,14 +2,14 @@
   <b-form
     @submit.prevent="update"
     v-if="
-      book.state.book &&
+      book &&
       genres.length >= 1 &&
       formats.length >= 1 &&
       conditions.length >= 1
     "
   >
     <b-modal @close="$emit('close')">
-      <b-container size="m" v-if="book.state.book.reserved">
+      <b-container size="m" v-if="book.reserved">
         <b-alert type="warning">
           <p>{{ $t('doNotEditReservedBooks') }}</p>
         </b-alert>
@@ -29,7 +29,7 @@
         </b-form-group>
       </template>
 
-      <b-container size="m" v-if="book.state.book">
+      <b-container size="m" v-if="book">
         <!-- genre -->
         <b-form-group>
           <b-form-item>
@@ -320,7 +320,7 @@
             <b-button
               type="button"
               design="outline_danger"
-              @click="removeCover"
+              @click="removeCover(bookId)"
               :style="{ float: 'right' }"
             >
               {{ $t('removeCover') }}
@@ -405,7 +405,7 @@
             <!-- directory -->
             <directory-list
               :id="bookId"
-              @update="book.getCover(bookId)"
+              @update="getCover(bookId)"
               v-if="tab == 'file-manager'"
             />
           </div>
@@ -428,7 +428,7 @@ import { useGenre } from '@/composables/useGenre'
 import { useCondition } from '@/composables/useCondition'
 import { useFormat } from '@/composables/useFormat'
 import { useTag } from '@/composables/useTag'
-import useBook from '@/composables/useBook'
+import { useBook } from '@/composables/useBook'
 import DirectoryList from '@/components/directory/List'
 import BookPriceCalculator from '@/components/book/PriceCalculator'
 import { remove as _remove } from 'lodash'
@@ -450,7 +450,7 @@ export default {
     const { conditions } = useCondition()
     const { formats } = useFormat()
     const { create: createNewTag } = useTag()
-    const book = useBook()
+    const { book, show, getCover, removeCover } = useBook()
 
     let state = reactive({
       added: null,
@@ -474,29 +474,27 @@ export default {
     })
 
     const loadBook = () => {
-      book.show(bookId.value).then(() => {
-        state.added = formatDate(book.state.book.added)
-        state.title = book.state.book.title
-        state.shortDescription = book.state.book.shortDescription
-        state.authorFirstname = book.state.book.author
-          ? book.state.book.author.firstname
+      show(bookId.value).then(() => {
+        state.added = formatDate(book.value.added)
+        state.title = book.value.title
+        state.shortDescription = book.value.shortDescription
+        state.authorFirstname = book.value.author
+          ? book.value.author.firstname
           : null
-        state.authorSurname = book.state.book.author
-          ? book.state.book.author.surname
+        state.authorSurname = book.value.author
+          ? book.value.author.surname
           : null
-        state.genreId = book.state.book.genre ? book.state.book.genre.id : null
-        state.price = book.state.book.price
-        state.sold = book.state.book.sold
-        state.removed = book.state.book.removed
-        state.reserved = book.state.book.reserved
-        state.releaseYear = book.state.book.releaseYear
-        state.cond_id = book.state.book.condition
-          ? book.state.book.condition.id
-          : null
+        state.genreId = book.value.genre ? book.value.genre.id : null
+        state.price = book.value.price
+        state.sold = book.value.sold
+        state.removed = book.value.removed
+        state.reserved = book.value.reserved
+        state.releaseYear = book.value.releaseYear
+        state.cond_id = book.value.condition ? book.value.condition.id : null
         state.tag = null
-        state.tags = book.state.book.tags
-        state.recommendation = book.state.book.recommendation
-        state.format = book.state.book.format ? book.state.book.format.id : null
+        state.tags = book.value.tags
+        state.recommendation = book.value.recommendation
+        state.format = book.value.format ? book.value.format.id : null
       })
     }
 
@@ -547,17 +545,17 @@ export default {
     }
 
     const cover = computed(() => {
-      return book.state.cover
+      return cover
     })
 
     onMounted(() => {
-      book.getCover(bookId.value)
+      getCover(bookId.value)
     })
 
     watch(
       () => props.isUploading,
       () => {
-        book.getCover(bookId.value)
+        getCover(bookId.value)
       }
     )
 
@@ -566,10 +564,6 @@ export default {
       const form = new FormData()
       form.append('cover', file)
       emit('cover-upload', { id: bookId.value, form: form })
-    }
-
-    const removeCover = () => {
-      book.removeCover(bookId.value)
     }
 
     const tab = ref('upload')

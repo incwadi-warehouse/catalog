@@ -58,18 +58,14 @@
       />
     </b-container>
 
-    <b-container size="l" v-if="book.state.books != null">
+    <b-container size="l" v-if="books != null">
       <h2>{{ $t('books') }}</h2>
       <p>
         {{
-          $tc(
-            'results_counter',
-            book.state.books ? book.state.books.counter : 0,
-            {
-              show: book.state.books ? book.state.books.books.length : 0,
-              counter: book.state.books ? book.state.books.counter : 0,
-            }
-          )
+          $tc('results_counter', books ? books.counter : 0, {
+            show: books ? books.books.length : 0,
+            counter: books ? books.counter : 0,
+          })
         }}
       </p>
       <b-button
@@ -89,18 +85,18 @@
         design="text"
         :style="{ float: 'right' }"
         @click="
-          filter.limit = book.state.books.counter
+          filter.limit = books.counter
           search(true)
         "
         >{{ $t('show_all') }}</b-button
       >
       <search-book-results
         :filter="filter"
-        :books="book.state.books"
+        :books="books"
         :hasInventory="hasInventory"
         :showCover="showCover"
-        @sell="sell"
-        @remove="remove"
+        @sell="sellBook"
+        @remove="removeBook"
         @add-to-cart="add"
         @search="search"
       />
@@ -241,7 +237,7 @@
         modal = null
         $router.push({ name: 'search' })
       "
-      @update="book.update"
+      @update="update"
       @cover-upload="uploadCover"
       :isUploading="isUploading"
       v-if="modal == 'update'"
@@ -252,7 +248,7 @@
         :me="auth.state.me"
         @close="modal = null"
         @create="
-          book.create($event)
+          create($event)
           modal = false
           $router.push({ name: 'search' })
         "
@@ -283,7 +279,7 @@ import { useBranch } from '@/composables/useBranch'
 import { useGenre } from '@/composables/useGenre'
 import { useFormat } from '@/composables/useFormat'
 import { useAuthor } from '@/composables/useAuthor'
-import useBook from '@/composables/useBook'
+import { useBook } from '@/composables/useBook'
 import { useCart } from '@/composables/useCart'
 import BookEdit from '@/components/book/Edit'
 import BookCreate from '@/components/book/Create'
@@ -337,21 +333,22 @@ export default {
       rmAuthor(authorId).then(search)
     }
 
-    const book = useBook()
+    const { books, find, show, update, create, sell, remove, upload } =
+      useBook()
 
     const hasBooks = computed(() => {
-      if (book.state.books === null) return false
-      return book.state.books.books.length >= 1
+      if (books === null) return false
+      return books.length >= 1
     })
 
-    const sell = (bookId) => {
-      book.sell(bookId).then(() => {
+    const sellBook = (bookId) => {
+      sell(bookId).then(() => {
         search()
       })
     }
 
-    const remove = (bookId) => {
-      book.remove(bookId).then(() => {
+    const removeBook = (bookId) => {
+      remove(bookId).then(() => {
         search()
       })
     }
@@ -359,7 +356,7 @@ export default {
     const isUploading = ref(false)
     const uploadCover = (data) => {
       isUploading.value = true
-      book.upload(data).then(() => {
+      upload(data).then(() => {
         isUploading.value = false
       })
     }
@@ -370,7 +367,7 @@ export default {
         findAuthor({ term: filter.term })
       }
       if (filter.term !== null || force) {
-        book.find({ options: filter })
+        find({ options: filter })
       }
     }
 
@@ -385,7 +382,7 @@ export default {
       filter.orderBy = null
       filter.orderByDirection = null
       filter.limit = 50
-      book.state.books = null
+      books.value = null
       authors.value = null
     }
 
@@ -404,14 +401,14 @@ export default {
     onMounted(() => {
       if (id.value === undefined) return
       if (id.value) modal.value = 'update'
-      book.show(id.value)
+      show(id.value)
     })
 
     watch(
       () => id.value,
       () => {
         if (id.value) modal.value = 'update'
-        book.show(id.value)
+        show(id.value)
       }
     )
 
@@ -448,13 +445,15 @@ export default {
       genres,
       formats,
       authors,
-      book,
+      books,
+      update,
+      create,
       cart,
       add,
       removeCart,
       clean,
-      sell,
-      remove,
+      sellBook,
+      removeBook,
       uploadCover,
       removeAuthor,
       hasBooks,

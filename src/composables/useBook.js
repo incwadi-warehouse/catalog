@@ -1,26 +1,21 @@
-import { reactive } from '@vue/composition-api'
+import { ref } from '@vue/composition-api'
 import { request } from '@/api'
-import without from 'lodash/without'
-import useToast from './../../node_modules/@baldeweg/components/src/composables/useToast'
+import { without } from 'lodash'
+import useToast from '@baldeweg/components/src/composables/useToast'
 import i18n from './../i18n'
 
-export default function useBook() {
+export function useBook() {
   const { add } = useToast()
 
-  const base = '/api/book'
-
-  const state = reactive({
-    books: null,
-    book: null,
-    stats: null,
-    cover: null,
-  })
+  const books = ref(null)
+  const book = ref(null)
+  const cover = ref(null)
 
   const find = (data) => {
-    return request('get', base + '/find', null, {
+    return request('get', '/api/book' + '/find', null, {
       options: filters(data),
     }).then((res) => {
-      state.books = res.data
+      books.value = res.data
     })
   }
 
@@ -95,21 +90,21 @@ export default function useBook() {
   }
 
   const show = (id) => {
-    return request('get', base + '/' + id).then((res) => {
-      state.book = res.data
+    return request('get', '/api/book/' + id).then((res) => {
+      book.value = res.data
     })
   }
 
   const create = (data) => {
-    return request('post', base + '/new', data).then((res) => {
-      state.book = res.data
+    return request('post', '/api/book/new', data).then((res) => {
+      book.value = res.data
     })
   }
 
   const update = (data) => {
-    return request('put', base + '/' + data.id, data.params)
+    return request('put', '/api/book/' + data.id, data.params)
       .then((res) => {
-        state.book = res.data
+        book.value = res.data
         add({
           type: 'success',
           body: i18n.t('book_saved'),
@@ -124,46 +119,41 @@ export default function useBook() {
   }
 
   const sell = (id) => {
-    return request('put', base + '/sell/' + id).then((res) => {
-      state.book = res.data
+    return request('put', '/api/book/sell/' + id).then((res) => {
+      book.value = res.data
     })
   }
 
   const remove = (id) => {
-    return request('put', base + '/remove/' + id).then((res) => {
-      state.book = res.data
+    return request('put', '/api/book/remove/' + id).then((res) => {
+      book.value = res.data
     })
   }
 
   const getCover = (id) => {
-    request('get', base + '/cover/' + id).then((res) => {
-      state.cover = res.data
+    request('get', '/api/book/cover/' + id).then((res) => {
+      cover.value = res.data
     })
   }
 
   const upload = (data) => {
-    return request('post', base + '/cover/' + data.id, data.form)
+    return request('post', '/api/book/cover/' + data.id, data.form)
   }
 
   const removeCover = (id) => {
-    request('delete', base + '/cover/' + id).then(() => {
+    request('delete', '/api/book/cover/' + id).then(() => {
       getCover(id)
     })
   }
 
-  const stats = () => {
-    request('get', base + '/stats').then((response) => {
-      state.stats = response.data
-    })
-  }
-
   return {
-    state,
+    books,
+    book,
+    cover,
     find,
     show,
     create,
     update,
-    stats,
     sell,
     remove,
     getCover,
