@@ -70,6 +70,10 @@ export default {
       window.clearInterval(reservationInterval)
     })
 
+    const navigateToOrders = () => {
+      window.location = process.env.VUE_APP_ORDERS
+    }
+
     return {
       auth,
       about,
@@ -84,6 +88,7 @@ export default {
       settings,
       orders,
       navigateToBookmarks,
+      navigateToOrders,
     }
   },
 }
@@ -161,10 +166,7 @@ export default {
           </b-dropdown-item>
         </b-dropdown>
 
-        <span
-          class="action"
-          @click.prevent="$router.push({ name: 'reservation' })"
-        >
+        <span class="action" @click.prevent="navigateToOrders">
           <b-badge :content="reservations && reservations.length" hide-empty>
             <b-icon type="euro" />
           </b-badge>
