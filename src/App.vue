@@ -195,16 +195,16 @@ export default {
             {{ $t('search') }}
           </template>
         </b-list>
+        <b-list :route="{ name: 'directory' }" divider>
+          <template #title>
+            {{ $t('directory') }}
+          </template>
+        </b-list>
         <b-list divider>
           <template #title>
             <a :href="orders">
               {{ $t('reservation') }}
             </a>
-          </template>
-        </b-list>
-        <b-list :route="{ name: 'directory' }" divider>
-          <template #title>
-            {{ $t('directory') }}
           </template>
         </b-list>
         <b-list divider>
