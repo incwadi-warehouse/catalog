@@ -217,7 +217,7 @@ export default {
         <b-list divider>
           <template #title>
             <a :href="find">
-              {{ $t('find') }}
+              {{ $t('shop') }}
             </a>
           </template>
         </b-list>
