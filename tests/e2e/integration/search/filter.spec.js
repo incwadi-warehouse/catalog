@@ -92,7 +92,7 @@ describe('Filter', () => {
     cy.get('article:nth-child(6) input[id$=range-start]').type('2022-05-01')
     cy.get('article:nth-child(6) input[id$=range-end]').click()
     cy.get('article:nth-child(6) input[id$=range-end]').type('2022-05-31')
-    cy.get('article:nth-child(6) > .dropdown_overlay').click()
+    cy.get('article:nth-child(6) > .dropdown_overlay').click('right')
 
     // order by
     cy.get('article:nth-child(7) > span').click()
