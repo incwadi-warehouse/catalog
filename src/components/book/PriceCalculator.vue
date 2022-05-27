@@ -1,3 +1,13 @@
+<script>
+export default {
+  name: 'book-price-calculator',
+  props: {
+    list: Object,
+    currency: String,
+  },
+}
+</script>
+
 <template>
   <div v-if="list && currency">
     <table :aria-label="$t('pricelist')">
@@ -26,16 +36,6 @@
     </table>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'book-price-calculator',
-  props: {
-    list: Object,
-    currency: String,
-  },
-}
-</script>
 
 <style scoped>
 .property {

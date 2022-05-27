@@ -1,3 +1,99 @@
+<script>
+import { computed, reactive, toRefs } from '@vue/composition-api'
+import BookPriceCalculator from '@/components/book/PriceCalculator.vue'
+import { useGenre } from '@/composables/useGenre.js'
+import { useCondition } from '@/composables/useCondition.js'
+import { useFormat } from '@/composables/useFormat.js'
+import { useTag } from '@/composables/useTag.js'
+import { useBook } from '@/composables/useBook.js'
+
+export default {
+  name: 'book-create',
+  components: {
+    BookPriceCalculator,
+  },
+  props: {
+    me: Object,
+  },
+  setup(props, { emit }) {
+    const { me } = toRefs(props)
+
+    const state = reactive({
+      added: computed(() => {
+        let date = new Date()
+
+        return date.toISOString().split('T')[0]
+      }),
+      title: null,
+      shortDescription: null,
+      authorFirstname: '',
+      authorSurname: null,
+      genreId: null,
+      price: '2.50',
+      sold: false,
+      removed: false,
+      releaseYear: new Date().getFullYear(),
+      cond_id: null,
+      tags: [],
+      tag: null,
+      format: null,
+    })
+
+    const { genres } = useGenre()
+    const { conditions } = useCondition()
+    const { formats } = useFormat()
+    const { create: createNewTag, removeTag } = useTag()
+
+    const pricelist = computed(() => {
+      return me ? JSON.parse(me.value.branch.pricelist) : null
+    })
+
+    const { create: createBook } = useBook()
+
+    const create = () => {
+      let tags = []
+      state.tags.forEach((element) => {
+        tags.push(element.id)
+      })
+      createBook({
+        added: new Date(state.added).getTime() / 1000,
+        title: state.title,
+        shortDescription: state.shortDescription,
+        author: state.authorSurname + ',' + state.authorFirstname,
+        genre: state.genreId,
+        price: state.price,
+        sold: false,
+        removed: false,
+        releaseYear: state.releaseYear,
+        cond: state.cond_id,
+        tags: tags,
+        format: state.format,
+      }).then(() => {
+        emit('close')
+      })
+    }
+
+    const createTag = () => {
+      createNewTag({ name: state.tag }).then((res) => {
+        state.tags.push(res.data)
+        state.tag = null
+      })
+    }
+
+    return {
+      state,
+      pricelist,
+      genres,
+      conditions,
+      formats,
+      removeTag,
+      create,
+      createTag,
+    }
+  },
+}
+</script>
+
 <template>
   <b-form @submit.prevent="create">
     <b-modal @close="$emit('close')">
@@ -241,99 +337,3 @@
     </b-modal>
   </b-form>
 </template>
-
-<script>
-import { computed, reactive, toRefs } from '@vue/composition-api'
-import BookPriceCalculator from '@/components/book/PriceCalculator'
-import { useGenre } from '@/composables/useGenre'
-import { useCondition } from '@/composables/useCondition'
-import { useFormat } from '@/composables/useFormat'
-import { useTag } from '@/composables/useTag'
-import { useBook } from '@/composables/useBook'
-
-export default {
-  name: 'book-create',
-  components: {
-    BookPriceCalculator,
-  },
-  props: {
-    me: Object,
-  },
-  setup(props, { emit }) {
-    const { me } = toRefs(props)
-
-    const state = reactive({
-      added: computed(() => {
-        let date = new Date()
-
-        return date.toISOString().split('T')[0]
-      }),
-      title: null,
-      shortDescription: null,
-      authorFirstname: '',
-      authorSurname: null,
-      genreId: null,
-      price: '2.50',
-      sold: false,
-      removed: false,
-      releaseYear: new Date().getFullYear(),
-      cond_id: null,
-      tags: [],
-      tag: null,
-      format: null,
-    })
-
-    const { genres } = useGenre()
-    const { conditions } = useCondition()
-    const { formats } = useFormat()
-    const { create: createNewTag, removeTag } = useTag()
-
-    const pricelist = computed(() => {
-      return me ? JSON.parse(me.value.branch.pricelist) : null
-    })
-
-    const { create: createBook } = useBook()
-
-    const create = () => {
-      let tags = []
-      state.tags.forEach((element) => {
-        tags.push(element.id)
-      })
-      createBook({
-        added: new Date(state.added).getTime() / 1000,
-        title: state.title,
-        shortDescription: state.shortDescription,
-        author: state.authorSurname + ',' + state.authorFirstname,
-        genre: state.genreId,
-        price: state.price,
-        sold: false,
-        removed: false,
-        releaseYear: state.releaseYear,
-        cond: state.cond_id,
-        tags: tags,
-        format: state.format,
-      }).then(() => {
-        emit('close')
-      })
-    }
-
-    const createTag = () => {
-      createNewTag({ name: state.tag }).then((res) => {
-        state.tags.push(res.data)
-        state.tag = null
-      })
-    }
-
-    return {
-      state,
-      pricelist,
-      genres,
-      conditions,
-      formats,
-      removeTag,
-      create,
-      createTag,
-    }
-  },
-}
-</script>

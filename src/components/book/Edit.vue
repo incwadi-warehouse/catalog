@@ -1,3 +1,207 @@
+<script>
+import {
+  onMounted,
+  reactive,
+  computed,
+  toRefs,
+  watch,
+  ref,
+} from '@vue/composition-api'
+import { useGenre } from '@/composables/useGenre.js'
+import { useCondition } from '@/composables/useCondition.js'
+import { useFormat } from '@/composables/useFormat.js'
+import { useTag } from '@/composables/useTag.js'
+import { useBook } from '@/composables/useBook.js'
+import DirectoryList from '@/components/directory/List.vue'
+import BookPriceCalculator from '@/components/book/PriceCalculator.vue'
+import { remove as _remove } from 'lodash'
+import router from './../../router'
+
+export default {
+  name: 'book-edit',
+  props: {
+    bookId: String,
+    me: Object,
+  },
+  components: {
+    DirectoryList,
+    BookPriceCalculator,
+  },
+  setup(props, { emit }) {
+    const { genres } = useGenre()
+    const { conditions } = useCondition()
+    const { formats } = useFormat()
+    const { create: createNewTag } = useTag()
+    const {
+      book,
+      show,
+      update: updateBook,
+      upload: uploadCover,
+      getCover,
+      removeCover,
+    } = useBook()
+
+    let state = reactive({
+      added: null,
+      title: null,
+      shortDescription: null,
+      authorFirstname: null,
+      authorSurname: null,
+      genreId: null,
+      price: null,
+      sold: null,
+      removed: null,
+      reserved: null,
+      releaseYear: null,
+      cond_id: null,
+      tag: null,
+      tags: [],
+      recommendation: null,
+      hasErrorUploading: false,
+      isDragging: false,
+      format: null,
+    })
+
+    const loadBook = () => {
+      show(bookId.value).then(() => {
+        state.added = formatDate(book.value.added)
+        state.title = book.value.title
+        state.shortDescription = book.value.shortDescription
+        state.authorFirstname = book.value.author
+          ? book.value.author.firstname
+          : null
+        state.authorSurname = book.value.author
+          ? book.value.author.surname
+          : null
+        state.genreId = book.value.genre ? book.value.genre.id : null
+        state.price = book.value.price
+        state.sold = book.value.sold
+        state.removed = book.value.removed
+        state.reserved = book.value.reserved
+        state.releaseYear = book.value.releaseYear
+        state.cond_id = book.value.condition ? book.value.condition.id : null
+        state.tag = null
+        state.tags = book.value.tags
+        state.recommendation = book.value.recommendation
+        state.format = book.value.format ? book.value.format.id : null
+      })
+    }
+
+    const { bookId } = toRefs(props)
+    loadBook()
+    watch(
+      () => bookId.value,
+      () => {
+        loadBook()
+      }
+    )
+
+    const update = () => {
+      let tags = []
+      state.tags.forEach((element) => {
+        tags.push(element.id)
+      })
+
+      updateBook({
+        me: state.me,
+        id: bookId.value,
+        params: {
+          added: new Date(state.added).getTime() / 1000,
+          title: state.title,
+          shortDescription: state.shortDescription,
+          author: state.authorSurname + ',' + state.authorFirstname,
+          genre: state.genreId,
+          price: state.price,
+          sold: state.sold,
+          removed: state.removed,
+          reserved: state.reserved,
+          releaseYear: state.releaseYear,
+          cond: state.cond_id,
+          tags: tags,
+          recommendation: state.recommendation,
+          format: state.format,
+        },
+      })
+
+      emit('close')
+      router.push({ name: 'search' })
+    }
+
+    const formatDate = (val) => {
+      let date = new Date(val * 1000)
+
+      return date.toISOString().split('T')[0]
+    }
+
+    const cover = computed(() => {
+      return cover
+    })
+
+    onMounted(() => {
+      getCover(bookId.value)
+    })
+
+    watch(
+      () => props.isUploading,
+      () => {
+        getCover(bookId.value)
+      }
+    )
+
+    const isUploading = ref(false)
+
+    const upload = (event) => {
+      const file = event.target.files[0]
+      const form = new FormData()
+      form.append('cover', file)
+
+      isUploading.value = true
+      uploadCover({ id: bookId.value, form: form }).then(() => {
+        isUploading.value = false
+      })
+    }
+
+    const tab = ref('upload')
+
+    const { me } = toRefs(props)
+
+    const pricelist = computed(() => {
+      return me.value ? JSON.parse(me.value.branch.pricelist) : null
+    })
+
+    const createTag = (item) => {
+      createNewTag(item).then((res) => {
+        state.tags.push(res.data)
+      })
+    }
+
+    const removeTag = (id) => {
+      _remove(state.tags, (item) => {
+        return id === item.id
+      })
+      state.tags = Object.assign([], state.tags)
+    }
+
+    return {
+      state,
+      genres,
+      conditions,
+      formats,
+      cover,
+      book,
+      tab,
+      update,
+      upload,
+      removeCover,
+      pricelist,
+      createTag,
+      removeTag,
+      isUploading,
+    }
+  },
+}
+</script>
+
 <template>
   <b-form
     @submit.prevent="update"
@@ -414,210 +618,6 @@
     </b-modal>
   </b-form>
 </template>
-
-<script>
-import {
-  onMounted,
-  reactive,
-  computed,
-  toRefs,
-  watch,
-  ref,
-} from '@vue/composition-api'
-import { useGenre } from '@/composables/useGenre'
-import { useCondition } from '@/composables/useCondition'
-import { useFormat } from '@/composables/useFormat'
-import { useTag } from '@/composables/useTag'
-import { useBook } from '@/composables/useBook'
-import DirectoryList from '@/components/directory/List'
-import BookPriceCalculator from '@/components/book/PriceCalculator'
-import { remove as _remove } from 'lodash'
-import router from './../../router'
-
-export default {
-  name: 'book-edit',
-  props: {
-    bookId: String,
-    me: Object,
-  },
-  components: {
-    DirectoryList,
-    BookPriceCalculator,
-  },
-  setup(props, { emit }) {
-    const { genres } = useGenre()
-    const { conditions } = useCondition()
-    const { formats } = useFormat()
-    const { create: createNewTag } = useTag()
-    const {
-      book,
-      show,
-      update: updateBook,
-      upload: uploadCover,
-      getCover,
-      removeCover,
-    } = useBook()
-
-    let state = reactive({
-      added: null,
-      title: null,
-      shortDescription: null,
-      authorFirstname: null,
-      authorSurname: null,
-      genreId: null,
-      price: null,
-      sold: null,
-      removed: null,
-      reserved: null,
-      releaseYear: null,
-      cond_id: null,
-      tag: null,
-      tags: [],
-      recommendation: null,
-      hasErrorUploading: false,
-      isDragging: false,
-      format: null,
-    })
-
-    const loadBook = () => {
-      show(bookId.value).then(() => {
-        state.added = formatDate(book.value.added)
-        state.title = book.value.title
-        state.shortDescription = book.value.shortDescription
-        state.authorFirstname = book.value.author
-          ? book.value.author.firstname
-          : null
-        state.authorSurname = book.value.author
-          ? book.value.author.surname
-          : null
-        state.genreId = book.value.genre ? book.value.genre.id : null
-        state.price = book.value.price
-        state.sold = book.value.sold
-        state.removed = book.value.removed
-        state.reserved = book.value.reserved
-        state.releaseYear = book.value.releaseYear
-        state.cond_id = book.value.condition ? book.value.condition.id : null
-        state.tag = null
-        state.tags = book.value.tags
-        state.recommendation = book.value.recommendation
-        state.format = book.value.format ? book.value.format.id : null
-      })
-    }
-
-    const { bookId } = toRefs(props)
-    loadBook()
-    watch(
-      () => bookId.value,
-      () => {
-        loadBook()
-      }
-    )
-
-    const update = () => {
-      let tags = []
-      state.tags.forEach((element) => {
-        tags.push(element.id)
-      })
-
-      updateBook({
-        me: state.me,
-        id: bookId.value,
-        params: {
-          added: new Date(state.added).getTime() / 1000,
-          title: state.title,
-          shortDescription: state.shortDescription,
-          author: state.authorSurname + ',' + state.authorFirstname,
-          genre: state.genreId,
-          price: state.price,
-          sold: state.sold,
-          removed: state.removed,
-          reserved: state.reserved,
-          releaseYear: state.releaseYear,
-          cond: state.cond_id,
-          tags: tags,
-          recommendation: state.recommendation,
-          format: state.format,
-        },
-      })
-
-      emit('close')
-      router.push({ name: 'search' })
-    }
-
-    const formatDate = (val) => {
-      let date = new Date(val * 1000)
-
-      return date.toISOString().split('T')[0]
-    }
-
-    const cover = computed(() => {
-      return cover
-    })
-
-    onMounted(() => {
-      getCover(bookId.value)
-    })
-
-    watch(
-      () => props.isUploading,
-      () => {
-        getCover(bookId.value)
-      }
-    )
-
-    const isUploading = ref(false)
-
-    const upload = (event) => {
-      const file = event.target.files[0]
-      const form = new FormData()
-      form.append('cover', file)
-
-      isUploading.value = true
-      uploadCover({ id: bookId.value, form: form }).then(() => {
-        isUploading.value = false
-      })
-    }
-
-    const tab = ref('upload')
-
-    const { me } = toRefs(props)
-
-    const pricelist = computed(() => {
-      return me.value ? JSON.parse(me.value.branch.pricelist) : null
-    })
-
-    const createTag = (item) => {
-      createNewTag(item).then((res) => {
-        state.tags.push(res.data)
-      })
-    }
-
-    const removeTag = (id) => {
-      _remove(state.tags, (item) => {
-        return id === item.id
-      })
-      state.tags = Object.assign([], state.tags)
-    }
-
-    return {
-      state,
-      genres,
-      conditions,
-      formats,
-      cover,
-      book,
-      tab,
-      update,
-      upload,
-      removeCover,
-      pricelist,
-      createTag,
-      removeTag,
-      isUploading,
-    }
-  },
-}
-</script>
 
 <style scoped>
 .tabs {
