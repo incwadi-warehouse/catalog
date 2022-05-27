@@ -87,12 +87,12 @@ describe('Filter', () => {
     cy.get('article:nth-child(5) > .dropdown_overlay').click()
 
     // added
-    // cy.get('article:nth-child(6) > span').click()
-    // cy.get('article:nth-child(6) input[id$=range-start]').click()
-    // cy.get('article:nth-child(6) input[id$=range-start]').type('2022-05-01')
-    // cy.get('article:nth-child(6) input[id$=range-end]').click()
-    // cy.get('article:nth-child(6) input[id$=range-end]').type('2022-05-31')
-    // cy.get('article:nth-child(6) > .dropdown_overlay').click('right')
+    cy.get('article:nth-child(6) > span').click()
+    cy.get('article:nth-child(6) input[id$=range-start]').click()
+    cy.get('article:nth-child(6) input[id$=range-start]').type('2022-05-01')
+    cy.get('article:nth-child(6) input[id$=range-end]').click()
+    cy.get('article:nth-child(6) input[id$=range-end]').type('2022-05-31')
+    cy.get('article:nth-child(6) > .dropdown_overlay').click({ force: true })
 
     // order by
     cy.get('article:nth-child(7) > span').click()
@@ -122,7 +122,7 @@ describe('Filter', () => {
     cy.url().should('include', 'releaseYear=2020..2022')
     cy.url().should('include', 'availability=sold')
     cy.url().should('include', 'format=1')
-    // cy.url().should('include', 'added=2022-05-01..2022-05-31')
+    cy.url().should('include', 'added=2022-05-01..2022-05-31')
     cy.url().should('include', 'orderBy=title')
     cy.url().should('include', 'orderByDirection=desc')
     cy.url().should('include', 'limit=51')
