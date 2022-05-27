@@ -39,6 +39,7 @@ export default {
       upload: uploadCover,
       getCover,
       removeCover,
+      cover: bookCover,
     } = useBook()
 
     let state = reactive({
@@ -134,7 +135,7 @@ export default {
     }
 
     const cover = computed(() => {
-      return cover
+      return bookCover.value
     })
 
     onMounted(() => {
