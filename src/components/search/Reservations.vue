@@ -14,7 +14,9 @@ export default defineComponent({
       window.clearInterval(interval)
     })
 
-    return { reservations }
+    const orders = process.env.VUE_APP_ORDERS
+
+    return { reservations, orders }
   },
 })
 </script>
@@ -22,10 +24,10 @@ export default defineComponent({
 <template>
   <b-container size="l" v-if="reservations && reservations.length >= 1">
     <b-alert type="success">
-      <router-link :to="{ name: 'reservation' }">
+      <a :href="orders">
         {{ $t('current_reservations') }}:
         {{ reservations.length }}
-      </router-link>
+      </a>
     </b-alert>
   </b-container>
 </template>

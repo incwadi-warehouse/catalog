@@ -1,6 +1,6 @@
 <script>
-import { defineComponent } from '@vue/composition-api'
 import { useCart } from '@/composables/useCart.js'
+import { defineComponent } from '@vue/composition-api'
 
 export default defineComponent({
   setup() {

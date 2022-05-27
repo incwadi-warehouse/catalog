@@ -1,3 +1,12 @@
+<script>
+export default {
+  name: 'search-author-results',
+  props: {
+    authors: Array,
+  },
+}
+</script>
+
 <template>
   <div v-if="authors">
     <b-list
@@ -29,12 +38,3 @@
     </b-list>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'search-author-results',
-  props: {
-    authors: Array,
-  },
-}
-</script>

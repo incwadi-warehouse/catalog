@@ -1,9 +1,3 @@
-<template>
-  <button class="scroll-to-top" @click.prevent="scrollToTop" v-if="hasBooks">
-    {{ $t('scroll_to_top') }}
-  </button>
-</template>
-
 <script>
 import { useBook } from '@/composables/useBook.js'
 import { computed } from '@vue/composition-api'
@@ -11,10 +5,6 @@ import { computed } from '@vue/composition-api'
 export default {
   name: 'search-scroll-to-top',
   setup() {
-    const scrollToTop = () => {
-      window.scrollTo(0, 0)
-    }
-
     const { books } = useBook()
 
     const hasBooks = computed(() => {
@@ -22,10 +12,20 @@ export default {
       return books.value.books.length >= 1
     })
 
-    return { scrollToTop, hasBooks }
+    const scrollToTop = () => {
+      window.scrollTo(0, 0)
+    }
+
+    return { hasBooks, scrollToTop }
   },
 }
 </script>
+
+<template>
+  <button class="scroll-to-top" @click.prevent="scrollToTop" v-if="hasBooks">
+    {{ $t('scroll_to_top') }}
+  </button>
+</template>
 
 <style scoped>
 .scroll-to-top {

@@ -1,3 +1,70 @@
+<script>
+import { reactive } from '@vue/composition-api'
+import SearchDirection from './Direction.vue'
+
+export default {
+  name: 'search-book-results',
+  props: {
+    books: Object,
+    filter: Object,
+    hasInventory: Boolean,
+    showCover: Boolean,
+  },
+  components: {
+    SearchDirection,
+  },
+  setup() {
+    const state = reactive({})
+
+    const image = (id) => {
+      return (
+        process.env.VUE_APP_API +
+        '/api/public/book/cover/' +
+        id +
+        '_100x100.jpg'
+      )
+    }
+
+    const formatAuthor = (author) => {
+      if (null === author) return ''
+      if (author.firstname === '') {
+        return author.surname
+      }
+      return author.surname + ', ' + author.firstname
+    }
+
+    const formatDate = (timestamp) => {
+      return new Date(timestamp * 1000).toLocaleDateString()
+    }
+
+    const formatPrice = (price) => {
+      return Number.parseFloat(price).toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    }
+
+    const bookFound = (id) => {
+      this.$store.dispatch('book/bookFound', { me: this.me, id })
+    }
+
+    const bookNotFound = (id) => {
+      this.$store.dispatch('book/bookNotFound', { me: this.me, id })
+    }
+
+    return {
+      state,
+      image,
+      formatAuthor,
+      formatDate,
+      formatPrice,
+      bookFound,
+      bookNotFound,
+    }
+  },
+}
+</script>
+
 <template>
   <table :aria-label="$t('books')">
     <thead>
@@ -171,73 +238,6 @@
     </tbody>
   </table>
 </template>
-
-<script>
-import { reactive } from '@vue/composition-api'
-import SearchDirection from './Direction'
-
-export default {
-  name: 'search-book-results',
-  props: {
-    books: Object,
-    filter: Object,
-    hasInventory: Boolean,
-    showCover: Boolean,
-  },
-  components: {
-    SearchDirection,
-  },
-  setup() {
-    const state = reactive({})
-
-    const image = (id) => {
-      return (
-        process.env.VUE_APP_API +
-        '/api/public/book/cover/' +
-        id +
-        '_100x100.jpg'
-      )
-    }
-
-    const formatAuthor = (author) => {
-      if (null === author) return ''
-      if (author.firstname === '') {
-        return author.surname
-      }
-      return author.surname + ', ' + author.firstname
-    }
-
-    const formatDate = (timestamp) => {
-      return new Date(timestamp * 1000).toLocaleDateString()
-    }
-
-    const formatPrice = (price) => {
-      return Number.parseFloat(price).toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })
-    }
-
-    const bookFound = (id) => {
-      this.$store.dispatch('book/bookFound', { me: this.me, id })
-    }
-
-    const bookNotFound = (id) => {
-      this.$store.dispatch('book/bookNotFound', { me: this.me, id })
-    }
-
-    return {
-      state,
-      image,
-      formatAuthor,
-      formatDate,
-      formatPrice,
-      bookFound,
-      bookNotFound,
-    }
-  },
-}
-</script>
 
 <style scoped>
 thead {

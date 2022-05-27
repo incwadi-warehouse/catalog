@@ -1,15 +1,3 @@
-<template>
-  <span @click="change">
-    <slot />
-    <span
-      v-if="
-        filter.orderByDirection === 'asc' || filter.orderByDirection === 'desc'
-      "
-      v-html="icon()"
-    />
-  </span>
-</template>
-
 <script>
 import { toRefs } from '@vue/composition-api'
 
@@ -54,3 +42,15 @@ export default {
   },
 }
 </script>
+
+<template>
+  <span @click="change">
+    <slot />
+    <span
+      v-if="
+        filter.orderByDirection === 'asc' || filter.orderByDirection === 'desc'
+      "
+      v-html="icon()"
+    />
+  </span>
+</template>
