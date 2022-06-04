@@ -43,6 +43,7 @@ export default {
         :key="index"
         :id="id"
         :element="element"
+        @update="$emit('update')"
       />
     </div>
   </article>

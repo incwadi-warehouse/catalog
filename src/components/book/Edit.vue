@@ -159,6 +159,7 @@ export default {
       isUploading.value = true
       uploadCover({ id: bookId.value, form: form }).then(() => {
         isUploading.value = false
+        getCover(bookId.value)
       })
     }
 
@@ -198,6 +199,7 @@ export default {
       createTag,
       removeTag,
       isUploading,
+      getCover,
     }
   },
 }
