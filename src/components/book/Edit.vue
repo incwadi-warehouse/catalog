@@ -199,6 +199,7 @@ export default {
       createTag,
       removeTag,
       isUploading,
+      getCover,
     }
   },
 }
