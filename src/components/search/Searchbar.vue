@@ -29,9 +29,10 @@ export default defineComponent({
     }
 
     const reset = () => {
-      resetFilter
+      resetFilter()
       books.value = null
       authors.value = null
+      router.push({ name: 'search' })
     }
 
     return { filter, delaySearch, search, reset }
