@@ -1,4 +1,6 @@
 <script>
+import { useBook } from '@/composables/useBook.js'
+import { useFilter } from '@/composables/useFilter.js'
 import { reactive } from '@vue/composition-api'
 import SearchDirection from './Direction.vue'
 
@@ -44,12 +46,20 @@ export default {
       })
     }
 
+    const { find, found, notfound } = useBook()
+
+    const { filter } = useFilter()
+
     const bookFound = (id) => {
-      this.$store.dispatch('book/bookFound', { me: this.me, id })
+      found(id).then(() => {
+        find({ options: filter })
+      })
     }
 
     const bookNotFound = (id) => {
-      this.$store.dispatch('book/bookNotFound', { me: this.me, id })
+      notfound(id).then(() => {
+        find({ options: filter })
+      })
     }
 
     return {
@@ -83,64 +93,64 @@ export default {
             col="author"
             :filter="filter"
             @search="$emit('search', true)"
-            >{{ $t('author') }}</search-direction
-          >
+            >{{ $t('author') }}
+          </search-direction>
         </th>
         <th scope="col">
           <search-direction
             col="genre"
             :filter="filter"
             @search="$emit('search', true)"
-            >{{ $t('genre') }}</search-direction
-          >
+            >{{ $t('genre') }}
+          </search-direction>
         </th>
         <th scope="col">
           <search-direction
             col="added"
             :filter="filter"
             @search="$emit('search', true)"
-            >{{ $t('added') }}</search-direction
-          >
+            >{{ $t('added') }}
+          </search-direction>
         </th>
         <th scope="col" v-if="filter.availability.includes('sold')">
           <search-direction
             col="sold"
             :filter="filter"
             @search="$emit('search', true)"
-            >{{ $t('sold') }}</search-direction
-          >
+            >{{ $t('sold') }}
+          </search-direction>
         </th>
         <th scope="col" v-if="filter.availability.includes('removed')">
           <search-direction
             col="removed"
             :filter="filter"
             @search="$emit('search', true)"
-            >{{ $t('removed') }}</search-direction
-          >
+            >{{ $t('removed') }}
+          </search-direction>
         </th>
         <th scope="col">
           <search-direction
             col="format"
             :filter="filter"
             @search="$emit('search', true)"
-            >{{ $t('format') }}</search-direction
-          >
+            >{{ $t('format') }}
+          </search-direction>
         </th>
         <th scope="col">
           <search-direction
             col="releaseYear"
             :filter="filter"
             @search="$emit('search', true)"
-            >{{ $t('year') }}</search-direction
-          >
+            >{{ $t('year') }}
+          </search-direction>
         </th>
         <th scope="col">
           <search-direction
             col="price"
             :filter="filter"
             @search="$emit('search', true)"
-            >{{ $t('price') }}</search-direction
-          >
+            >{{ $t('price') }}
+          </search-direction>
         </th>
         <th scope="col"></th>
         <th scope="col" v-if="hasInventory"></th>
@@ -226,12 +236,22 @@ export default {
         </td>
         <td v-if="hasInventory">
           <b-button design="text" @click.prevent="bookFound(item.id)">
-            <b-icon type="check" :isPrimary="item.inventory" />
+            <b-icon
+              type="check"
+              color="var(--color-primary-10)"
+              v-if="item.inventory"
+            />
+            <b-icon type="check" v-else />
           </b-button>
         </td>
         <td v-if="hasInventory">
           <b-button design="text" @click.prevent="bookNotFound(item.id)">
-            <b-icon type="close" :isPrimary="false === item.inventory" />
+            <b-icon
+              type="close"
+              color="var(--color-primary-10)"
+              v-if="false === item.inventory"
+            />
+            <b-icon type="close" v-else />
           </b-button>
         </td>
       </tr>
