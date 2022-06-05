@@ -1,4 +1,4 @@
-import { computed, onMounted, ref } from '@vue/composition-api'
+import { computed, onMounted, ref } from 'vue'
 import { request } from '@/api'
 
 export function useInventory() {
@@ -11,6 +11,7 @@ export function useInventory() {
         active = true
       }
     })
+
     return active
   })
 

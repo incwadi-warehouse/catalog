@@ -1,11 +1,13 @@
 import { useAuthor } from '@/composables/useAuthor.js'
 import { useBook } from '@/composables/useBook.js'
 import { useFilter } from './../composables/useFilter.js'
-import { toRefs, ref, onMounted, watchEffect } from '@vue/composition-api'
+import { useRouter } from 'vue-router'
+import { toRefs, ref, onMounted, watchEffect } from 'vue'
 import { isEmpty } from 'lodash'
-import router from '@/router'
 
 export function useSearch(props) {
+  const router = useRouter()
+
   const { query, id } = toRefs(props)
 
   const modal = ref(null)

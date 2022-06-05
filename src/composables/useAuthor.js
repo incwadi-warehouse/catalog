@@ -1,11 +1,13 @@
-import { ref } from '@vue/composition-api'
 import { request } from '@/api'
-import useToast from '@baldeweg/components/src/composables/useToast'
-import i18n from '@/i18n.js'
+import { useToast } from '@baldeweg/ui'
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const authors = ref(null)
 
 export function useAuthor() {
+  const { t } = useI18n()
+
   const author = ref(null)
 
   const { add } = useToast()
@@ -30,13 +32,13 @@ export function useAuthor() {
       .then(() => {
         add({
           type: 'success',
-          body: i18n.t('updated'),
+          body: t('updated'),
         })
       })
       .catch(() => {
         add({
           type: 'error',
-          body: i18n.t('error'),
+          body: t('error'),
         })
       })
   }

@@ -1,12 +1,14 @@
-import { onMounted, ref, watch } from '@vue/composition-api'
+import { useToast } from '@baldeweg/ui'
 import { request } from '@/api'
-import useToast from '@baldeweg/components/src/composables/useToast'
-import i18n from './../i18n'
+import { onMounted, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const dir = ref('./')
 const elements = ref(null)
 
 export function useDirectory(emit) {
+  const { t } = useI18n()
+
   const { add } = useToast()
 
   const dirname = ref('')
@@ -17,8 +19,8 @@ export function useDirectory(emit) {
   const listElements = () => {
     isLoading.value = true
     return request('get', '/api/directory/', null, { dir: dir.value }).then(
-      (response) => {
-        elements.value = response.data
+      (res) => {
+        elements.value = res.data
         isLoading.value = false
       }
     )
@@ -37,13 +39,13 @@ export function useDirectory(emit) {
         listElements()
         add({
           type: 'success',
-          body: i18n.t('success_removing'),
+          body: t('success_removing'),
         })
       })
       .catch(() => {
         add({
           type: 'error',
-          body: i18n.t('error_removing'),
+          body: t('error_removing'),
         })
       })
   }
@@ -57,14 +59,15 @@ export function useDirectory(emit) {
         listElements()
         add({
           type: 'success',
-          body: i18n.t('success_create_dir'),
+          body: t('success_create_dir'),
         })
+
         dirname.value = ''
       })
       .catch(() => {
         add({
           type: 'error',
-          body: i18n.t('error_create_dir'),
+          body: t('error_create_dir'),
         })
       })
   }
@@ -79,13 +82,13 @@ export function useDirectory(emit) {
         listElements()
         add({
           type: 'success',
-          body: i18n.t('success_rename'),
+          body: t('success_rename'),
         })
       })
       .catch(() => {
         add({
           type: 'error',
-          body: i18n.t('error_rename'),
+          body: t('error_rename'),
         })
       })
   }
@@ -108,15 +111,17 @@ export function useDirectory(emit) {
         listElements()
         add({
           type: 'success',
-          body: i18n.t('success_upload'),
+          body: t('success_upload'),
         })
+
         isUploading.value = false
       })
       .catch(() => {
         add({
           type: 'error',
-          body: i18n.t('error_upload'),
+          body: t('error_upload'),
         })
+
         isUploading.value = false
       })
   }

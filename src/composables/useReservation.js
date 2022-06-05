@@ -1,5 +1,5 @@
 import { useCart } from './useCart.js'
-import { onMounted, ref } from '@vue/composition-api'
+import { onMounted, ref } from 'vue'
 import { request } from '@/api'
 
 export function useReservation() {
@@ -10,6 +10,7 @@ export function useReservation() {
 
   const list = () => {
     isLoading.value = true
+
     return request('get', '/api/reservation/list').then((res) => {
       reservations.value = res.data
       isLoading.value = false

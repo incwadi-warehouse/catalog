@@ -1,28 +1,20 @@
-<script>
-import AuthorUpdate from '@/components/author/Update.vue'
+<script setup>
+import { useTitle } from '@baldeweg/ui'
+import AuthorUpdate from '@/components/author/AuthorUpdate.vue'
 
-export default {
-  name: 'update-author-view',
-  head: {
-    title: 'Author',
-  },
-  components: {
-    AuthorUpdate,
-  },
-  props: {
-    id: Number,
-  },
-}
+useTitle({ title: 'Author' })
+
+defineProps({
+  id: Number,
+})
 </script>
 
 <template>
-  <article>
-    <b-container size="m">
-      <h1>{{ $t('edit_author') }}</h1>
-    </b-container>
+  <b-container size="m">
+    <h1>{{ $t('edit_author') }}</h1>
+  </b-container>
 
-    <b-container size="m">
-      <author-update :id="id" />
-    </b-container>
-  </article>
+  <b-container size="m">
+    <AuthorUpdate :id="id" />
+  </b-container>
 </template>

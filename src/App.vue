@@ -1,96 +1,66 @@
-<script>
-import AuthLogin from '@/components/auth/Login.vue'
-import Logo from './components/Logo.vue'
-import useAuth from '@/composables/useAuth.js'
+<script setup>
+import { useLocale, useTheme } from '@baldeweg/ui'
 import { useBookmark } from '@/composables/useBookmark.js'
 import { useReservation } from '@/composables/useReservation.js'
-import useToast from './../node_modules/@baldeweg/components/src/composables/useToast.js'
-import { onMounted, onUnmounted, ref } from '@vue/composition-api'
+import { useToast } from '@baldeweg/ui'
+import useAuth from '@/composables/useAuth.js'
+import Logo from './components/AppLogo.vue'
+import AuthLogin from '@/components/auth/Login.vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import router from '@/router'
 
-export default {
-  name: 'app',
-  components: {
-    AuthLogin,
-    Logo,
-  },
-  head: {
-    title: 'Home',
-  },
-  setup() {
-    const auth = useAuth()
+useLocale()
+useTheme()
 
-    const about = process.env.VUE_APP_ABOUT
+const auth = useAuth()
 
-    const hasLogo = process.env.VUE_APP_LOGO === 'false' ? false : true
+const about = import.meta.env.VUE_APP_ABOUT
 
-    const isDrawerActive = ref(false)
+const hasLogo = import.meta.env.VUE_APP_LOGO === 'false' ? false : true
 
-    onMounted(() => {
-      router.beforeEach((to, from, next) => {
-        isDrawerActive.value = false
-        next()
-      })
-    })
+const isDrawerActive = ref(false)
 
-    const find = process.env.VUE_APP_FIND
-    const settings = process.env.VUE_APP_SETTINGS
-    const orders = process.env.VUE_APP_ORDERS
+onMounted(() => {
+  router.beforeEach((to, from, next) => {
+    isDrawerActive.value = false
+    next()
+  })
+})
 
-    const {
-      bookmarks,
-      list: listBookmarks,
-      createFromPage,
-      open,
-    } = useBookmark()
+const find = import.meta.env.VUE_APP_FIND
+const settings = import.meta.env.VUE_APP_SETTINGS
+const orders = import.meta.env.VUE_APP_ORDERS
 
-    const refreshInterval = ref(null)
+const { bookmarks, list: listBookmarks, createFromPage, open } = useBookmark()
 
-    const refresh = () => {
-      refreshInterval.value = setInterval(listBookmarks, 5000)
-    }
+const refreshInterval = ref(null)
 
-    onMounted(refresh)
+const refresh = () => {
+  refreshInterval.value = setInterval(listBookmarks, 5000)
+}
 
-    onUnmounted(() => {
-      clearInterval(refreshInterval.value)
-    })
+onMounted(refresh)
 
-    const navigateToBookmarks = () => {
-      window.location = settings + '/bookmark'
-    }
+onUnmounted(() => {
+  clearInterval(refreshInterval.value)
+})
 
-    const { current } = useToast()
+const navigateToBookmarks = () => {
+  window.location = settings + '/bookmark'
+}
 
-    const { reservations, list: listReservations } = useReservation()
+const { current } = useToast()
 
-    const reservationInterval = setInterval(listReservations, 5000)
+const { reservations, list: listReservations } = useReservation()
 
-    onUnmounted(() => {
-      window.clearInterval(reservationInterval)
-    })
+const reservationInterval = setInterval(listReservations, 5000)
 
-    const navigateToOrders = () => {
-      window.location = process.env.VUE_APP_ORDERS
-    }
+onUnmounted(() => {
+  window.clearInterval(reservationInterval)
+})
 
-    return {
-      auth,
-      about,
-      hasLogo,
-      isDrawerActive,
-      bookmarks,
-      open,
-      createFromPage,
-      find,
-      current,
-      reservations,
-      settings,
-      orders,
-      navigateToBookmarks,
-      navigateToOrders,
-    }
-  },
+const navigateToOrders = () => {
+  window.location = import.meta.env.VUE_APP_ORDERS
 }
 </script>
 
@@ -105,7 +75,7 @@ export default {
 
       <b-masthead-item type="center">
         <router-link :to="{ name: 'index' }">
-          <logo v-if="hasLogo" />
+          <Logo v-if="hasLogo" />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="50"
@@ -177,7 +147,7 @@ export default {
 
     <b-container size="s" v-if="!auth.state.isAuthenticated">
       <h1>{{ $t('login') }}</h1>
-      <auth-login />
+      <AuthLogin />
     </b-container>
     <b-container size="m">
       <div v-html="about" />
@@ -230,9 +200,9 @@ export default {
       >
     </div>
 
-    <b-toast v-if="current" :type="current.type" :visible="true">{{
-      current.body
-    }}</b-toast>
+    <b-toast v-if="current" :type="current.type" :visible="true">
+      {{ current.body }}
+    </b-toast>
   </b-app>
 </template>
 

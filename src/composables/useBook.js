@@ -1,12 +1,14 @@
-import { ref } from '@vue/composition-api'
 import { request } from '@/api'
+import { useToast } from '@baldeweg/ui'
+import { ref } from 'vue'
 import { without } from 'lodash'
-import useToast from '@baldeweg/components/src/composables/useToast'
-import i18n from './../i18n'
+import { useI18n } from 'vue-i18n'
 
 const books = ref(null)
 
 export function useBook() {
+  const { t } = useI18n()
+
   const { add } = useToast()
 
   const book = ref(null)
@@ -108,13 +110,13 @@ export function useBook() {
         book.value = res.data
         add({
           type: 'success',
-          body: i18n.t('book_saved'),
+          body: t('book_saved'),
         })
       })
       .catch(() => {
         add({
           type: 'error',
-          body: i18n.t('error_saving_book'),
+          body: t('error_saving_book'),
         })
       })
   }

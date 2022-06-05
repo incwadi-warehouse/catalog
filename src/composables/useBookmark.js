@@ -1,5 +1,5 @@
-import { onMounted, ref } from '@vue/composition-api'
 import { request } from '@/api'
+import { onMounted, ref } from 'vue'
 
 export function useBookmark() {
   const bookmarks = ref([])

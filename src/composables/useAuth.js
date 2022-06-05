@@ -1,6 +1,6 @@
-import { onMounted, reactive } from '@vue/composition-api'
-import Cookies from 'js-cookie'
 import { request } from '@/api'
+import { onMounted, reactive } from 'vue'
+import Cookies from 'js-cookie'
 
 export const state = reactive({
   username: null,

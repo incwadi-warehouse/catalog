@@ -1,11 +1,9 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
-Vue.use(VueRouter)
-
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.VUE_APP_BASE_URL,
+const router = createRouter({
+  history: createWebHistory(import.meta.env.VUE_APP_BASE_URL),
+  linkActiveClass: 'isActive',
+  linkExactActiveClass: 'isActiveExact',
   routes: [
     {
       path: '/',
@@ -17,7 +15,6 @@ const router = new VueRouter({
       name: 'search',
       component: () => import('../views/SearchView.vue'),
       props: (route) => ({
-        is404: route.params.is404,
         query: route.query,
       }),
     },
@@ -26,7 +23,6 @@ const router = new VueRouter({
       name: 'book.update',
       component: () => import('../views/SearchView.vue'),
       props: (route) => ({
-        is404: route.params.is404,
         query: route.query,
         id: route.params.id,
       }),
@@ -60,13 +56,13 @@ const router = new VueRouter({
       props: true,
     },
     {
-      path: '*',
-      redirect: { name: 'index', params: { is404: true } },
+      path: '/:pathMatch(.*)',
+      redirect: { name: 'index' },
     },
   ],
   scrollBehavior(to, from) {
     if (to.name === 'book.update' || from.name === 'book.update') return
-    return { x: 0, y: 0 }
+    return { top: 0 }
   },
 })
 
