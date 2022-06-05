@@ -65,7 +65,7 @@ export default {
   <article>
     <ul v-if="null !== cart">
       <li v-for="book in cart" :key="book.id">
-        <router-link :to="{ name: 'book', params: { bookId: book.id } }">
+        <router-link :to="{ name: 'book.update', params: { id: book.id } }">
           {{ book.title }} - {{ book.price }}
           <span v-if="book.sold"> - {{ $t('sold') }}</span>
           <span v-if="book.removed"> - {{ $t('removed') }}</span>
