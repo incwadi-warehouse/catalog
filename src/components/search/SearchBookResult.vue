@@ -52,6 +52,11 @@ const removeBook = (bookId) => {
     search()
   })
 }
+
+const showAll = () => {
+  filter.limit = books.value.counter
+  search(true)
+}
 </script>
 
 <template>
@@ -78,12 +83,9 @@ const removeBook = (bookId) => {
       @click="showCover = !showCover"
       >{{ $t('show_cover') }}</b-button
     >
-    <b-button
-      design="text"
-      :style="{ float: 'right' }"
-      @click="filter.limit = books.counter && search(true)"
-      >{{ $t('show_all') }}</b-button
-    >
+    <b-button design="text" :style="{ float: 'right' }" @click="showAll">{{
+      $t('show_all')
+    }}</b-button>
     <SearchBookResults
       :filter="filter"
       :books="books"
