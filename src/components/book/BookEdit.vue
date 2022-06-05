@@ -161,6 +161,7 @@ const pricelist = computed(() => {
 const createTag = (item) => {
   createNewTag(item).then((res) => {
     state.tags.push(res.data)
+    state.tag = ''
   })
 }
 
