@@ -20,11 +20,6 @@ describe('Search', () => {
   })
 
   it('add term to query', () => {
-    cy.get('.input').type('test')
-    cy.url().should('include', 'term=test')
-  })
-
-  it('show search results', () => {
     cy.server()
     cy.route('GET', '**/api/book/find?options=**', {
       books: [
@@ -89,10 +84,11 @@ describe('Search', () => {
       ],
       counter: 2,
     })
+    cy.route('GET', '**/api/author/find?options=**', {})
 
-    cy.get('.buttons > :nth-child(3)').click()
+    cy.get('.input').type('test')
+    cy.url().should('include', 'term=test')
 
     cy.get('table')
-    cy.get('table tbody tr').should('have.length', 2)
   })
 })
