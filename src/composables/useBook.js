@@ -149,6 +149,18 @@ export function useBook() {
     })
   }
 
+  const found = (id) => {
+    return request('put', '/api/book/inventory/found/' + id).then((res) => {
+      book.value = res.data
+    })
+  }
+
+  const notfound = (id) => {
+    return request('put', '/api/book/inventory/notfound/' + id).then((res) => {
+      book.value = res.data
+    })
+  }
+
   return {
     books,
     book,
@@ -162,5 +174,7 @@ export function useBook() {
     getCover,
     upload,
     removeCover,
+    found,
+    notfound,
   }
 }

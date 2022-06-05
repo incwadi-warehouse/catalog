@@ -1,4 +1,6 @@
 <script setup>
+import { useBook } from '@/composables/useBook.js'
+import { useFilter } from '@/composables/useFilter.js'
 import SearchDirection from './SearchDirection.vue'
 
 defineProps({
@@ -36,12 +38,19 @@ const formatPrice = (price) => {
   })
 }
 
+const { find, found, notfound } = useBook()
+const { filter } = useFilter()
+
 const bookFound = (id) => {
-  this.$store.dispatch('book/bookFound', { me: this.me, id })
+  found(id).then(() => {
+    find({ options: filter })
+  })
 }
 
 const bookNotFound = (id) => {
-  this.$store.dispatch('book/bookNotFound', { me: this.me, id })
+  notfound(id).then(() => {
+    find({ options: filter })
+  })
 }
 </script>
 
@@ -63,64 +72,64 @@ const bookNotFound = (id) => {
             col="author"
             :filter="filter"
             @search="$emit('search', true)"
-            >{{ $t('author') }}</SearchDirection
-          >
+            >{{ $t('author') }}
+          </SearchDirection>
         </th>
         <th scope="col">
           <SearchDirection
             col="genre"
             :filter="filter"
             @search="$emit('search', true)"
-            >{{ $t('genre') }}</SearchDirection
-          >
+            >{{ $t('genre') }}
+          </SearchDirection>
         </th>
         <th scope="col">
           <SearchDirection
             col="added"
             :filter="filter"
             @search="$emit('search', true)"
-            >{{ $t('added') }}</SearchDirection
-          >
+            >{{ $t('added') }}
+          </SearchDirection>
         </th>
         <th scope="col" v-if="filter.availability.includes('sold')">
           <SearchDirection
             col="sold"
             :filter="filter"
             @search="$emit('search', true)"
-            >{{ $t('sold') }}</SearchDirection
-          >
+            >{{ $t('sold') }}
+          </SearchDirection>
         </th>
         <th scope="col" v-if="filter.availability.includes('removed')">
           <SearchDirection
             col="removed"
             :filter="filter"
             @search="$emit('search', true)"
-            >{{ $t('removed') }}</SearchDirection
-          >
+            >{{ $t('removed') }}
+          </SearchDirection>
         </th>
         <th scope="col">
           <SearchDirection
             col="format"
             :filter="filter"
             @search="$emit('search', true)"
-            >{{ $t('format') }}</SearchDirection
-          >
+            >{{ $t('format') }}
+          </SearchDirection>
         </th>
         <th scope="col">
           <SearchDirection
             col="releaseYear"
             :filter="filter"
             @search="$emit('search', true)"
-            >{{ $t('year') }}</SearchDirection
-          >
+            >{{ $t('year') }}
+          </SearchDirection>
         </th>
         <th scope="col">
           <SearchDirection
             col="price"
             :filter="filter"
             @search="$emit('search', true)"
-            >{{ $t('price') }}</SearchDirection
-          >
+            >{{ $t('price') }}
+          </SearchDirection>
         </th>
         <th scope="col"></th>
         <th scope="col" v-if="hasInventory"></th>
@@ -206,12 +215,22 @@ const bookNotFound = (id) => {
         </td>
         <td v-if="hasInventory">
           <b-button design="text" @click.prevent="bookFound(item.id)">
-            <b-icon type="check" :isPrimary="item.inventory" />
+            <b-icon
+              type="check"
+              color="var(--color-primary-10)"
+              v-if="item.inventory"
+            />
+            <b-icon type="check" v-else />
           </b-button>
         </td>
         <td v-if="hasInventory">
           <b-button design="text" @click.prevent="bookNotFound(item.id)">
-            <b-icon type="close" :isPrimary="false === item.inventory" />
+            <b-icon
+              type="close"
+              color="var(--color-primary-10)"
+              v-if="false === item.inventory"
+            />
+            <b-icon type="close" v-else />
           </b-button>
         </td>
       </tr>
