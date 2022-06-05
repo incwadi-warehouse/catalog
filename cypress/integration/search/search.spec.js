@@ -90,7 +90,7 @@ describe('Search', () => {
       counter: 2,
     })
 
-    cy.get('.search > :nth-child(4)').click()
+    cy.get('.buttons > :nth-child(3)').click()
 
     cy.get('table')
     cy.get('table tbody tr').should('have.length', 2)
