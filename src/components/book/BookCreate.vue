@@ -16,11 +16,7 @@ const emit = defineEmits(['close'])
 const { me } = toRefs(props)
 
 const state = reactive({
-  added: computed(() => {
-    let date = new Date()
-
-    return date.toISOString().split('T')[0]
-  }),
+  added: null,
   title: null,
   shortDescription: null,
   authorFirstname: '',
@@ -35,6 +31,9 @@ const state = reactive({
   tag: null,
   format: null,
 })
+
+let date = new Date()
+state.added = date.toISOString().split('T')[0]
 
 const { genres } = useGenre()
 const { conditions } = useCondition()
