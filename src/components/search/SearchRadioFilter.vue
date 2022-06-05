@@ -26,7 +26,7 @@ const selectedItemName = computed(() => {
 </script>
 
 <template>
-  <b-dropdown position="bottom" v-if="items" keep-open>
+  <b-dropdown position="bottom" v-if="items">
     <template #selector>
       {{ title }}
       <span v-if="modelValue">({{ selectedItemName }})</span>
