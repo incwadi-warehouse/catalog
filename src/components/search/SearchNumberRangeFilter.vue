@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 
 const props = defineProps({
-  value: String,
+  modelValue: String,
   title: String,
 })
 
@@ -11,9 +11,9 @@ const id = Math.random().toString(36).substr(2, 8)
 const start = ref(null)
 const end = ref(null)
 
-if (props.value && props.value.indexOf('..') !== -1) {
-  start.value = props.value.split('..')[0]
-  end.value = props.value.split('..')[1]
+if (props.modelValue && props.modelValue.indexOf('..') !== -1) {
+  start.value = props.modelValue.split('..')[0]
+  end.value = props.modelValue.split('..')[1]
 }
 
 const selectedRange = computed(() => {
@@ -29,7 +29,7 @@ const formattedRange = computed(() => {
   <b-dropdown position="bottom" keep-open>
     <template #selector>
       {{ title }}
-      <span v-if="value">({{ formattedRange }})</span>
+      <span v-if="modelValue">({{ formattedRange }})</span>
     </template>
 
     <b-dropdown-item no-hover>

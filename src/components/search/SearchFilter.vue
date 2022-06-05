@@ -9,11 +9,15 @@ import { useGenre } from '@/composables/useGenre.js'
 import { useFormat } from '@/composables/useFormat.js'
 import { useAuthor } from '@/composables/useAuthor.js'
 import { useBook } from '@/composables/useBook.js'
-import router from '@/router'
+import { useRouter } from 'vue-router'
 
 defineProps({
   auth: Object,
 })
+
+const router = useRouter()
+
+const emit = defineEmits(['close'])
 
 const { filter, reset: resetFilter } = useFilter()
 
@@ -36,9 +40,20 @@ const search = () => {
 }
 
 const reset = () => {
-  resetFilter
+  resetFilter()
   books.value = null
   authors.value = null
+  router.push({ name: 'search' })
+}
+
+const searchAndClose = () => {
+  search()
+  emit('close')
+}
+
+const resetAndClose = () => {
+  reset()
+  emit('close')
 }
 </script>
 
@@ -51,14 +66,12 @@ const reset = () => {
     <template #footer>
       <b-form-group buttons>
         <b-form-item>
-          <b-button design="text" @click.prevent="reset() && $emit('close')">{{
+          <b-button design="text" @click.prevent="resetAndClose">{{
             $t('reset')
           }}</b-button>
-          <b-button
-            design="primary"
-            @click.prevent="search() && $emit('close')"
-            >{{ $t('search') }}</b-button
-          >
+          <b-button design="primary" @click.prevent="searchAndClose">{{
+            $t('search')
+          }}</b-button>
         </b-form-item>
       </b-form-group>
     </template>
@@ -71,7 +84,7 @@ const reset = () => {
         fieldKey="id"
         fieldValue="name"
         v-model="filter.branch"
-        v-if="auth.state.me.isAdmin"
+        v-if="auth.state.me.isAdmin && branches"
       />
 
       <!-- genre -->

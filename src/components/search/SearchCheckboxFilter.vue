@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 
 const props = defineProps({
-  value: Array,
+  modelValue: [String, Array],
   items: Array,
   title: String,
   fieldKey: {
@@ -18,13 +18,13 @@ const props = defineProps({
 const id = Math.random().toString(36).substr(2, 8)
 
 const selectedItemName = computed(() => {
-  return props.value.length
+  return props.modelValue.length
 })
 
 const selected = ref([])
 
 onMounted(() => {
-  selected.value = selected.value.concat(props.value)
+  selected.value = selected.value.concat(props.modelValue)
 })
 
 const selectAll = () => {
@@ -50,7 +50,9 @@ const selectNone = () => {
   <b-dropdown position="bottom" v-if="items" keep-open>
     <template #selector>
       {{ title }}
-      <span v-if="value && value.length >= 1">({{ selectedItemName }})</span>
+      <span v-if="modelValue && modelValue.length >= 1"
+        >({{ selectedItemName }})</span
+      >
     </template>
 
     <b-dropdown-item>
@@ -62,7 +64,7 @@ const selectNone = () => {
     <b-dropdown-item
       v-for="(item, index) in items"
       :key="item[fieldKey]"
-      :bold="value && value == item[fieldKey]"
+      :bold="modelValue && modelValue == item[fieldKey]"
     >
       <input
         type="checkbox"

@@ -3,7 +3,9 @@ import { useFilter } from '@/composables/useFilter.js'
 import { useAuthor } from '@/composables/useAuthor.js'
 import { useBook } from '@/composables/useBook.js'
 import { debounce } from 'lodash'
-import router from '@/router'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const { filter, reset: resetFilter } = useFilter()
 
@@ -26,9 +28,10 @@ const delaySearch = () => {
 }
 
 const reset = () => {
-  resetFilter
+  resetFilter()
   books.value = null
   authors.value = null
+  router.push({ name: 'search' })
 }
 </script>
 

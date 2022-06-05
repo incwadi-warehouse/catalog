@@ -6,7 +6,9 @@ import { useCart } from '@/composables/useCart.js'
 import { useFilter } from '@/composables/useFilter.js'
 import { useAuthor } from '@/composables/useAuthor.js'
 import { computed, ref } from 'vue'
-import router from '@/router'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 // author
 const { find: findAuthor } = useAuthor()

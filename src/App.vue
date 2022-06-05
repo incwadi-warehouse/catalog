@@ -7,10 +7,12 @@ import useAuth from '@/composables/useAuth.js'
 import Logo from './components/AppLogo.vue'
 import AuthLogin from '@/components/auth/Login.vue'
 import { onMounted, onUnmounted, ref } from 'vue'
-import router from '@/router'
+import { useRouter } from 'vue-router'
 
 useLocale()
 useTheme()
+
+const router = useRouter()
 
 const auth = useAuth()
 

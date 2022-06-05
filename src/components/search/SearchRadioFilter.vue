@@ -3,7 +3,7 @@ import { find } from 'lodash'
 import { computed } from 'vue'
 
 const props = defineProps({
-  value: String,
+  modelValue: String,
   items: Array,
   title: String,
   fieldKey: {
@@ -17,9 +17,11 @@ const props = defineProps({
 })
 
 const selectedItemName = computed(() => {
-  return find(props.items, (el) => {
-    return el[props.fieldKey] === props.value
-  })[props.fieldValue]
+  const found = find(props.items, (el) => {
+    return el[props.fieldKey] === props.modelValue
+  })
+
+  return found ? found[props.fieldValue] : null
 })
 </script>
 
@@ -27,13 +29,13 @@ const selectedItemName = computed(() => {
   <b-dropdown position="bottom" v-if="items" keep-open>
     <template #selector>
       {{ title }}
-      <span v-if="value">({{ selectedItemName }})</span>
+      <span v-if="modelValue">({{ selectedItemName }})</span>
     </template>
 
     <b-dropdown-item
       v-for="item in items"
       :key="item[fieldKey]"
-      :bold="value && value == item[fieldKey]"
+      :bold="modelValue && modelValue == item[fieldKey]"
       @click="$emit('update:modelValue', item[fieldKey])"
     >
       {{ item[fieldValue] }}
