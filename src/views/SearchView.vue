@@ -63,17 +63,15 @@ export default {
       v-if="modal == 'filter'"
     />
 
-    <keep-alive>
-      <book-edit
-        :book-id="id"
-        :me="auth.state.me"
-        @close="
-          modal = null
-          $router.push({ name: 'search' })
-        "
-        v-if="modal == 'update'"
-      />
-    </keep-alive>
+    <book-edit
+      :book-id="id"
+      :me="auth.state.me"
+      @close="
+        modal = null
+        $router.push({ name: 'search' })
+      "
+      v-if="modal == 'update'"
+    />
 
     <keep-alive>
       <book-create

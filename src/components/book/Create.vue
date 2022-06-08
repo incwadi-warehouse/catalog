@@ -69,6 +69,21 @@ export default {
         format: state.format,
       }).then(() => {
         emit('close')
+
+        state.added = null
+        state.title = null
+        state.shortDescription = null
+        state.authorFirstname = ''
+        state.authorSurname = null
+        state.genreId = null
+        state.price = '2.50'
+        state.sold = false
+        state.removed = false
+        state.releaseYear = new Date().getFullYear()
+        state.cond_id = null
+        state.tags = []
+        state.tag = null
+        state.format = null
       })
     }
 
