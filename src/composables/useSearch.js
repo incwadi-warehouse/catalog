@@ -1,7 +1,14 @@
 import { useAuthor } from '@/composables/useAuthor.js'
 import { useBook } from '@/composables/useBook.js'
 import { useFilter } from './../composables/useFilter.js'
-import { toRefs, ref, onMounted, watchEffect } from '@vue/composition-api'
+import useAuth from './../composables/useAuth.js'
+import {
+  toRefs,
+  ref,
+  onMounted,
+  watchEffect,
+  watch,
+} from '@vue/composition-api'
 import { isEmpty } from 'lodash'
 import router from '@/router'
 
@@ -12,7 +19,16 @@ export function useSearch(props) {
 
   const { filter, init: initFilter } = useFilter()
 
+  const { state: stateAuth } = useAuth()
+
   initFilter(query, props)
+
+  watch(
+    () => stateAuth.me,
+    () => {
+      initFilter(query, props)
+    }
+  )
 
   const { find: findAuthor } = useAuthor()
 
