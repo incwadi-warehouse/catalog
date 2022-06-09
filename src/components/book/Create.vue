@@ -70,7 +70,9 @@ export default {
       }).then(() => {
         emit('close')
 
-        state.added = null
+        let date = new Date()
+
+        state.added = date.toISOString().split('T')[0]
         state.title = null
         state.shortDescription = null
         state.authorFirstname = ''
