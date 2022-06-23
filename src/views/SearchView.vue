@@ -25,7 +25,9 @@ const { modal } = useSearch(props)
 
 const router = useRouter()
 
-const closeModal = () => {
+const closeModal = (event) => {
+  if (event === 'overlay') return
+
   modal.value = null
   router.push({ name: 'search' })
 }
