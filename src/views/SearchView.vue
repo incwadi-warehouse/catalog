@@ -48,14 +48,12 @@ const closeModal = () => {
 
   <SearchFilter :auth="auth" @close="modal = null" v-if="modal == 'filter'" />
 
-  <KeepAlive>
-    <BookEdit
-      :book-id="id"
-      :me="auth.state.me"
-      @close="closeModal"
-      v-if="modal == 'update'"
-    />
-  </KeepAlive>
+  <BookEdit
+    :book-id="id"
+    :me="auth.state.me"
+    @close="closeModal"
+    v-if="modal == 'update'"
+  />
 
   <KeepAlive>
     <BookCreate

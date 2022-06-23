@@ -66,6 +66,24 @@ const create = () => {
     format: state.format,
   }).then(() => {
     emit('close')
+
+    state.added = null
+    state.title = null
+    state.shortDescription = null
+    state.authorFirstname = ''
+    state.authorSurname = null
+    state.genreId = null
+    state.price = '2.50'
+    state.sold = false
+    state.removed = false
+    state.releaseYear = new Date().getFullYear()
+    state.cond_id = null
+    state.tags = []
+    state.tag = null
+    state.format = null
+
+    let date = new Date()
+    state.added = date.toISOString().split('T')[0]
   })
 }
 
@@ -79,7 +97,7 @@ const createTag = () => {
 
 <template>
   <b-form @submit.prevent="create">
-    <b-modal @close="$emit('close')">
+    <b-modal @close="$emit('close', $event)" close-button>
       <template #title>
         <b-icon type="plus" :size="15" no-hover /> {{ $t('catalog') }}
       </template>
