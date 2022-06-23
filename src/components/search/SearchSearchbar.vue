@@ -21,10 +21,18 @@ const search = () => {
   findBook({ options: filter })
 }
 
+var debounced = null
+
 const delaySearch = () => {
-  debounce(() => {
+  if (debounced !== null) {
+    debounced.cancel()
+  }
+
+  debounced = debounce(() => {
     search()
-  }, 1000)()
+  }, 1000)
+
+  debounced()
 }
 
 const reset = () => {
