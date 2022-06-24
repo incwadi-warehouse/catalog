@@ -60,8 +60,7 @@ describe('Filter', () => {
 
     // branch
     cy.get('.container > article:nth-child(1) > span').click()
-    cy.get('[modelvalue="1"] > .dropdown > :nth-child(1) > .title').click()
-    cy.get('.container > article:nth-child(1) > .overlay').click()
+    cy.get(':nth-child(1) > .dropdown > .isBold > .title').click()
 
     // genre
     cy.get('.container > article:nth-child(2) > span').click()
@@ -97,12 +96,10 @@ describe('Filter', () => {
     // order by
     cy.get('article:nth-child(7) > span').click()
     cy.get(':nth-child(7) > .dropdown > :nth-child(1) > .title').click()
-    cy.get('article:nth-child(7) > .overlay').click()
 
     // order by direction
     cy.get('article:nth-child(8) > span').click()
     cy.get(':nth-child(8) > .dropdown > :nth-child(2) > .title').click()
-    cy.get('article:nth-child(8) > .overlay').click()
 
     // // limit
     cy.get('#limit').click()

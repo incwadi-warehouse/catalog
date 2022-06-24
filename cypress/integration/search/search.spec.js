@@ -21,6 +21,16 @@ describe('Search', () => {
 
   it('add term to query', () => {
     cy.server()
+    cy.route('GET', '**/api/me', {
+      id: 1,
+      username: 'admin',
+      roles: ['ROLE_ADMIN', 'ROLE_USER'],
+      branch: {
+        id: 1,
+      },
+      isUser: true,
+      isAdmin: true,
+    })
     cy.route('GET', '**/api/book/find?options=**', {
       books: [
         {
