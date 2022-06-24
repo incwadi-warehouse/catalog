@@ -1,4 +1,5 @@
-import { reactive } from 'vue'
+import { onMounted, reactive } from 'vue'
+import useAuth from '@/composables/useAuth.js'
 
 const filter = reactive({
   term: null,
@@ -40,6 +41,13 @@ export function useFilter() {
     filter.orderByDirection = null
     filter.limit = 50
   }
+
+  onMounted(() => {
+    const auth = useAuth()
+    auth.me().then(() => {
+      filter.branch = auth.state.me.branch.id
+    })
+  })
 
   return { filter, init, reset }
 }

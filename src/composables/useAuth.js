@@ -135,5 +135,6 @@ export default function useAuth() {
     login,
     logout,
     changePassword,
+    me,
   }
 }
