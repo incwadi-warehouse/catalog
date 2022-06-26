@@ -183,7 +183,7 @@ const removeTag = (id) => {
       conditions.length >= 1
     "
   >
-    <b-modal @close="$emit('close')">
+    <b-modal @close="$emit('close')" close-button>
       <b-container size="m" v-if="book.reserved">
         <b-alert type="warning">
           <p>{{ $t('doNotEditReservedBooks') }}</p>
