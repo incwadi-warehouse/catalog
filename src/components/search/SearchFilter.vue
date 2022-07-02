@@ -29,7 +29,7 @@ const { formats } = useFormat()
 
 const { authors, find: findAuthor } = useAuthor()
 
-const { books } = useBook()
+const { books, find } = useBook()
 
 const search = () => {
   router.push({ name: 'search', query: filter })
