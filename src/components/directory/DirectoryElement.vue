@@ -7,7 +7,7 @@ const props = defineProps({
   element: Object,
 })
 
-const emit = defineEmits([])
+const emit = defineEmits(['desc'])
 
 const { element } = toRefs(props)
 
@@ -86,6 +86,12 @@ const edit = () => {
           v-if="id && element.isFile && !element.doc"
         >
           {{ $t('use_as_cover') }}
+        </b-dropdown-item>
+        <b-dropdown-item
+          @click.prevent="$emit('desc', element.doc)"
+          v-if="id && element.isFile && element.doc"
+        >
+          {{ $t('use_as_desc') }}
         </b-dropdown-item>
       </b-dropdown>
     </template>

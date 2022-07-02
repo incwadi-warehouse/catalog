@@ -112,5 +112,6 @@
   "error": "Fehler",
   "shop": "Shop",
   "asc": "aufsteigend",
-  "desc": "absteigend"
+  "desc": "absteigend",
+  "use_as_desc": "Als Beschreibung verwenden"
 }

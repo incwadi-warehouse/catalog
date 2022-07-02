@@ -582,6 +582,7 @@ const removeTag = (id) => {
               :id="bookId"
               @update="getCover(bookId)"
               v-if="tab == 'file-manager'"
+              @desc="state.shortDescription = $event"
             />
           </div>
         </div>

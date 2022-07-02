@@ -37,6 +37,7 @@ const { dir, elements, isLoading } = useDirectory(emit)
         :id="id"
         :element="element"
         @update="$emit('update')"
+        @desc="$emit('desc', $event)"
       />
     </div>
   </article>
