@@ -9,7 +9,8 @@ import AuthLogin from '@/components/auth/Login.vue'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-useLocale()
+const { locale } = useLocale()
+locale.value = import.meta.env.VUE_APP_I18N_LOCALE
 useTheme()
 
 const router = useRouter()
