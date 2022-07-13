@@ -31,8 +31,7 @@ const selectAll = () => {
   document
     .querySelectorAll("input[id^='" + id + "-genre-']")
     .forEach((element) => {
-      element.checked = false
-      element.click()
+      element.checked = true
     })
 }
 
@@ -40,8 +39,7 @@ const selectNone = () => {
   document
     .querySelectorAll("input[id^='" + id + "-genre-']")
     .forEach((element) => {
-      element.checked = true
-      element.click()
+      element.checked = false
     })
 }
 </script>
@@ -56,7 +54,7 @@ const selectNone = () => {
     </template>
 
     <b-dropdown-item>
-      <span @click="selectAll">All</span>
+      <span @click="selectAll">{{ $t('all') }}</span>
       &bull;
       <span @click="selectNone">{{ $t('none') }}</span>
     </b-dropdown-item>
