@@ -58,7 +58,7 @@ const selectNone = () => {
     <b-dropdown-item>
       <span @click="selectAll">All</span>
       &bull;
-      <span @click="selectNone">None</span>
+      <span @click="selectNone">{{ $t('none') }}</span>
     </b-dropdown-item>
 
     <b-dropdown-item

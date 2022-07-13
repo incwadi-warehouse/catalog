@@ -112,5 +112,7 @@
   "error": "Fehler",
   "shop": "Shop",
   "asc": "aufsteigend",
-  "desc": "absteigend"
+  "desc": "absteigend",
+  "all": "Alle",
+  "none": "Nichts"
 }
