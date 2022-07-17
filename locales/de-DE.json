@@ -113,5 +113,7 @@
   "shop": "Shop",
   "asc": "aufsteigend",
   "desc": "absteigend",
-  "use_as_desc": "Als Beschreibung verwenden"
+  "use_as_desc": "Als Beschreibung verwenden",
+  "all": "Alle",
+  "none": "Nichts"
 }
