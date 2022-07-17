@@ -67,24 +67,28 @@ const create = () => {
   }).then(() => {
     emit('close')
 
-    state.added = null
-    state.title = null
-    state.shortDescription = null
-    state.authorFirstname = ''
-    state.authorSurname = null
-    state.genreId = null
-    state.price = '2.50'
-    state.sold = false
-    state.removed = false
-    state.releaseYear = new Date().getFullYear()
-    state.cond_id = null
-    state.tags = []
-    state.tag = null
-    state.format = null
-
-    let date = new Date()
-    state.added = date.toISOString().split('T')[0]
+    reset()
   })
+}
+
+const reset = () => {
+  state.added = null
+  state.title = null
+  state.shortDescription = null
+  state.authorFirstname = ''
+  state.authorSurname = null
+  state.genreId = null
+  state.price = '2.50'
+  state.sold = false
+  state.removed = false
+  state.releaseYear = new Date().getFullYear()
+  state.cond_id = null
+  state.tags = []
+  state.tag = null
+  state.format = null
+
+  let date = new Date()
+  state.added = date.toISOString().split('T')[0]
 }
 
 const createTag = () => {
@@ -103,9 +107,16 @@ const createTag = () => {
       </template>
 
       <template #footer>
-        <b-form-group>
+        <b-form-group buttons>
           <b-form-item>
-            <b-button design="primary_wide">
+            <b-button
+              design="text"
+              type="button"
+              @click="reset"
+              :style="{ marginRight: '20px' }"
+              >{{ $t('reset') }}</b-button
+            >
+            <b-button design="primary">
               {{ $t('add') }}
             </b-button>
           </b-form-item>
