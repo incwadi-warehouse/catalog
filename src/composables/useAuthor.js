@@ -1,11 +1,17 @@
-import { request } from '@/api'
 import { useToast } from '@baldeweg/ui'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRequest } from '@baldeweg/ui'
+import Cookies from 'js-cookie'
 
 const authors = ref(null)
 
 export function useAuthor() {
+  const { config, setAuthHeader, request } = useRequest()
+
+  config.value.baseURL = import.meta.env.VUE_APP_API
+  setAuthHeader(Cookies.get('token'))
+
   const { t } = useI18n()
 
   const author = ref(null)
