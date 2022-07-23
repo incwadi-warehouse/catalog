@@ -1,5 +1,5 @@
 import { useToast } from '@baldeweg/ui'
-import { onMounted, ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRequest } from '@baldeweg/ui'
 import Cookies from 'js-cookie'
@@ -31,10 +31,6 @@ export function useDirectory(emit) {
       }
     )
   }
-
-  onMounted(listElements)
-
-  watch(() => dir.value, listElements)
 
   const removeElement = (file) => {
     return request('delete', '/api/directory/', null, {
@@ -139,6 +135,7 @@ export function useDirectory(emit) {
     isLoading,
     isUploading,
     isDragging,
+    listElements,
     removeElement,
     createDir,
     editElement,
