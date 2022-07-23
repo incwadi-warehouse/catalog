@@ -1,12 +1,18 @@
 import { useToast } from '@baldeweg/ui'
-import { request } from '@/api'
 import { onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRequest } from '@baldeweg/ui'
+import Cookies from 'js-cookie'
 
 const dir = ref('./')
 const elements = ref(null)
 
 export function useDirectory(emit) {
+  const { config, setAuthHeader, request } = useRequest()
+
+  config.value.baseURL = import.meta.env.VUE_APP_API
+  setAuthHeader(Cookies.get('token'))
+
   const { t } = useI18n()
 
   const { add } = useToast()

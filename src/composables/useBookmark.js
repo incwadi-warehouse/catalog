@@ -1,7 +1,13 @@
-import { request } from '@/api'
 import { onMounted, ref } from 'vue'
+import { useRequest } from '@baldeweg/ui'
+import Cookies from 'js-cookie'
 
 export function useBookmark() {
+  const { config, setAuthHeader, request } = useRequest()
+
+  config.value.baseURL = import.meta.env.VUE_APP_API
+  setAuthHeader(Cookies.get('token'))
+
   const bookmarks = ref([])
 
   const list = () => {

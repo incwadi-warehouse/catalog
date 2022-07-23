@@ -1,12 +1,18 @@
-import { request } from '@/api'
 import { useToast } from '@baldeweg/ui'
 import { ref } from 'vue'
 import { without } from 'lodash'
 import { useI18n } from 'vue-i18n'
+import { useRequest } from '@baldeweg/ui'
+import Cookies from 'js-cookie'
 
 const books = ref(null)
 
 export function useBook() {
+  const { config, setAuthHeader, request } = useRequest()
+
+  config.value.baseURL = import.meta.env.VUE_APP_API
+  setAuthHeader(Cookies.get('token'))
+
   const { t } = useI18n()
 
   const { add } = useToast()
