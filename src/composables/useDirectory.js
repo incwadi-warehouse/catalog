@@ -1,6 +1,6 @@
 import { useToast } from '@baldeweg/ui'
 import { request } from '@/api'
-import { onMounted, ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const dir = ref('./')
@@ -25,10 +25,6 @@ export function useDirectory(emit) {
       }
     )
   }
-
-  onMounted(listElements)
-
-  watch(() => dir.value, listElements)
 
   const removeElement = (file) => {
     return request('delete', '/api/directory/', null, {
@@ -133,6 +129,7 @@ export function useDirectory(emit) {
     isLoading,
     isUploading,
     isDragging,
+    listElements,
     removeElement,
     createDir,
     editElement,

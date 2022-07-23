@@ -1,5 +1,6 @@
 <script setup>
 import { useDirectory } from '@/composables/useDirectory.js'
+import { onMounted, watch } from 'vue'
 import DirectoryElement from './DirectoryElement.vue'
 
 defineProps({
@@ -8,7 +9,11 @@ defineProps({
 
 const emit = defineEmits([])
 
-const { dir, elements, isLoading } = useDirectory(emit)
+const { dir, elements, isLoading, listElements } = useDirectory(emit)
+
+onMounted(listElements)
+
+watch(dir, listElements)
 </script>
 
 <template>
