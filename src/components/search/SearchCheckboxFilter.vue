@@ -15,6 +15,8 @@ const props = defineProps({
   },
 })
 
+const emit = defineEmits(['update:modelValue'])
+
 const id = Math.random().toString(36).substr(2, 8)
 
 const selectedItemName = computed(() => {
@@ -32,6 +34,8 @@ const selectAll = () => {
     .querySelectorAll("input[id^='" + id + "-genre-']")
     .forEach((element) => {
       element.checked = true
+      selected.value.push(element.value)
+      emit('update:modelValue', selected)
     })
 }
 
@@ -41,6 +45,8 @@ const selectNone = () => {
     .forEach((element) => {
       element.checked = false
     })
+  selected.value = []
+  emit('update:modelValue', selected)
 }
 </script>
 
