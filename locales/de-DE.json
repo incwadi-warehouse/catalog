@@ -115,5 +115,6 @@
   "desc": "absteigend",
   "use_as_desc": "Als Beschreibung verwenden",
   "all": "Alle",
-  "none": "Nichts"
+  "none": "Nichts",
+  "subtitle": "Untertitel"
 }

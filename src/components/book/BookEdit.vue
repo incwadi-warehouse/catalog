@@ -1,5 +1,7 @@
 <script setup>
 import { onMounted, reactive, computed, toRefs, watch, ref } from 'vue'
+import { remove as _remove } from 'lodash'
+import router from './../../router'
 import { useGenre } from '@/composables/useGenre.js'
 import { useCondition } from '@/composables/useCondition.js'
 import { useFormat } from '@/composables/useFormat.js'
@@ -7,8 +9,6 @@ import { useTag } from '@/composables/useTag.js'
 import { useBook } from '@/composables/useBook.js'
 import DirectoryList from '@/components/directory/DirectoryList.vue'
 import BookPriceCalculator from '@/components/book/BookPriceCalculator.vue'
-import { remove as _remove } from 'lodash'
-import router from './../../router'
 
 const props = defineProps({
   bookId: String,
@@ -72,6 +72,7 @@ const loadBook = () => {
     state.tags = book.value.tags
     state.recommendation = book.value.recommendation
     state.format = book.value.format ? book.value.format.id : null
+    state.subtitle = book.value.subtitle
   })
 }
 
@@ -108,6 +109,7 @@ const update = () => {
       tags: tags,
       recommendation: state.recommendation,
       format: state.format,
+      subtitle: state.subtitle,
     },
   })
 
@@ -239,6 +241,24 @@ const removeTag = (id) => {
               maxlength="255"
               required
               v-model="state.title"
+            />
+          </b-form-item>
+        </b-form-group>
+
+        <!-- subtitle -->
+        <b-form-group>
+          <b-form-item>
+            <b-form-label for="subtitle">
+              {{ $t('subtitle') }}
+            </b-form-label>
+          </b-form-item>
+          <b-form-item>
+            <b-form-input
+              type="text"
+              id="subtitle"
+              maxlength="255"
+              required
+              v-model="state.subtitle"
             />
           </b-form-item>
         </b-form-group>
