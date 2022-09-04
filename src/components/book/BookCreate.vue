@@ -30,6 +30,7 @@ const state = reactive({
   tags: [],
   tag: null,
   format: null,
+  subtitle: null,
 })
 
 let date = new Date()
@@ -64,6 +65,7 @@ const create = () => {
     cond: state.cond_id,
     tags: tags,
     format: state.format,
+    subtitle: state.subtitle,
   }).then(() => {
     emit('close')
 
@@ -114,8 +116,8 @@ const createTag = () => {
               type="button"
               @click="reset"
               :style="{ marginRight: '20px' }"
-              >{{ $t('reset') }}</b-button
-            >
+              >{{ $t('reset') }}
+            </b-button>
             <b-button design="primary">
               {{ $t('add') }}
             </b-button>
@@ -158,6 +160,24 @@ const createTag = () => {
               maxlength="255"
               required
               v-model="state.title"
+            />
+          </b-form-item>
+        </b-form-group>
+
+        <!-- subtitle -->
+        <b-form-group>
+          <b-form-item>
+            <b-form-label for="subtitle">
+              {{ $t('subtitle') }}
+            </b-form-label>
+          </b-form-item>
+          <b-form-item>
+            <b-form-input
+              type="text"
+              id="subtitle"
+              maxlength="255"
+              required
+              v-model="state.subtitle"
             />
           </b-form-item>
         </b-form-group>
