@@ -30,5 +30,9 @@ describe('Authors', () => {
     cy.get('.content section:nth-of-type(3) .list')
       .its('length')
       .should('eq', 2)
+
+    cy.get('.button[type="reset"]').click()
+
+    cy.url().should('not.include', '/author?term=test')
   })
 })
