@@ -38,6 +38,14 @@ const router = createRouter({
       },
     },
     {
+      path: '/authors',
+      name: 'authors',
+      component: () => import('../views/AuthorsView.vue'),
+      props: (route) => ({
+        term: route.query.term || null,
+      }),
+    },
+    {
       path: '/reservation',
       name: 'reservation',
       component: () => import('../views/ReservationView.vue'),

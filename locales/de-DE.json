@@ -32,7 +32,7 @@
   "catalog": "Katalogisieren",
   "removed": "Entfernt",
   "sell": "Verkaufen",
-  "authors": "AutorInnen",
+  "authors": "Autor*innen",
   "edit_author": "Autor bearbeiten",
   "availability": "Verfügbarkeit",
   "condition": "Zustand",
@@ -116,5 +116,7 @@
   "use_as_desc": "Als Beschreibung verwenden",
   "all": "Alle",
   "none": "Nichts",
-  "subtitle": "Untertitel"
+  "subtitle": "Untertitel",
+  "search_for_authors": "Suche nach Autor*innen",
+  "found": "Gefunden"
 }

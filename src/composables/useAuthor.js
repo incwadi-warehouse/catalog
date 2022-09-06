@@ -3,8 +3,11 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRequest } from '@baldeweg/ui'
 import Cookies from 'js-cookie'
+import { remove as _remove } from 'lodash'
 
 const authors = ref(null)
+
+const isSearching = ref(false)
 
 export function useAuthor() {
   const { config, setAuthHeader, request } = useRequest()
@@ -19,9 +22,14 @@ export function useAuthor() {
   const { add } = useToast()
 
   const find = (data) => {
-    return request('get', '/api/author/find', null, data).then((res) => {
-      authors.value = res.data
-    })
+    isSearching.value = true
+    return request('get', '/api/author/find', null, data)
+      .then((res) => {
+        authors.value = res.data
+      })
+      .finally(() => {
+        isSearching.value = false
+      })
   }
 
   const show = (id) => {
@@ -50,8 +58,12 @@ export function useAuthor() {
   }
 
   const remove = (id) => {
-    return request('delete', '/api/author/' + id)
+    return request('delete', '/api/author/' + id).then(() => {
+      _remove(authors.value, (el) => {
+        return el.id === id
+      })
+    })
   }
 
-  return { authors, author, find, show, update, remove }
+  return { authors, author, isSearching, find, show, update, remove }
 }
