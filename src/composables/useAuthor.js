@@ -9,6 +9,8 @@ const authors = ref(null)
 
 const isSearching = ref(false)
 
+const isUpdating = ref(false)
+
 export function useAuthor() {
   const { config, setAuthHeader, request } = useRequest()
 
@@ -39,6 +41,7 @@ export function useAuthor() {
   }
 
   const update = (id) => {
+    isUpdating.value = true
     return request('put', '/api/author/' + id, {
       firstname: author.value.firstname,
       surname: author.value.surname,
@@ -55,6 +58,9 @@ export function useAuthor() {
           body: t('error'),
         })
       })
+      .finally(() => {
+        isUpdating.value = false
+      })
   }
 
   const remove = (id) => {
@@ -65,5 +71,14 @@ export function useAuthor() {
     })
   }
 
-  return { authors, author, isSearching, find, show, update, remove }
+  return {
+    authors,
+    author,
+    isSearching,
+    isUpdating,
+    find,
+    show,
+    update,
+    remove,
+  }
 }
