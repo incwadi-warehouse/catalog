@@ -1,7 +1,7 @@
 <script setup>
 import { useTitle } from '@baldeweg/ui'
 import AuthorResults from '@/components/author/AuthorResults.vue'
-import AuthorSearchbar from '@/components/author/AuthorSearchbar.vue'
+import AuthorSearch from '@/components/author/AuthorSearch.vue'
 
 const props = defineProps({
   auth: Object,
@@ -17,7 +17,7 @@ useTitle({ title: 'Authors' })
   </b-container>
 
   <b-container size="m">
-    <AuthorSearchbar :term="props.term" />
+    <AuthorSearch :term="props.term" />
   </b-container>
 
   <b-container size="m">

@@ -118,5 +118,5 @@
   "none": "Nichts",
   "subtitle": "Untertitel",
   "search_for_authors": "Suche nach Autor*innen",
-  "found": "Gefunden"
+  "found": "{counter} gefunden"
 }

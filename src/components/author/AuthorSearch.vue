@@ -17,7 +17,7 @@ const term = ref(props.term || null)
 const search = () => {
   if (term.value === null) return
 
-  router.push({ name: 'authors', query: { term: term.value } })
+  router.push({ name: 'author', query: { term: term.value } })
   find({ term: term.value })
 }
 
@@ -40,7 +40,7 @@ const delaySearch = () => {
 const reset = () => {
   term.value = null
   authors.value = null
-  router.push({ name: 'authors' })
+  router.push({ name: 'author' })
 }
 </script>
 

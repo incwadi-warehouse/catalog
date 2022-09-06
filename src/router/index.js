@@ -28,7 +28,15 @@ const router = createRouter({
       }),
     },
     {
-      path: '/search/author/:id',
+      path: '/author',
+      name: 'author',
+      component: () => import('../views/AuthorView.vue'),
+      props: (route) => ({
+        term: route.query.term || null,
+      }),
+    },
+    {
+      path: '/author/:id',
       name: 'author.update',
       component: () => import('../views/AuthorUpdateView.vue'),
       props(route) {
@@ -36,14 +44,6 @@ const router = createRouter({
         props.id = +props.id
         return props
       },
-    },
-    {
-      path: '/authors',
-      name: 'authors',
-      component: () => import('../views/AuthorsView.vue'),
-      props: (route) => ({
-        term: route.query.term || null,
-      }),
     },
     {
       path: '/reservation',

@@ -21,11 +21,11 @@ describe('Authors', () => {
     cy.setCookie('token', 'token')
     cy.setCookie('refresh_token', 'refresh_token')
 
-    cy.visit('/authors')
+    cy.visit('/author')
 
     cy.get('.search .input').type('test')
 
-    cy.url().should('include', '/authors?term=test')
+    cy.url().should('include', '/author?term=test')
 
     cy.get('.content section:nth-of-type(3) .list')
       .its('length')

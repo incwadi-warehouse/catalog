@@ -8,7 +8,7 @@ const { authors, isSearching, remove } = useAuthor()
   <b-spinner size="l" v-if="isSearching" />
 
   <div v-if="authors">
-    <p class="found">{{ $t('found') }}: {{ authors.length }}</p>
+    <p class="counter">{{ $t('found', { counter: authors.length }) }}</p>
 
     <b-list
       v-for="author in authors"
@@ -44,7 +44,7 @@ const { authors, isSearching, remove } = useAuthor()
 </template>
 
 <style scoped>
-.found {
+.counter {
   text-align: right;
   color: var(--color-neutral-04);
 }
