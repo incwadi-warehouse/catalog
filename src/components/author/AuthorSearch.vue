@@ -1,7 +1,7 @@
 <script setup>
 import { debounce } from 'lodash'
 import { useRouter } from 'vue-router'
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useAuthor } from '@/composables/useAuthor.js'
 
 const props = defineProps({
@@ -22,6 +22,10 @@ const search = () => {
 }
 
 onMounted(search)
+onUnmounted(() => {
+  term.value = null
+  authors.value = null
+})
 
 var debounced = null
 
