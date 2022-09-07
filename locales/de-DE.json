@@ -32,8 +32,8 @@
   "catalog": "Katalogisieren",
   "removed": "Entfernt",
   "sell": "Verkaufen",
-  "authors": "AutorInnen",
-  "edit_author": "Autor bearbeiten",
+  "authors": "Autor*innen",
+  "edit_author": "Autor*in bearbeiten",
   "availability": "Verfügbarkeit",
   "condition": "Zustand",
   "delete": "Löschen",
@@ -116,5 +116,7 @@
   "use_as_desc": "Als Beschreibung verwenden",
   "all": "Alle",
   "none": "Nichts",
-  "subtitle": "Untertitel"
+  "subtitle": "Untertitel",
+  "search_for_authors": "Suche nach Autor*innen",
+  "found_results": "Nichts gefunden | Ein/e Autor/in gefunden | {counter} Autor*innen gefunden"
 }

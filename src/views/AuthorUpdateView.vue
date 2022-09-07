@@ -2,11 +2,11 @@
 import { useTitle } from '@baldeweg/ui'
 import AuthorUpdate from '@/components/author/AuthorUpdate.vue'
 
-useTitle({ title: 'Author' })
-
 defineProps({
   id: Number,
 })
+
+useTitle({ title: 'Author' })
 </script>
 
 <template>
