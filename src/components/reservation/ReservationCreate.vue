@@ -68,6 +68,10 @@ const create = () => {
     <b-form-input type="hidden" id="books" v-model="state.books" />
 
     <b-form @submit.prevent="create">
+      <b-alert type="warning"
+        >Deprecated: Date and Time will be removed soon. Datum und Uhrzeit
+        werden bald entfernt.</b-alert
+      >
       <b-form-group>
         <b-form-item>
           <b-form-label for="date">
