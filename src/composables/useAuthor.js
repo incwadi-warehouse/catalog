@@ -3,8 +3,13 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRequest } from '@baldeweg/ui'
 import Cookies from 'js-cookie'
+import { remove as _remove } from 'lodash'
 
 const authors = ref(null)
+
+const isSearching = ref(false)
+
+const isUpdating = ref(false)
 
 export function useAuthor() {
   const { config, setAuthHeader, request } = useRequest()
@@ -19,9 +24,14 @@ export function useAuthor() {
   const { add } = useToast()
 
   const find = (data) => {
-    return request('get', '/api/author/find', null, data).then((res) => {
-      authors.value = res.data
-    })
+    isSearching.value = true
+    return request('get', '/api/author/find', null, data)
+      .then((res) => {
+        authors.value = res.data
+      })
+      .finally(() => {
+        isSearching.value = false
+      })
   }
 
   const show = (id) => {
@@ -31,6 +41,7 @@ export function useAuthor() {
   }
 
   const update = (id) => {
+    isUpdating.value = true
     return request('put', '/api/author/' + id, {
       firstname: author.value.firstname,
       surname: author.value.surname,
@@ -47,11 +58,27 @@ export function useAuthor() {
           body: t('error'),
         })
       })
+      .finally(() => {
+        isUpdating.value = false
+      })
   }
 
   const remove = (id) => {
-    return request('delete', '/api/author/' + id)
+    return request('delete', '/api/author/' + id).then(() => {
+      _remove(authors.value, (el) => {
+        return el.id === id
+      })
+    })
   }
 
-  return { authors, author, find, show, update, remove }
+  return {
+    authors,
+    author,
+    isSearching,
+    isUpdating,
+    find,
+    show,
+    update,
+    remove,
+  }
 }

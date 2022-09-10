@@ -1,6 +1,6 @@
 <script setup>
-import { useAuthor } from '@/composables/useAuthor.js'
 import { toRefs } from 'vue'
+import { useAuthor } from '@/composables/useAuthor.js'
 
 const props = defineProps({
   id: Number,
@@ -8,13 +8,16 @@ const props = defineProps({
 
 const { id } = toRefs(props)
 
-const { author, show, update } = useAuthor()
+const { author, isUpdating, show, update } = useAuthor()
 
 show(id.value)
 </script>
 
 <template>
+  <b-spinner size="l" v-if="!author" />
+
   <b-form @submit.prevent="update(author.id)" v-if="author">
+    <!-- firstname -->
     <b-form-group>
       <b-form-item>
         <b-form-label for="firstname">
@@ -26,6 +29,7 @@ show(id.value)
       </b-form-item>
     </b-form-group>
 
+    <!-- surname -->
     <b-form-group>
       <b-form-item>
         <b-form-label for="surname">{{ $t('surname') }}</b-form-label>
@@ -35,10 +39,14 @@ show(id.value)
       </b-form-item>
     </b-form-group>
 
+    <!-- buttons -->
     <b-form-group>
       <b-form-item>
-        <b-button design="primary_wide">
+        <b-button design="primary_wide" v-if="!isUpdating">
           {{ $t('save') }}
+        </b-button>
+        <b-button design="outline_wide" type="button" v-if="isUpdating">
+          <b-spinner size="s" :style="{ margin: 'auto' }" />
         </b-button>
       </b-form-item>
     </b-form-group>

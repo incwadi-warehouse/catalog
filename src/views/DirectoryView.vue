@@ -13,7 +13,7 @@ defineProps({
 
 <template>
   <b-container size="m">
-    <h1>{{ $t('directory') }} (Experiment)</h1>
+    <h1>{{ $t('directory') }}</h1>
   </b-container>
 
   <b-container size="m">

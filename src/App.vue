@@ -171,6 +171,9 @@ const version = pkg.version
             {{ $t('search') }}
           </template>
         </b-list>
+        <b-list :route="{ name: 'author' }" divider>
+          <template #title>{{ $t('authors') }}</template>
+        </b-list>
         <b-list :route="{ name: 'directory' }" divider>
           <template #title>
             {{ $t('directory') }}
