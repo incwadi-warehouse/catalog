@@ -4332,10 +4332,10 @@ vite-plugin-pwa@0.12.1:
     workbox-build "^6.5.3"
     workbox-window "^6.5.3"
 
-vite-plugin-webfont-dl@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/vite-plugin-webfont-dl/-/vite-plugin-webfont-dl-2.1.0.tgz#056c7e543f6a26a38e6c3fa2a03a6314ecb0a856"
-  integrity sha512-3XJ+bCMrTn8uiBI/1hbWZDrD/enPJsad8sK1zasKa3/Fc1wsUaITFvRJZmUp+Sswk1YnJ2bzRcZVrH0oXUhqGQ==
+vite-plugin-webfont-dl@2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/vite-plugin-webfont-dl/-/vite-plugin-webfont-dl-2.2.1.tgz#5afed5d7f9098f855ca45e2ce7e69b0b74088444"
+  integrity sha512-e+0PaslA4FG++N/Tx22ti4auY0+EfSryoTqcwaW3oGFdcHXGhy1D8t2L+vwDEHnYNvOueNJrX2p9f1c4V2LvaQ==
   dependencies:
     axios "^0.25"
 
