@@ -42,7 +42,7 @@ const { formats } = useFormat()
 const { create: createNewTag, removeTag } = useTag()
 
 const pricelist = computed(() => {
-  return me ? JSON.parse(me.value.branch.pricelist) : null
+  return me.value ? JSON.parse(me.value.branch.pricelist) : null
 })
 
 const { create: createBook } = useBook()
@@ -176,7 +176,6 @@ const createTag = () => {
               type="text"
               id="subtitle"
               maxlength="255"
-              required
               v-model="state.subtitle"
             />
           </b-form-item>

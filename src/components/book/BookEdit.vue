@@ -257,7 +257,6 @@ const removeTag = (id) => {
               type="text"
               id="subtitle"
               maxlength="255"
-              required
               v-model="state.subtitle"
             />
           </b-form-item>
