@@ -1,6 +1,6 @@
 {
   "name": "catalog",
-  "version": "42.0.2",
+  "version": "43.0.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
