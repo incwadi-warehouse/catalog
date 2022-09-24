@@ -1,5 +1,5 @@
 <script setup>
-import { useLocale, useTheme } from '@baldeweg/ui'
+import { useLocale, useColorScheme } from '@baldeweg/ui'
 import { useToast } from '@baldeweg/ui'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -10,9 +10,8 @@ import { useReservation } from '@/composables/useReservation.js'
 import useAuth from '@/composables/useAuth.js'
 import AuthLogin from '@/components/auth/Login.vue'
 
-const { locale } = useLocale()
-locale.value = import.meta.env.VUE_APP_I18N_LOCALE
-useTheme()
+useLocale()
+useColorScheme()
 
 const router = useRouter()
 
@@ -159,22 +158,17 @@ const version = pkg.version
       <div v-html="about" />
     </b-container>
 
-    <b-drawer
-      :active="isDrawerActive"
-      collapsable
-      @open-menu="isDrawerActive = true"
-      @close-menu="isDrawerActive = false"
-    >
+    <b-panel :visible="isDrawerActive" @close="isDrawerActive = false">
       <div :style="{ padding: '20px' }">
-        <b-list :route="{ name: 'search' }" divider>
+        <b-list :route="{ name: 'search' }" divider active>
           <template #title>
             {{ $t('search') }}
           </template>
         </b-list>
-        <b-list :route="{ name: 'author' }" divider>
+        <b-list :route="{ name: 'author' }" divider active>
           <template #title>{{ $t('authors') }}</template>
         </b-list>
-        <b-list :route="{ name: 'directory' }" divider>
+        <b-list :route="{ name: 'directory' }" divider active>
           <template #title>
             {{ $t('directory') }}
           </template>
@@ -201,7 +195,7 @@ const version = pkg.version
           </template>
         </b-list>
       </div>
-    </b-drawer>
+    </b-panel>
 
     <div class="project">
       <a href="https://github.com/abaldeweg">baldeweg Open Source</a>
