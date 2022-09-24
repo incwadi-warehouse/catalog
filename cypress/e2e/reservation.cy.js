@@ -16,6 +16,9 @@ describe('Filter', () => {
         id: '1',
       },
     ])
+    cy.route('GET', '**/api/reservation/status', {
+      open: 1,
+    })
     cy.route('GET', '**/api/bookmark', {})
     cy.route('GET', '**/api/inventory', {})
     cy.route('GET', '**/api/genre', {})
@@ -27,7 +30,7 @@ describe('Filter', () => {
 
     cy.visit('/search')
 
-    cy.get('.alert.type_success')
+    cy.get('.alert.type_error')
 
     cy.get('.content').contains('1')
   })

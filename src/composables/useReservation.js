@@ -13,6 +13,7 @@ export function useReservation() {
   const reservations = ref(null)
   const reservation = ref(null)
   const isLoading = ref(false)
+  const counter = ref(null)
 
   const list = () => {
     isLoading.value = true
@@ -24,6 +25,14 @@ export function useReservation() {
   }
 
   onMounted(list)
+
+  const status = () => {
+    return request('get', '/api/reservation/status').then((res) => {
+      counter.value = res.data
+    })
+  }
+
+  onMounted(status)
 
   const create = (data) => {
     return request('post', '/api/reservation/new', data)
@@ -58,7 +67,9 @@ export function useReservation() {
     reservations,
     reservation,
     isLoading,
+    counter,
     list,
+    status,
     remove,
     create,
     update,
