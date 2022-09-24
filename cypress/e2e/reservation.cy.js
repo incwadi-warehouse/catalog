@@ -27,7 +27,7 @@ describe('Filter', () => {
 
     cy.visit('/search')
 
-    cy.get('.alert.type_success')
+    cy.get('.alert.type_error')
 
     cy.get('.content').contains('1')
   })
