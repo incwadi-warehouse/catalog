@@ -74,7 +74,6 @@
   "range_start": "Von",
   "range_end": "Bis",
   "results_counter": "Kein Ergebnis | Zeige {show} von {counter} Buch. | Zeige {show} von {counter} Büchern.",
-  "current_reservations": "Aktuelle Reservierungen",
   "inventory_mode": "Inventur Modus",
   "show_cover": "Zeige Cover",
   "results_counter_author": "Kein Ergebnis | Zeige {counter} AutorIn. | Zeige {counter} AutorInnen.",

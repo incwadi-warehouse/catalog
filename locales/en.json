@@ -74,7 +74,6 @@
   "range_start": "From",
   "range_end": "To",
   "results_counter": "No Result | Show {show} from {counter} book | Show {show} from {counter} books",
-  "current_reservations": "Current Reservations",
   "inventory_mode": "Inventory Mode",
   "show_cover": "Show Cover",
   "results_counter_author": "No Result | Show  {counter} author | Show {counter} authors",
