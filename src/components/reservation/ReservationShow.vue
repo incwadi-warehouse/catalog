@@ -93,7 +93,7 @@ const toLocaleDateString = (data) => {
     <b-form-input type="hidden" id="books" v-model="state.books" />
 
     <b-form @submit.prevent="update">
-      <b-form-group>
+      <b-form-group :style="{ display: 'none' }">
         <b-form-item>
           <b-form-label for="date">
             {{ $t('date') }}
@@ -104,7 +104,7 @@ const toLocaleDateString = (data) => {
         </b-form-item>
       </b-form-group>
 
-      <b-form-group>
+      <b-form-group :style="{ display: 'none' }">
         <b-form-item>
           <b-form-label for="time">
             {{ $t('time') }}
