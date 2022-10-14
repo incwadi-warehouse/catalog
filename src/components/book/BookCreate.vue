@@ -88,6 +88,7 @@ const reset = () => {
   state.tags = []
   state.tag = null
   state.format = null
+  state.subtitle = null
 
   let date = new Date()
   state.added = date.toISOString().split('T')[0]
