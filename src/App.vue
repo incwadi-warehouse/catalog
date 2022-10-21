@@ -97,7 +97,7 @@ const version = pkg.version
             {{ $t('logout') }}
           </b-dropdown-item>
         </b-dropdown>
-
+        
         <span class="action" @click.prevent="navigateToOrders">
           <b-badge :content="reservations && reservations.length" hide-empty>
             <b-icon type="euro" />
