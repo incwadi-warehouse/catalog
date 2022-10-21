@@ -5,7 +5,6 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import Logo from './components/AppLogo.vue'
 import pkg from './../package.json'
-import { useBookmark } from '@/composables/useBookmark.js'
 import { useReservation } from '@/composables/useReservation.js'
 import useAuth from '@/composables/useAuth.js'
 import AuthLogin from '@/components/auth/Login.vue'
@@ -33,24 +32,6 @@ onMounted(() => {
 const find = import.meta.env.VUE_APP_FIND
 const settings = import.meta.env.VUE_APP_SETTINGS
 const orders = import.meta.env.VUE_APP_ORDERS
-
-const { bookmarks, list: listBookmarks, createFromPage, open } = useBookmark()
-
-const refreshInterval = ref(null)
-
-const refresh = () => {
-  refreshInterval.value = setInterval(listBookmarks, 5000)
-}
-
-onMounted(refresh)
-
-onUnmounted(() => {
-  clearInterval(refreshInterval.value)
-})
-
-const navigateToBookmarks = () => {
-  window.location = settings + '/bookmark'
-}
 
 const { current } = useToast()
 
@@ -116,37 +97,7 @@ const version = pkg.version
             {{ $t('logout') }}
           </b-dropdown-item>
         </b-dropdown>
-
-        <b-dropdown position="bottom" class="action">
-          <template #selector>
-            <span @click.prevent>
-              <b-icon type="star" />
-            </span>
-          </template>
-          <b-dropdown-item
-            v-for="item in bookmarks"
-            :key="item.id"
-            @click.prevent="open(item.url)"
-          >
-            {{ item.name }}
-          </b-dropdown-item>
-
-          <b-dropdown-divider />
-
-          <b-dropdown-item icon="plus" @click="createFromPage()">
-            {{ $t('addThisPage') }}
-          </b-dropdown-item>
-          <b-dropdown-item icon="star" @click="navigateToBookmarks">
-            {{ $t('bookmarks') }}
-          </b-dropdown-item>
-
-          <b-alert type="warning">
-            <p>
-              Deprecated: Bookmarks will be removed. Bookmarks werden entfernt.
-            </p>
-          </b-alert>
-        </b-dropdown>
-
+        
         <span class="action" @click.prevent="navigateToOrders">
           <b-badge :content="reservations && reservations.length" hide-empty>
             <b-icon type="euro" />
